@@ -1,4 +1,4 @@
-'''
+"""
 Communicate with MPD via the python-mpd2 module
 
 Inputs :
@@ -7,11 +7,13 @@ Inputs :
 Outputs : 
     - MPD action
     - write to state files ?
-'''
+"""
+
 from mpd import MPDClient
 
+
 class MPDController:
-    def __init__(self, host='localhost', port=6600):
+    def __init__(self, host="localhost", port=6600):
         self.client = MPDClient()
         self.client.connect(host, port)
 
