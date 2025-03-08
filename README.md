@@ -35,17 +35,85 @@ This is a simple music controller application that interfaces with MPD (Music Pl
 
 1. Install required dependencies:
    ```
-   pip install click python-mpd2 duckdb
+   pip install .
    ```
 
-2. Ensure MPD is running on your system
-
-3. Run the application:
+2. Run the application:
    ```
-   python main.py [COMMAND]
+   # Using system MPD configuration (default)
+   linernodes [COMMAND]
+   
+   # Using custom MPD configuration
+   linernodes --use-custom-mpd [COMMAND]
+   
+   # Using settings from config file
+   linernodes --use-custom-config [COMMAND]
+   
+   # Generate a custom MPD configuration file
+   linernodes generate-config
+   
+   # Restart the custom MPD instance
+   linernodes restart-mpd
    ```
 
-   Available commands: play, pause, add, current
+   Available commands: play, pause, add, current, generate-config, restart-mpd, config
+
+### Configuration System
+
+LinerNodes uses a TOML configuration file stored at `$XDG_CONFIG_HOME/linernodes/config.toml`. You can manage this configuration through the CLI:
+
+```
+# View all configuration settings
+linernodes config get
+
+# View settings in a specific section
+linernodes config get mpd
+
+# View a specific setting
+linernodes config get mpd music_dir
+
+# Change a setting
+linernodes config set mpd music_dir "~/Music"
+
+# Set default MPD mode (custom or system)
+linernodes config set-default --custom-mpd
+```
+
+Default configuration includes:
+
+```toml
+[mpd]
+use_custom_config = false
+music_dir = "~/music"
+host = "localhost"
+port = 6600
+socket_path = "/run/mpd/socket"
+
+[audio]
+volume = 70
+crossfade = 2
+consume = false
+random = false
+repeat = false
+
+[interface]
+theme = "default"
+show_album_art = true
+```
+
+### Custom MPD Configuration
+
+LinerNodes can create and manage its own MPD configuration with the following features:
+
+- MPD configuration stored in `$XDG_CONFIG_HOME/linernodes/mpd.conf`
+- LinerNodes configuration stored in `$XDG_CONFIG_HOME/linernodes/config.toml`
+- Data files stored in appropriate XDG directories:
+  - Playlists: `$XDG_DATA_HOME/linernodes/playlists`
+  - Database: `$XDG_CACHE_HOME/linernodes/mpd.db`
+  - State and logs: `$XDG_STATE_HOME/linernodes/`
+- Uses your music directory specified in config (defaults to `~/music`)
+- Configured with Pipewire support out of the box
+- Runs on custom socket to avoid conflicts with system MPD
 
 ## Future Improvements
 
