@@ -40,15 +40,6 @@ This is a simple music controller application that interfaces with MPD (Music Pl
 
 2. Run the application:
    ```
-   # Using system MPD configuration (default)
-   linernodes [COMMAND]
-   
-   # Using custom MPD configuration
-   linernodes --use-custom-mpd [COMMAND]
-   
-   # Using settings from config file
-   linernodes --use-custom-config [COMMAND]
-   
    # Generate a custom MPD configuration file
    linernodes generate-config
    
