@@ -1,7 +1,7 @@
 [project]
 name = "linernodes"
-version = "0.1.0"
-description = "A CLI interface for music player"
+version = "0.1.1"
+description = "A CLI interface for music player, made dumber by LLMs"
 readme = "README.md"
 authors = [
     { name = "Matias Ceau", email = "matias@ceau.net" }

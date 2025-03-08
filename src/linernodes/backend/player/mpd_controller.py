@@ -15,7 +15,7 @@ class MpdController:
         mpd_cfg = self.config.get_all().get("mpd", {})
 
         # Read MPD parameters from config
-        self.use_custom_config = mpd_cfg.get("use_custom_config", False)
+        self.use_custom_config = True
         self.socket_path = mpd_cfg.get("socket_path", "/run/mpd/socket")
         self.host = mpd_cfg.get("host", "localhost")
         self.port = int(mpd_cfg.get("port", 6600))
@@ -23,21 +23,21 @@ class MpdController:
 
         # XDG-based application directories
         self.app_name = "linernodes"
-        self.app_config_dir = os.path.join(xdg_config_home(), self.app_name)
-        self.app_data_dir = os.path.join(xdg_data_home(), self.app_name)
-        self.app_state_dir = os.path.join(xdg_state_home(), self.app_name)
-        self.app_cache_dir = os.path.join(xdg_cache_home(), self.app_name)
+        self.app_config_dir = Path(xdg_config_home()) / self.app_name
+        self.app_data_dir = Path(xdg_data_home()) / self.app_name
+        self.app_state_dir = Path(xdg_state_home()) / self.app_name
+        self.app_cache_dir = Path(xdg_cache_home()) / self.app_name
 
-        # Custom MPD paths
-        self.mpd_config_file = os.path.join(self.app_config_dir, "mpd.conf")
-        self.playlist_dir = os.path.join(self.app_data_dir, "playlists")
-        self.db_file = os.path.join(self.app_cache_dir, "mpd.db")
-        self.pid_file = os.path.join(self.app_state_dir, "mpd.pid")
-        self.state_file = os.path.join(self.app_state_dir, "mpd.state")
-        self.log_file = os.path.join(self.app_state_dir, "mpd.log")
-        self.custom_socket = os.path.join(self.app_state_dir, "mpd.socket")
+        # Custom MPD paths using pathlib
+        self.mpd_config_file = self.app_config_dir / "mpd.conf"
+        self.playlist_dir = self.app_data_dir / "playlists"
+        self.db_file = self.app_cache_dir / "mpd.db"
+        self.pid_file = self.app_state_dir / "mpd.pid"
+        self.state_file = self.app_state_dir / "mpd.state"
+        self.log_file = self.app_state_dir / "mpd.log"
+        self.custom_socket = self.app_state_dir / "mpd.socket"
 
-        # Create necessary directories
+        # Create necessary directories using Path.mkdir
         for directory in [
             self.app_config_dir,
             self.app_data_dir,
@@ -45,13 +45,13 @@ class MpdController:
             self.app_cache_dir,
             self.playlist_dir,
         ]:
-            os.makedirs(directory, exist_ok=True)
+            directory.mkdir(parents=True, exist_ok=True)
 
         # If custom config is enabled, generate and ensure MPD is running with it
         if self.use_custom_config:
             self._generate_mpd_config()
             self._ensure_mpd_running()
-            self.socket_path = self.custom_socket
+            self.socket_path = str(self.custom_socket)
             self.config.set("mpd", "use_custom_config", True)  # persist flag if needed
 
         self.client = MPDClient()
@@ -111,24 +111,23 @@ audio_output {{
 audio_output {{
     type            "fifo"
     name            "Visualizer feed"
-    path            "{self.app_state_dir}/mpd.fifo"
+    path            "{self.app_state_dir / "mpd.fifo"}"
     format          "44100:16:2"
     enabled         "yes"
 }}
 """
-        if not os.path.exists(self.mpd_config_file):
-            with open(self.mpd_config_file, "w") as f:
-                f.write(config_text)
+        if not self.mpd_config_file.exists():
+            self.mpd_config_file.write_text(config_text)
 
     def _ensure_mpd_running(self):
         """Ensure MPD is running with our custom configuration."""
-        if not os.path.exists(self.mpd_config_file):
+        if not self.mpd_config_file.exists():
             return
 
         # Check if MPD is already running with our config (by PID file)
-        if os.path.exists(self.pid_file):
+        if self.pid_file.exists():
             try:
-                with open(self.pid_file, "r") as f:
+                with self.pid_file.open("r") as f:
                     pid = int(f.read().strip())
                 os.kill(pid, 0)
                 return  # process exists
@@ -139,7 +138,7 @@ audio_output {{
         if shutil.which("mpd") is not None:
             try:
                 subprocess.run(
-                    ["mpd", self.mpd_config_file],
+                    ["mpd", str(self.mpd_config_file)],
                     check=True,
                     stdout=subprocess.PIPE,
                     stderr=subprocess.PIPE,
