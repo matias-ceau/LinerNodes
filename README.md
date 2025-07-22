@@ -1,113 +1,311 @@
-# Music Controller
+# 🎵 LinerNodes - Universal Music Knowledge Graph
 
-This is a simple music controller application that interfaces with MPD (Music Player Daemon) and manages a local music database using DuckDB.
+**A comprehensive music management system that unifies your entire music collection—regardless of where it lives—into an intelligent, searchable knowledge graph.**
 
-## Features
+[![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
+[![uv](https://img.shields.io/badge/built%20with-uv-blue.svg)](https://docs.astral.sh/uv/)
+[![MusicBrainz](https://img.shields.io/badge/metadata-MusicBrainz-orange.svg)](https://musicbrainz.org/)
 
-- Play and pause music through MPD
-- Add songs to the MPD playlist
-- View currently playing song
-- Store and retrieve song metadata using DuckDB
+## 🌟 What Makes LinerNodes Special
 
-## Module Functions
+### 🔄 **Universal Source Integration**
+- **Local Files**: Your personal music library (any format)
+- **Streaming Platforms**: Spotify, Apple Music, YouTube Music playlists
+- **Cloud Storage**: Google Drive, Dropbox, OneDrive music folders
+- **S3 Storage**: AWS S3, MinIO, and S3-compatible object storage
+- **One Unified View**: All sources appear as a single, coherent collection
 
-### backend/mpd_client.py
-- `MPDController`: Handles communication with MPD server
-  - `play()`: Start playing music
-  - `pause()`: Pause music playback
-  - `add_to_playlist(file_path)`: Add a song to the MPD playlist
-  - `get_current_song()`: Get information about the currently playing song
+### 🧠 **Intelligent Knowledge Graph**
+- **Album-Centric Design**: Every track belongs to an album, creating natural relationships
+- **MusicBrainz Integration**: Authoritative metadata for artists, releases, recordings
+- **Rich Relationships**: Artist collaborations, genre hierarchies, label connections
+- **Smart Matching**: Automatic deduplication across sources
+- **Markdown Cards**: Every entity gets a beautiful markdown file with YAML frontmatter
 
-### cli/commands.py
-- Implements Click commands for CLI interaction
-  - `play`: Start playing music
-  - `pause`: Pause music playback
-  - `add`: Add a song to the playlist
-  - `current`: Show information about the currently playing song
+### 🎛️ **Multiple Interfaces**
+- **CLI**: Full-featured command line for power users
+- **TUI**: Beautiful terminal interface built with Textual
+- **Web UI**: Modern web interface with Streamlit
+- **Graph Explorer**: Interactive network visualization
+- **MCP Server**: LLM integration for AI-powered music discovery
 
-### database/db_manager.py
-- `DatabaseManager`: Manages interaction with DuckDB
-  - `create_tables()`: Create necessary database tables
-  - `add_song(title, artist, album, file_path)`: Add a song to the database
-  - `get_songs()`: Retrieve all songs from the database
+## 🚀 Quick Start
 
-## Setup and Usage
+### Installation
 
-1. Install required dependencies:
-   ```
-   pip install .
-   ```
+```bash
+# Clone the repository
+git clone https://github.com/yourusername/LinerNodes.git
+cd LinerNodes
 
-2. Run the application:
-   ```
-   # Generate a custom MPD configuration file
-   linernodes generate-config
-   
-   # Restart the custom MPD instance
-   linernodes restart-mpd
-   ```
+# Install with uv (recommended)
+uv sync
 
-   Available commands: play, pause, add, current, generate-config, restart-mpd, config
-
-### Configuration System
-
-LinerNodes uses a TOML configuration file stored at `$XDG_CONFIG_HOME/linernodes/config.toml`. You can manage this configuration through the CLI:
-
-```
-# View all configuration settings
-linernodes config get
-
-# View settings in a specific section
-linernodes config get mpd
-
-# View a specific setting
-linernodes config get mpd music_dir
-
-# Change a setting
-linernodes config set mpd music_dir "~/Music"
-
-# Set default MPD mode (custom or system)
-linernodes config set-default --custom-mpd
+# Or with pip
+pip install -e .
 ```
 
-Default configuration includes:
+### Basic Setup
 
-```toml
-[mpd]
-use_custom_config = false
-music_dir = "~/music"
-host = "localhost"
-port = 6600
-socket_path = "/run/mpd/socket"
+```bash
+# Initialize development configuration
+uv run linernodes config init-dev
 
-[audio]
-volume = 70
-crossfade = 2
-consume = false
-random = false
-repeat = false
+# Set your local music directory
+uv run linernodes config set sources.local.music_dirs "/path/to/your/music"
 
-[interface]
-theme = "default"
-show_album_art = true
+# Setup and start MPD for playback
+uv run linernodes mpd setup
+
+# Scan and import your music
+uv run linernodes sources scan-all
+uv run linernodes sources import-all
 ```
 
-### Custom MPD Configuration
+### Start Playing Music
 
-LinerNodes can create and manage its own MPD configuration with the following features:
+```bash
+# Add random albums to playlist
+uv run linernodes player random-albums 5
 
-- MPD configuration stored in `$XDG_CONFIG_HOME/linernodes/mpd.conf`
-- LinerNodes configuration stored in `$XDG_CONFIG_HOME/linernodes/config.toml`
-- Data files stored in appropriate XDG directories:
-  - Playlists: `$XDG_DATA_HOME/linernodes/playlists`
-  - Database: `$XDG_CACHE_HOME/linernodes/mpd.db`
-  - State and logs: `$XDG_STATE_HOME/linernodes/`
-- Uses your music directory specified in config (defaults to `~/music`)
-- Configured with Pipewire support out of the box
-- Runs on custom socket to avoid conflicts with system MPD
+# Start playback
+uv run linernodes player play
 
-## Future Improvements
+# Launch the terminal interface
+uv run linernodes interface tui
 
-- Implement playlist management
-- Add more advanced querying capabilities
-- Integrate with external metadata sources
+# Or the web interface
+uv run linernodes interface web
+```
+
+## 🏗️ Architecture
+
+### Core Components
+
+```
+┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
+│   Data Sources  │───▶│  Internal SQLite │───▶│   Interfaces    │
+│                 │    │     Database     │    │                 │
+│ • Local Files   │    │                  │    │ • CLI/TUI       │
+│ • Streaming     │    │ • Track Metadata │    │ • Web UI        │
+│ • Cloud Storage │    │ • Relationships  │    │ • Graph Explorer│
+│ • S3 Buckets    │    │ • Source Refs    │    │ • MCP Server    │
+└─────────────────┘    └──────────────────┘    └─────────────────┘
+                                │
+                                ▼
+                       ┌──────────────────┐
+                       │  MusicBrainz API │
+                       │   (Enrichment)   │
+                       └──────────────────┘
+```
+
+### Database Schema (SQLite)
+
+The internal database serves as the single source of truth:
+
+- **Tracks**: Core metadata (title, artist, album, duration, etc.)
+- **Albums**: Release information, cover art, track listings
+- **Artists**: Musician details, relationships, discography
+- **Sources**: References to where tracks can be accessed
+- **Relationships**: Artist collaborations, genre hierarchies
+- **Playback Data**: Listen history, ratings, user preferences
+
+## 🔧 Configuration
+
+LinerNodes uses a flexible configuration system with multiple sources:
+
+1. **Environment Variables**: `LINERNODES_<SECTION>_<KEY>=value`
+2. **Local Dev Config**: `.linernodes.cfg` in project directory
+3. **User Config**: `~/.config/linernodes/config.yaml`
+4. **Default Values**: Built-in sensible defaults
+
+### Example Configuration
+
+```yaml
+# ~/.config/linernodes/config.yaml
+sources:
+  local:
+    music_dirs:
+      - /mnt/hdd4t/MEGA/UnifiedLibrary/music/
+      - ~/Music/
+    scan_interval: 3600  # seconds
+  
+  streaming:
+    spotify:
+      client_id: "${SPOTIFY_CLIENT_ID}"
+      client_secret: "${SPOTIFY_CLIENT_SECRET}"
+      playlists: ["Your Favorites", "Discover Weekly"]
+  
+  cloud:
+    google_drive:
+      credentials_path: ~/.config/linernodes/gdrive_creds.json
+      music_folder_id: "1BxYZ..."
+  
+  s3:
+    aws_s3:
+      bucket: my-music-bucket
+      prefix: music/
+      region: us-east-1
+
+player:
+  backend: mpd  # Currently only MPD supported
+  mpd:
+    host: localhost
+    port: 6600
+    music_dir: /mnt/hdd4t/MEGA/UnifiedLibrary/music/
+
+database:
+  path: ~/.local/share/linernodes/music.db
+  backup_interval: 86400  # daily backups
+```
+
+## 📚 Command Reference
+
+### Source Management
+```bash
+# Configure sources
+linernodes config set sources.local.music_dirs "/path/to/music"
+linernodes config set sources.spotify.client_id "your_id"
+
+# Scan and import
+linernodes sources scan-all          # Discover new content
+linernodes sources import-all        # Import to database
+linernodes sources status           # Show source health
+```
+
+### Music Player
+```bash
+# Playback control
+linernodes player play/pause/stop
+linernodes player next/prev
+linernodes player volume 75
+
+# Playlist management
+linernodes player add-album "Artist/Album"
+linernodes player random-albums 5
+linernodes player playlist
+linernodes player clear
+
+# Search and discovery
+linernodes player search "artist name"
+linernodes player albums
+```
+
+### Knowledge Graph
+```bash
+# Import from MusicBrainz
+linernodes knowledge import-release "Radiohead OK Computer"
+linernodes knowledge import-by-mbid "b1392450-e666-3926-a536-22c65f834dee"
+
+# Explore relationships
+linernodes knowledge stats
+linernodes knowledge search "jazz fusion"
+linernodes knowledge related "Miles Davis"
+```
+
+### Database Operations
+```bash
+# Database management
+linernodes database info             # Show statistics
+linernodes database rebuild          # Rebuild from sources
+linernodes database backup           # Create backup
+linernodes database export --format json
+```
+
+### Interfaces
+```bash
+# Launch different interfaces
+linernodes interface tui             # Terminal interface
+linernodes interface web --port 8501 # Web interface
+linernodes interface graph           # Graph explorer
+linernodes interface mcp --port 8000 # MCP server for LLMs
+```
+
+## 🎯 Use Cases
+
+### 🏠 **Personal Music Library**
+- Organize massive local collections with rich metadata
+- Generate beautiful markdown documentation of your music
+- Create smart playlists based on relationships and mood
+- Track listening history and discover patterns
+
+### 🌐 **Multi-Platform Integration**
+- Sync playlists between Spotify and local files
+- Back up streaming playlists to cloud storage
+- Create unified playlists combining all sources
+- Never lose access to your music again
+
+### 🔍 **Music Discovery & Research**
+- Explore musical relationships and influences
+- Research artists, labels, and genre connections
+- Generate reports on your listening habits
+- Build custom music recommendation engines
+
+### 🤖 **AI-Powered Music Exploration**
+- Use the MCP server with Claude or other LLMs
+- Ask natural language questions about your collection
+- Generate playlists based on complex criteria
+- Automatic music journalism and liner notes
+
+## 🛣️ Roadmap
+
+### Phase 1: Core Foundation ✅
+- [x] MPD integration and local file support
+- [x] Basic CLI and configuration system
+- [x] SQLite database architecture
+- [x] MusicBrainz integration
+
+### Phase 2: Multi-Source Integration 🔄
+- [ ] Streaming API integrations (Spotify, Apple Music)
+- [ ] Cloud storage connectors (Google Drive, Dropbox)
+- [ ] S3 and object storage support
+- [ ] Smart deduplication across sources
+
+### Phase 3: Advanced Features 📋
+- [ ] Machine learning for music recommendation
+- [ ] Advanced graph analytics and visualization
+- [ ] Custom metadata schemas
+- [ ] Plugin system for extensibility
+
+### Phase 4: Scale & Performance 📋
+- [ ] Optional PostgreSQL backend for large collections
+- [ ] Distributed processing for massive libraries
+- [ ] Real-time synchronization across sources
+- [ ] Advanced caching and indexing
+
+## 🤝 Contributing
+
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
+
+### Development Setup
+
+```bash
+# Clone and setup
+git clone https://github.com/yourusername/LinerNodes.git
+cd LinerNodes
+uv sync --dev
+
+# Run tests
+uv run pytest
+
+# Start development
+uv run linernodes config init-dev
+# Edit .linernodes.cfg for your local setup
+uv run linernodes interface tui
+```
+
+## 📄 License
+
+LinerNodes is released under the MIT License. See [LICENSE](LICENSE) for details.
+
+## 🙏 Acknowledgments
+
+- **MusicBrainz**: The incredible open music encyclopedia that powers our metadata
+- **MPD**: The flexible, powerful music player daemon
+- **Textual**: Beautiful terminal user interfaces
+- **SQLite**: The reliable embedded database engine
+- **uv**: Fast Python package management
+
+---
+
+**Built with ❤️ for music lovers who want to truly own and organize their musical journey.**

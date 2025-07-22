@@ -162,11 +162,43 @@ audio_output {{
             except Exception:
                 pass
 
-    def play(self):
-        self.client.play()
+    def update_database(self):
+        """Update MPD database."""
+        self.client.update()
+
+    def get_status(self):
+        """Get MPD status."""
+        return self.client.status()
+
+    def get_playlist(self):
+        """Get current playlist."""
+        return self.client.playlistinfo()
+
+    def play(self, pos=None):
+        """Play music (optionally at specific position)."""
+        if pos is not None:
+            self.client.play(pos)
+        else:
+            self.client.play()
 
     def pause(self):
         self.client.pause()
+
+    def stop(self):
+        """Stop playback."""
+        self.client.stop()
+
+    def next(self):
+        """Skip to next track."""
+        self.client.next()
+
+    def previous(self):
+        """Skip to previous track."""
+        self.client.previous()
+
+    def set_volume(self, volume: int):
+        """Set volume (0-100)."""
+        self.client.setvol(max(0, min(100, volume)))
 
     def add_to_playlist(self, file_path: str):
         self.client.add(file_path)
@@ -176,6 +208,53 @@ audio_output {{
 
     def get_current_song(self):
         return self.client.currentsong()
+
+    def list_all_files(self):
+        """List all files in music directory."""
+        return self.client.listall()
+    
+    def search_files(self, pattern: str = ""):
+        """Search for files matching pattern."""
+        files = self.client.listall()
+        matching_files = []
+        for item in files:
+            if 'file' in item and pattern.lower() in item['file'].lower():
+                matching_files.append(item['file'])
+        return matching_files[:10]  # Return first 10 matches
+    
+    def get_albums(self):
+        """Get all albums (directories) in the music library."""
+        albums = set()
+        files = self.client.listall()
+        for item in files:
+            if 'file' in item:
+                # Extract album directory (first two path components typically)
+                path_parts = item['file'].split('/')
+                if len(path_parts) >= 2:
+                    album_path = '/'.join(path_parts[:2])
+                    albums.add(album_path)
+        return sorted(list(albums))
+    
+    def add_album_to_playlist(self, album_path: str):
+        """Add all files from an album directory to playlist."""
+        files = self.client.listall()
+        added_files = []
+        for item in files:
+            if 'file' in item and item['file'].startswith(album_path + '/'):
+                self.client.add(item['file'])
+                added_files.append(item['file'])
+        return added_files
+    
+    def load_random_albums(self, count: int = 10):
+        """Load random albums into the playlist."""
+        import random
+        albums = self.get_albums()
+        if albums:
+            selected = random.sample(albums, min(count, len(albums)))
+            for album in selected:
+                self.add_album_to_playlist(album)
+            return selected
+        return []
 
     def __del__(self):
         try:

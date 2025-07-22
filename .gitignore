@@ -8,3 +8,27 @@ wheels/
 
 # Virtual environments
 .venv
+
+# LinerNodes development config
+.linernodes.cfg
+
+# Test/development files
+test_music/
+test_knowledge.db*
+test_cards/
+
+# MPD runtime files
+*.pid
+*.db
+*.log
+*.fifo
+mpd.socket
+
+# IDE and OS files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
