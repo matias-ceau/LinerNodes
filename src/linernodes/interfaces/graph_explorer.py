@@ -55,61 +55,39 @@ class MusicGraphExplorer:
     def build_graph(self, max_nodes: int = 10000) -> nx.Graph:
         """Build a NetworkX graph from the music database.
         
-        Optimized for large datasets (10K+ nodes) with efficient memory usage
-        and intelligent sampling strategies.
+        OPTIMIZED: Single bulk query replaces N+1 pattern for 10K+ node performance.
         """
         graph = nx.Graph()
         
-        # Get all albums - we want the full universe
-        albums = self.db_manager.get_all_albums(limit=max_nodes // 10)
+        # PERFORMANCE FIX: Single bulk query instead of N+1 album/track queries
+        graph_data = self.db_manager.get_graph_data_bulk(limit=max_nodes)
         
-        for album in albums:
-            # Add album node
-            graph.add_node(
-                f"album_{album.id}",
-                name=album.title,
-                type='album',
-                id=album.id,
-                artist=album.artist_credit or "Unknown Artist"
-            )
+        nodes = graph_data['nodes']
+        edges = graph_data['edges']
+        
+        # PERFORMANCE FIX: Bulk operations instead of individual add_node() calls
+        node_list = []
+        for node in nodes:
+            # Add color and size attributes for visualization
+            color = self.entity_colors.get(node['type'], '#888888')
+            size = self.entity_sizes.get(node['type'], 15)
             
-            # Add artist node and connection
-            if album.artist_credit:
-                artist_node = f"artist_{album.artist_credit}"
-                graph.add_node(
-                    artist_node,
-                    name=album.artist_credit,
-                    type='artist',
-                    id=album.artist_credit
-                )
-                graph.add_edge(f"album_{album.id}", artist_node)
-            
-            # Get tracks for this album - show the full album
-            tracks = self.db_manager.get_album_tracks(album.id)
-            for track in tracks:  # All tracks - we want completeness
-                track_node = f"track_{track.id}"
-                graph.add_node(
-                    track_node,
-                    name=track.title,
-                    type='track',
-                    id=track.id,
-                    duration=track.duration_formatted if track.duration_ms else "Unknown"
-                )
-                graph.add_edge(f"album_{album.id}", track_node)
-                
-                # Add genre connections - show full genre relationships
-                if track.genre:
-                    for genre in track.genre.split(';')[:3]:  # Max 3 genres per track
-                        genre = genre.strip()
-                        if genre:
-                            genre_node = f"genre_{genre}"
-                            graph.add_node(
-                                genre_node,
-                                name=genre,
-                                type='genre',
-                                id=genre
-                            )
-                            graph.add_edge(track_node, genre_node)
+            node_list.append((
+                node['id'],
+                {
+                    'name': node['name'],
+                    'type': node['type'],
+                    'color': color,
+                    'size': size
+                }
+            ))
+        
+        # PERFORMANCE FIX: Single bulk node addition
+        graph.add_nodes_from(node_list)
+        
+        # PERFORMANCE FIX: Bulk edge operations instead of individual add_edge() calls
+        edge_list = [(edge['source'], edge['target']) for edge in edges]
+        graph.add_edges_from(edge_list)
         
         return graph
     

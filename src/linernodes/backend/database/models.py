@@ -333,10 +333,10 @@ class DatabaseManager:
     def get_graph_data_bulk(self, limit: int = 5000) -> Dict:
         """Get bulk graph data in single query - optimized for graph building."""
         with self.db.connection() as conn:
-            # Single query to get all relationships using the graph_relationships view
+            # Single query to get all relationships using smart sampling
             cursor = conn.execute("""
                 SELECT * FROM graph_relationships 
-                ORDER BY relationship_type, source_name
+                ORDER BY weight DESC, relationship_type, source_name
                 LIMIT ?
             """, (limit,))
             

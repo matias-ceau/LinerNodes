@@ -407,10 +407,10 @@ class LinerDatabase:
             GROUP BY a.id
         """)
         
-        # Graph relationships view for fast graph building
+        # Graph relationships view for fast graph building with smart sampling
         conn.execute("""
             CREATE VIEW IF NOT EXISTS graph_relationships AS
-            -- Album to Artist relationships
+            -- Album to Artist relationships (prioritize albums with more tracks)
             SELECT 
                 'album' as source_type,
                 'album_' || a.id as source_id,
@@ -419,7 +419,7 @@ class LinerDatabase:
                 'artist_' || a.artist_credit as target_id,
                 a.artist_credit as target_name,
                 'performed_by' as relationship_type,
-                1 as weight
+                COALESCE((SELECT COUNT(*) FROM tracks t WHERE t.album_id = a.id), 0) as weight
             FROM albums a 
             WHERE a.artist_credit IS NOT NULL
             
