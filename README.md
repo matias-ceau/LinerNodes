@@ -1,16 +1,98 @@
-# 🎵 LinerNodes - Universal Music Knowledge Graph
+# 🎭 LinerNodes - The Infinite Record Shop
 
-**A comprehensive music management system that unifies your entire music collection—regardless of where it lives—into an intelligent, searchable knowledge graph.**
+*Where Ron Carter's bass lines from 1963 meet MC Solaar's French rap from 1991*
+
+**Beyond music management - a lens for seeing the invisible architecture of music itself.**
 
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
 [![uv](https://img.shields.io/badge/built%20with-uv-blue.svg)](https://docs.astral.sh/uv/)
 [![MusicBrainz](https://img.shields.io/badge/metadata-MusicBrainz-orange.svg)](https://musicbrainz.org/)
 
-## 🌟 What Makes LinerNodes Special
+---
 
-### 🔄 **Universal Source Integration**
-- **Local Files**: Your personal music library (any format)
-- **Streaming Platforms**: Spotify, Apple Music, YouTube Music playlists
+## 🌌 The Musical Cosmos Experience
+
+### 🎪 The Interactive Demo
+```bash
+# Begin your journey through the musical universe
+python3 demo_tour.py
+```
+
+This is not just a demo - it's **Tour Chez Le Disquaire**, an immersive journey that reveals:
+- How your music collection is a living constellation
+- The hidden threads connecting seemingly unrelated artists
+- Why Ron Carter (Miles Davis' bassist) is the cosmic center of your jazz collection
+- How French rap and American bebop share the same musical DNA
+
+### 🕸️ The Graph Experience
+Launch the visual explorer and watch your music become a living network:
+```bash
+uv run linernodes interface graph --port 8503
+# Open browser → localhost:8503
+```
+
+Every **red node** is an album universe. Every **teal node** is an artist bridge. Every **blue speck** is a track carrying musical genetics across decades.
+
+### 🌊 The Oceanic Flow
+The web interface where exploration meets experience:
+```bash
+uv run linernodes interface web --port 8504
+# Control music while discovering infinite connections
+```
+
+---
+
+## 🌟 What Makes LinerNodes Revolutionary
+
+### 🧬 **Musical DNA Discovery**
+Your collection isn't random files - it's a **curated universe** where every connection tells a story:
+- **Bassists as Bridges**: See how Ron Carter connects bebop to hip-hop
+- **Genre Evolution**: Watch jazz become jazz-funk become hip-hop sampling
+- **Cultural Crossings**: Discover how American jazz becomes French poetry
+- **Time Travel**: Follow musical genetics across decades
+
+### 🎭 **Multiple Realities**
+Experience your music through different lenses:
+- **CLI**: Power user commands for the musical archaeologist
+- **Web**: Casual exploration with player controls
+- **Graph**: Visual constellation of your musical universe  
+- **TUI**: Terminal interface for keyboard warriors
+- **MCP**: AI integration for natural language discovery
+
+---
+
+## 🚀 Quickstart: Enter the Musical Cosmos
+
+### Installation
+```bash
+# Clone the infinite record shop
+git clone https://github.com/matias-ceau/LinerNodes.git
+cd LinerNodes
+
+# Install with uv (the modern Python package manager)
+uv sync
+
+# Set your music directory
+uv run linernodes config set mpd music_dir /path/to/your/music
+```
+
+### The Awakening
+```bash
+# Import your musical universe (this is where the magic begins)
+uv run linernodes sources import-all
+
+# Launch the interactive tour
+python3 demo_tour.py
+```
+
+### Alternative Paths
+```bash
+# Direct access to specific realms
+uv run linernodes interface web          # Casual exploration
+uv run linernodes interface graph        # Visual cosmos
+uv run linernodes interface tui          # Terminal mastery
+uv run linernodes database search "blue" # Command line archaeology
+```
 - **Cloud Storage**: Google Drive, Dropbox, OneDrive music folders
 - **S3 Storage**: AWS S3, MinIO, and S3-compatible object storage
 - **One Unified View**: All sources appear as a single, coherent collection
