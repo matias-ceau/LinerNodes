@@ -14,6 +14,9 @@ from pathlib import Path
 import random
 import numpy as np
 from functools import lru_cache
+import time
+import psutil
+import os
 
 # Handle imports for both direct execution and package import
 try:
@@ -168,6 +171,37 @@ class MusicGraphExplorer:
             pos = nx.spring_layout(graph, k=1, iterations=30, seed=42)
         
         return pos
+    
+    def get_performance_metrics(self) -> Dict:
+        """Get current system performance metrics."""
+        process = psutil.Process(os.getpid())
+        
+        return {
+            'cpu_percent': process.cpu_percent(interval=0.1),
+            'memory_mb': process.memory_info().rss / 1024 / 1024,
+            'memory_percent': process.memory_percent(),
+            'threads': process.num_threads()
+        }
+    
+    def get_cache_metrics(self) -> Dict:
+        """Get graph cache metrics."""
+        cache_path = self.db_manager.get_graph_cache_path()
+        
+        if cache_path.exists():
+            stat = cache_path.stat()
+            return {
+                'exists': True,
+                'size_mb': stat.st_size / 1024 / 1024,
+                'modified': stat.st_mtime,
+                'age_minutes': (time.time() - stat.st_mtime) / 60
+            }
+        else:
+            return {
+                'exists': False,
+                'size_mb': 0,
+                'modified': 0,
+                'age_minutes': 0
+            }
     
     def create_optimized_plotly_graph(self, graph_data: Dict, show_labels: bool = False) -> go.Figure:
         """Create optimized Plotly graph from pre-computed data."""
@@ -324,14 +358,39 @@ class MusicGraphExplorer:
             st.caption("🌌 Showing the full musical universe")
             st.caption("⚡ Optimized for large-scale exploration")
             
+            # Performance monitoring
+            st.subheader("⚡ Performance")
+            
+            # Real-time metrics
+            perf_metrics = self.get_performance_metrics()
+            cache_metrics = self.get_cache_metrics()
+            
+            col1, col2 = st.columns(2)
+            with col1:
+                cpu_color = "🔴" if perf_metrics['cpu_percent'] > 50 else "🟡" if perf_metrics['cpu_percent'] > 20 else "🟢"
+                st.metric("CPU Usage", f"{perf_metrics['cpu_percent']:.1f}%", delta=None, help=f"{cpu_color} Current process CPU usage")
+                
+            with col2:
+                memory_color = "🔴" if perf_metrics['memory_mb'] > 500 else "🟡" if perf_metrics['memory_mb'] > 200 else "🟢"
+                st.metric("Memory", f"{perf_metrics['memory_mb']:.0f} MB", delta=None, help=f"{memory_color} Current process memory usage")
+            
+            # Cache status
+            if cache_metrics['exists']:
+                st.success(f"✅ Graph Cache Active ({cache_metrics['size_mb']:.1f} MB, {cache_metrics['age_minutes']:.0f}min old)")
+            else:
+                st.warning("⚠️ No Graph Cache - Will build on first load")
+            
             # Performance options
-            st.subheader("Performance")
             fast_mode = st.checkbox("Fast Mode", value=True, help="Optimized rendering for large graphs")
             show_labels = st.checkbox("Show Labels", value=False, help="Node labels (slower for large graphs)")
             
-            if st.button("Refresh Graph", type="primary"):
+            if st.button("🔄 Refresh Graph", type="primary"):
                 self.db_manager.invalidate_graph_cache()
                 st.rerun()
+                
+            if st.button("🗑️ Clear Cache"):
+                self.db_manager.invalidate_graph_cache()
+                st.success("Cache cleared!")
             
             st.markdown("---")
             st.subheader("Legend")
@@ -343,10 +402,17 @@ class MusicGraphExplorer:
         
         # Main content
         try:
-            # Build the graph with persistent caching
+            # Build the graph with persistent caching and timing
+            start_time = time.time()
             with st.spinner("Loading knowledge graph..."):
                 graph_data = self._get_graph_data(max_nodes)
+                data_load_time = time.time() - start_time
+                
+                layout_start = time.time()
                 positioned_data = self._build_positioned_graph_data(graph_data)
+                layout_time = time.time() - layout_start
+                
+                total_time = time.time() - start_time
             
             if graph_data['stats']['node_count'] == 0:
                 st.error("No data found in database. Please import some music first.")
@@ -376,8 +442,35 @@ class MusicGraphExplorer:
             # Show the graph
             st.subheader("🕸️ Interactive Graph")
             with st.spinner("Rendering optimized visualization..."):
-                fig = self.create_optimized_plotly_graph(graph_data, show_labels)
+                render_start = time.time()
+                fig = self.create_optimized_plotly_graph(positioned_data, show_labels)
+                render_time = time.time() - render_start
                 st.plotly_chart(fig, use_container_width=True, height=700)
+                
+            # Performance metrics display
+            st.subheader("📊 Performance Metrics")
+            col1, col2, col3, col4 = st.columns(4)
+            
+            with col1:
+                st.metric("📊 Nodes", f"{graph_data['stats']['node_count']:,}")
+            with col2:
+                st.metric("🔗 Edges", f"{graph_data['stats']['edge_count']:,}")
+            with col3:
+                load_color = "🟢" if data_load_time < 1 else "🟡" if data_load_time < 3 else "🔴"
+                st.metric("⚡ Data Load", f"{data_load_time:.2f}s", help=f"{load_color} Cache/database query time")
+            with col4:
+                total_render_time = layout_time + render_time
+                render_color = "🟢" if total_render_time < 2 else "🟡" if total_render_time < 5 else "🔴"
+                st.metric("🎨 Render Time", f"{total_render_time:.2f}s", help=f"{render_color} Layout + visualization time")
+            
+            # Overall performance status
+            total_time = data_load_time + layout_time + render_time
+            if total_time < 3:
+                st.success(f"🚀 Excellent performance: {total_time:.2f}s total rendering time")
+            elif total_time < 8:
+                st.info(f"⚡ Good performance: {total_time:.2f}s total rendering time")  
+            else:
+                st.warning(f"🐌 Consider reducing node count: {total_time:.2f}s total rendering time")
             
             # Search functionality
             self.render_optimized_search(graph_data)
