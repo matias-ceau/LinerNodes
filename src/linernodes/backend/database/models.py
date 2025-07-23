@@ -330,6 +330,79 @@ class DatabaseManager:
         results = self.db.get_track_sources(track_id)
         return [Source(**result) for result in results]
     
+    def get_graph_data_bulk(self, limit: int = 5000) -> Dict:
+        """Get bulk graph data in single query - optimized for graph building."""
+        with self.db.connection() as conn:
+            # Single query to get all relationships using the graph_relationships view
+            cursor = conn.execute("""
+                SELECT * FROM graph_relationships 
+                ORDER BY relationship_type, source_name
+                LIMIT ?
+            """, (limit,))
+            
+            relationships = [dict(row) for row in cursor.fetchall()]
+            
+            # Extract unique nodes and edges efficiently
+            nodes = {}
+            edges = []
+            
+            for rel in relationships:
+                # Add source node
+                if rel['source_id'] not in nodes:
+                    nodes[rel['source_id']] = {
+                        'id': rel['source_id'],
+                        'name': rel['source_name'][:50],  # Truncate for performance
+                        'type': rel['source_type']
+                    }
+                
+                # Add target node  
+                if rel['target_id'] not in nodes:
+                    nodes[rel['target_id']] = {
+                        'id': rel['target_id'],
+                        'name': rel['target_name'][:50],  # Truncate for performance
+                        'type': rel['target_type']
+                    }
+                
+                # Add edge
+                edges.append({
+                    'source': rel['source_id'],
+                    'target': rel['target_id'],
+                    'type': rel['relationship_type']
+                })
+            
+            return {
+                'nodes': list(nodes.values()),
+                'edges': edges,
+                'stats': {
+                    'node_count': len(nodes),
+                    'edge_count': len(edges),
+                    'relationship_count': len(relationships)
+                }
+            }
+    
+    def get_relationships_batch(self, node_types: List[str] = None, limit: int = 10000) -> List[Dict]:
+        """Get relationships in batch for specific node types."""
+        with self.db.connection() as conn:
+            if node_types:
+                placeholders = ','.join(['?' for _ in node_types])
+                query = f"""
+                    SELECT * FROM graph_relationships 
+                    WHERE source_type IN ({placeholders}) OR target_type IN ({placeholders})
+                    ORDER BY relationship_type
+                    LIMIT ?
+                """
+                params = node_types + node_types + [limit]
+            else:
+                query = """
+                    SELECT * FROM graph_relationships 
+                    ORDER BY relationship_type
+                    LIMIT ?
+                """
+                params = [limit]
+            
+            cursor = conn.execute(query, params)
+            return [dict(row) for row in cursor.fetchall()]
+    
     def find_or_create_artist(self, name: str, mbid: Optional[str] = None) -> Artist:
         """Find existing artist or create new one."""
         with self.db.connection() as conn:

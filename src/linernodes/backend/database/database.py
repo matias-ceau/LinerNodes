@@ -52,6 +52,8 @@ class LinerDatabase:
         )
         conn.row_factory = sqlite3.Row  # Enable dict-like access
         conn.execute("PRAGMA foreign_keys = ON")  # Enable foreign key constraints
+        conn.execute("PRAGMA journal_mode = WAL")  # Enable WAL mode for concurrent access
+        conn.execute("PRAGMA synchronous = NORMAL")  # Faster writes while maintaining safety
         try:
             yield conn
             conn.commit()
@@ -333,8 +335,10 @@ class LinerDatabase:
             # Primary search indexes
             "CREATE INDEX IF NOT EXISTS idx_artists_name ON artists(name)",
             "CREATE INDEX IF NOT EXISTS idx_albums_title ON albums(title)",
+            "CREATE INDEX IF NOT EXISTS idx_albums_artist_credit ON albums(artist_credit)",
             "CREATE INDEX IF NOT EXISTS idx_tracks_title ON tracks(title)",
             "CREATE INDEX IF NOT EXISTS idx_tracks_album ON tracks(album_id)",
+            "CREATE INDEX IF NOT EXISTS idx_tracks_artist_credit ON tracks(artist_credit)",
             
             # MusicBrainz ID indexes
             "CREATE INDEX IF NOT EXISTS idx_artists_mbid ON artists(mbid)",
@@ -401,6 +405,54 @@ class LinerDatabase:
             LEFT JOIN artist_albums aa ON a.id = aa.album_id
             LEFT JOIN artists ar ON aa.artist_id = ar.id
             GROUP BY a.id
+        """)
+        
+        # Graph relationships view for fast graph building
+        conn.execute("""
+            CREATE VIEW IF NOT EXISTS graph_relationships AS
+            -- Album to Artist relationships
+            SELECT 
+                'album' as source_type,
+                'album_' || a.id as source_id,
+                a.title as source_name,
+                'artist' as target_type,
+                'artist_' || a.artist_credit as target_id,
+                a.artist_credit as target_name,
+                'performed_by' as relationship_type,
+                1 as weight
+            FROM albums a 
+            WHERE a.artist_credit IS NOT NULL
+            
+            UNION ALL
+            
+            -- Track to Album relationships  
+            SELECT 
+                'track' as source_type,
+                'track_' || t.id as source_id,
+                t.title as source_name,
+                'album' as target_type,
+                'album_' || t.album_id as target_id,
+                a.title as target_name,
+                'belongs_to' as relationship_type,
+                1 as weight
+            FROM tracks t
+            JOIN albums a ON t.album_id = a.id
+            
+            UNION ALL
+            
+            -- Track to Artist relationships (through album)
+            SELECT 
+                'track' as source_type,
+                'track_' || t.id as source_id,
+                t.title as source_name,
+                'artist' as target_type,
+                'artist_' || a.artist_credit as target_id,
+                a.artist_credit as target_name,
+                'performed_by' as relationship_type,
+                1 as weight
+            FROM tracks t
+            JOIN albums a ON t.album_id = a.id
+            WHERE a.artist_credit IS NOT NULL
         """)
     
     # CRUD operations for core entities
