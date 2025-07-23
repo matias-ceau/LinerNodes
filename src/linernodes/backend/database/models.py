@@ -14,7 +14,37 @@ from .database import LinerDatabase
 
 @dataclass
 class Artist:
-    """Artist entity model."""
+    """Artist entity model representing musicians, bands, and music creators.
+    
+    This class represents individual artists or groups with comprehensive metadata
+    including biographical information, MusicBrainz integration, and database
+    persistence capabilities.
+    
+    Attributes:
+        name (str): Primary artist name as displayed
+        id (Optional[int]): Database primary key, auto-assigned
+        mbid (Optional[str]): MusicBrainz ID for canonical identification
+        sort_name (Optional[str]): Name formatted for alphabetical sorting
+        type (Optional[str]): Artist type (Person, Group, Orchestra, etc.)
+        disambiguation (Optional[str]): Clarification for similar named artists
+        begin_date (Optional[date]): Career start or birth date
+        end_date (Optional[date]): Career end or death date
+        country (Optional[str]): Country of origin or activity
+        bio_summary (Optional[str]): Brief biographical description
+        created_at (Optional[datetime]): Record creation timestamp
+        updated_at (Optional[datetime]): Last modification timestamp
+        
+    Example:
+        >>> artist = Artist(
+        ...     name="Miles Davis",
+        ...     sort_name="Davis, Miles", 
+        ...     type="Person",
+        ...     country="US",
+        ...     begin_date=date(1926, 5, 26),
+        ...     end_date=date(1991, 9, 28)
+        ... )
+        >>> artist_id = artist.save(database)
+    """
     name: str
     id: Optional[int] = None
     mbid: Optional[str] = None
@@ -29,7 +59,25 @@ class Artist:
     updated_at: Optional[datetime] = None
     
     def save(self, db: LinerDatabase) -> int:
-        """Save artist to database."""
+        """Save artist to database and return the assigned ID.
+        
+        Persists the artist to the database, automatically handling ID assignment
+        and timestamp management. Only saves non-None values to allow partial updates.
+        
+        Args:
+            db (LinerDatabase): Database connection instance
+            
+        Returns:
+            int: The database ID assigned to this artist
+            
+        Raises:
+            DatabaseError: If the save operation fails
+            
+        Example:
+            >>> artist = Artist(name="Thelonious Monk", type="Person")
+            >>> artist_id = artist.save(database)
+            >>> print(f"Artist saved with ID: {artist_id}")
+        """
         data = {k: v for k, v in asdict(self).items() 
                 if k not in ['id', 'created_at', 'updated_at'] and v is not None}
         self.id = db.add_artist(**data)
@@ -38,7 +86,43 @@ class Artist:
 
 @dataclass
 class Album:
-    """Album entity model."""
+    """Album entity model representing music releases and collections.
+    
+    This class represents albums, EPs, singles, and other music releases with
+    comprehensive metadata including release information, track statistics,
+    and cover art management.
+    
+    Attributes:
+        title (str): Album title as displayed
+        id (Optional[int]): Database primary key, auto-assigned
+        mbid (Optional[str]): MusicBrainz release ID for canonical identification
+        artist_credit (Optional[str]): Main artist(s) credited for the album
+        release_date (Optional[date]): Official release date
+        release_date_precision (Optional[str]): Precision level (year/month/day)
+        type (Optional[str]): Release type (Album, Single, EP, Compilation, etc.)
+        status (Optional[str]): Release status (Official, Promotion, Bootleg, etc.)
+        barcode (Optional[str]): UPC/EAN barcode for physical releases
+        total_tracks (Optional[int]): Expected number of tracks
+        total_discs (Optional[int]): Number of discs/media in release
+        cover_art_url (Optional[str]): URL to cover art image
+        cover_art_local_path (Optional[str]): Local path to cached cover art
+        created_at (Optional[datetime]): Record creation timestamp
+        updated_at (Optional[datetime]): Last modification timestamp
+        
+    Computed Attributes (populated by database queries):
+        actual_track_count (Optional[int]): Actual number of tracks in database
+        total_duration_ms (Optional[int]): Total album duration in milliseconds
+        artists (Optional[str]): All contributing artists, comma-separated
+        
+    Example:
+        >>> album = Album(
+        ...     title="Kind of Blue",
+        ...     artist_credit="Miles Davis",
+        ...     release_date=date(1959, 8, 17),
+        ...     type="Album"
+        ... )
+        >>> album_id = album.save(database)
+    """
     title: str
     id: Optional[int] = None
     mbid: Optional[str] = None
