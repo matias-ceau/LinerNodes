@@ -159,20 +159,36 @@ class DisquaireTour:
             
             try:
                 # Start the graph interface
-                subprocess.Popen([
+                self.console.print("🌌 Starting the graph interface...")
+                graph_process = subprocess.Popen([
                     "uv", "run", "linernodes", "interface", "graph", 
                     "--port", str(self.graph_port)
-                ], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+                ], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
                 
-                # Wait for startup
-                for i in track(range(10), description="Cosmic alignment in progress..."):
-                    time.sleep(1)
-                
+                # Wait for startup with better checking
                 graph_url = f"http://localhost:{self.graph_port}"
-                self.console.print(f"\\n✨ Your musical cosmos awaits at: {graph_url}")
+                startup_success = False
                 
-                if Confirm.ask("Open the graph in your browser?"):
-                    webbrowser.open(graph_url)
+                for i in track(range(20), description="Cosmic alignment in progress..."):
+                    time.sleep(1)
+                    try:
+                        import urllib.request
+                        urllib.request.urlopen(graph_url, timeout=1)
+                        startup_success = True
+                        break
+                    except:
+                        continue
+                
+                if startup_success:
+                    self.console.print(f"\\n✨ Your musical cosmos awaits at: {graph_url}")
+                    
+                    if Confirm.ask("Open the graph in your browser?"):
+                        webbrowser.open(graph_url)
+                        self.console.print("\\n🎭 If the browser doesn't open automatically, copy the URL above")
+                else:
+                    self.console.print(f"\\n🌟 Graph interface starting... Please open manually: {graph_url}")
+                    self.console.print("(It may take a moment to fully initialize)")
+                    Prompt.ask("Press Enter when the graph interface is ready")
                 
                 self.graph_meditation()
                 
@@ -264,32 +280,32 @@ class DisquaireTour:
         self.console.print("How Ron Carter's 1963 bass lines connect to MC Solaar's 1991 French rap.\\n")
         
         connection_story = Panel(
-            Text.from_markup("""The Hidden Path of Musical DNA:
+            Text.from_markup("""The ACTUAL Musical Collaboration:
 
-[yellow]Miles Davis[/yellow] (1959) → Modal Jazz Revolution
+[yellow]Miles Davis Quintet[/yellow] (1963-1968)
   ↓
-[cyan]Ron Carter[/cyan] (1963-1968) → The bassist who defined the sound
+[cyan]Ron Carter[/cyan] → The legendary bassist
   ↓  
-[green]Jazz-Funk Evolution[/green] (1970s) → Groove becomes foundation
+[bold red]DIRECT COLLABORATION[/bold red]
   ↓
-[blue]Hip-Hop Sampling[/blue] (1980s) → Jazz loops become beats
+[magenta]MC Solaar[/magenta] - "Un Ange En Danger"
   ↓
-[magenta]French Hip-Hop[/magenta] (1990s) → American beats meet French intellectualism
-  ↓
-[red]MC Solaar[/red] (1991) → "Prose Combat" - Jazz sophistication in rap form
+[green]Ron Carter's bass[/green] on French intellectual hip-hop
 
-[dim]This isn't coincidence - it's musical genetics.[/dim]
-[dim]Every note carries the DNA of what came before.[/dim]"""),
-            title="🧬 The Musical DNA Connection",
+[dim]This isn't theory - it's documented history.[/dim]
+[dim]The live version shows Ron Carter absolutely killing it.[/dim]
+[dim]American jazz masters embracing French hip-hop poetry.[/dim]"""),
+            title="🎵 The Real Ron Carter → MC Solaar Connection",
             border_style="yellow"
         )
         
         self.console.print(connection_story)
         
         self.console.print("\\n💡 Search both artists in your interfaces:")
-        self.console.print("   - Ron Carter: The invisible hand shaping 60 years of music")
-        self.console.print("   - MC Solaar: French poetry riding on jazz-influenced beats")
-        self.console.print("\\n   See how the graph connects them through invisible threads...")
+        self.console.print("   - Ron Carter: From Miles Davis to MC Solaar - 60 years of musical bridges")
+        self.console.print("   - MC Solaar: French intellectual hip-hop with actual jazz legend collaboration")
+        self.console.print("\\n   The graph shows DIRECT connection, not theoretical genetics!")
+        self.console.print("   🎥 Try to find that legendary live performance on YouTube...")
         
         Prompt.ask("\\nPress Enter when you've contemplated this connection")
     

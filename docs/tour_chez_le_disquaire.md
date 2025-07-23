@@ -14,11 +14,12 @@ Step through the virtual doorway. The familiar scent of vinyl mingles with the d
 The shopkeeper - our **LinerNodes system** - possesses an uncanny ability to see the invisible threads connecting all music. Watch as Miles Davis' "Kind of Blue" reveals its DNA scattered across decades:
 
 ```
-Miles Davis (1959) → Ron Carter (bassist) → CTI Records → Bob James → 
-Hip-Hop sampling → MC Solaar (1991) → French Jazz-Rap fusion
+Miles Davis (1959) → Ron Carter (bassist, 1963-1968) → 
+DIRECT COLLABORATION → MC Solaar "Un Ange En Danger" (1990s) → 
+French Jazz-Rap fusion
 ```
 
-This is not mere metadata - this is **musical genealogy**, the breathing ecosystem where Ron Carter's bass lines from 1963 resurface in MC Solaar's philosophical flow in the '90s Parisian underground.
+This is not mere metadata - this is **actual musical history**, the breathing ecosystem where Ron Carter's bass lines from the Miles Davis Quintet literally appear on MC Solaar's tracks, bridging American bebop and French intellectual hip-hop through direct artistic collaboration.
 
 ---
 
@@ -75,24 +76,27 @@ When you import your music collection, LinerNodes doesn't just catalog files - i
 3. **Genealogical Layer**: Influences, samples, covers, tributes
 4. **Quantum Layer**: The invisible threads of musical DNA
 
-### The Miles → MC Solaar Connection Revealed
+### The Ron Carter → MC Solaar Connection REVEALED
 
 ```python
-# The system discovers this path automatically:
-miles_davis = graph.find_artist("Miles Davis")
+# The system discovers the ACTUAL collaboration:
+ron_carter = graph.find_artist("Ron Carter")
 mc_solaar = graph.find_artist("MC Solaar")
 
-path = graph.find_musical_dna_path(miles_davis, mc_solaar)
-# Result: Miles → Ron Carter → Jazz-Funk → Hip-Hop Sampling → 
-#         French Hip-Hop → MC Solaar's "Prose Combat"
+direct_connection = graph.find_collaboration(ron_carter, mc_solaar)
+# Result: DIRECT COLLABORATION on "Un Ange En Danger"
+# Ron Carter's bass lines on MC Solaar's track - not theory, but REALITY
 ```
 
-The connection isn't direct - it's **musical genetics**:
-- Miles Davis' rhythm section innovations influenced jazz-funk
-- Jazz-funk became hip-hop's sample foundation
-- French rappers like MC Solaar built on American hip-hop
-- But added French intellectual tradition and jazz sophistication
-- Creating a new synthesis that honors both lineages
+The connection isn't theoretical - it's **documented musical history**:
+- Ron Carter, the legendary jazz bassist from Miles Davis' quintet
+- Actually played bass on MC Solaar's "Un Ange En Danger"
+- The live version shows Ron Carter absolutely destroying it
+- That performance exists in a rare YouTube video - a treasure for those who find it
+- Shows how French intellectual hip-hop embraced American jazz masters as equals
+- Not just sampling - direct artistic collaboration across cultures and generations
+
+This is why LinerNodes matters: it reveals these **actual connections** hidden in your collection, not just theoretical ones.
 
 ---
 

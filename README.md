@@ -20,9 +20,9 @@ python3 demo_tour.py
 
 This is not just a demo - it's **Tour Chez Le Disquaire**, an immersive journey that reveals:
 - How your music collection is a living constellation
-- The hidden threads connecting seemingly unrelated artists
-- Why Ron Carter (Miles Davis' bassist) is the cosmic center of your jazz collection
-- How French rap and American bebop share the same musical DNA
+- The ACTUAL connections between seemingly distant artists
+- Why Ron Carter played bass on MC Solaar's "Un Ange En Danger" 
+- How American jazz legends directly collaborated with French hip-hop intellectuals
 
 ### 🕸️ The Graph Experience
 Launch the visual explorer and watch your music become a living network:
