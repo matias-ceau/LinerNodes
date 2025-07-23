@@ -172,8 +172,7 @@ class MusicGraphExplorer:
         fig = go.Figure(
             data=traces,
             layout=go.Layout(
-                title='Music Collection Knowledge Graph',
-                titlefont_size=16,
+                title=dict(text='Music Collection Knowledge Graph', font=dict(size=16)),
                 showlegend=True,
                 hovermode='closest',
                 margin=dict(b=20,l=5,r=5,t=40),

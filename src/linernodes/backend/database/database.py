@@ -11,7 +11,12 @@ from typing import Optional, List, Dict, Any, Tuple
 from datetime import datetime, timezone
 from contextlib import contextmanager
 
-from xdg import xdg_data_home
+import os
+
+# XDG fallback without external dependency
+def xdg_data_home():
+    """Get XDG data home directory with fallback."""
+    return os.environ.get('XDG_DATA_HOME', os.path.expanduser('~/.local/share'))
 
 
 logger = logging.getLogger(__name__)

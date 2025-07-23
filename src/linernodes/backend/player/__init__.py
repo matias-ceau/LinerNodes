@@ -106,9 +106,9 @@ Provides consistent API for all interfaces:
 """
 
 from .mpd_controller import MpdController
-from .mpd_config import MpdConfig
+from .mpd_config import MPDConfig
 
 __all__ = [
     "MpdController",
-    "MpdConfig",
+    "MPDConfig",
 ]
