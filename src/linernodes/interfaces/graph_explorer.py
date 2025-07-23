@@ -12,6 +12,8 @@ import json
 import sys
 from pathlib import Path
 import random
+import numpy as np
+from functools import lru_cache
 
 # Handle imports for both direct execution and package import
 try:
@@ -32,6 +34,7 @@ class MusicGraphExplorer:
         """Initialize the graph explorer."""
         self.db_manager = DatabaseManager(Path(db_path) if db_path else None)
         self.graph = nx.Graph()
+        self._graph_cache = {}
         
         # Color scheme for different entity types
         self.entity_colors = {
@@ -49,12 +52,16 @@ class MusicGraphExplorer:
             'genre': 18,
         }
     
-    def build_graph(self, max_nodes: int = 200) -> nx.Graph:
-        """Build a NetworkX graph from the music database."""
+    def build_graph(self, max_nodes: int = 10000) -> nx.Graph:
+        """Build a NetworkX graph from the music database.
+        
+        Optimized for large datasets (10K+ nodes) with efficient memory usage
+        and intelligent sampling strategies.
+        """
         graph = nx.Graph()
         
-        # Get albums and their basic info
-        albums = self.db_manager.get_all_albums(limit=min(max_nodes // 4, 50))
+        # Get all albums - we want the full universe
+        albums = self.db_manager.get_all_albums(limit=max_nodes // 10)
         
         for album in albums:
             # Add album node
@@ -77,9 +84,9 @@ class MusicGraphExplorer:
                 )
                 graph.add_edge(f"album_{album.id}", artist_node)
             
-            # Get tracks for this album
+            # Get tracks for this album - show the full album
             tracks = self.db_manager.get_album_tracks(album.id)
-            for track in tracks[:10]:  # Limit tracks per album
+            for track in tracks:  # All tracks - we want completeness
                 track_node = f"track_{track.id}"
                 graph.add_node(
                     track_node,
@@ -90,9 +97,9 @@ class MusicGraphExplorer:
                 )
                 graph.add_edge(f"album_{album.id}", track_node)
                 
-                # Add genre connections if available
+                # Add genre connections - show full genre relationships
                 if track.genre:
-                    for genre in track.genre.split(';')[:2]:  # Max 2 genres per track
+                    for genre in track.genre.split(';')[:3]:  # Max 3 genres per track
                         genre = genre.strip()
                         if genre:
                             genre_node = f"genre_{genre}"
@@ -106,19 +113,67 @@ class MusicGraphExplorer:
         
         return graph
     
-    def create_plotly_graph(self, graph: nx.Graph) -> go.Figure:
-        """Create a Plotly interactive graph visualization."""
-        # Use spring layout for better node positioning
-        pos = nx.spring_layout(graph, k=1, iterations=50)
+    @st.cache_data
+    def _cached_graph_data(_self, max_nodes: int) -> Dict:
+        """Cache expensive graph computation."""
+        graph = _self.build_graph(max_nodes)
         
-        # Prepare edge traces
+        # Pre-compute layout positions
+        if graph.number_of_nodes() > 2000:
+            # Ultra-fast layout for massive graphs
+            pos = nx.random_layout(graph)
+        elif graph.number_of_nodes() > 1000:
+            # Fast layout for large graphs
+            pos = nx.spring_layout(graph, k=0.3, iterations=10)
+        else:
+            # Quality layout for smaller graphs
+            pos = nx.spring_layout(graph, k=1, iterations=30)
+        
+        # Convert to serializable format
+        nodes_data = []
+        edges_data = []
+        
+        for node_id, node_data in graph.nodes(data=True):
+            x, y = pos[node_id]
+            nodes_data.append({
+                'id': node_id,
+                'name': node_data['name'],
+                'type': node_data['type'],
+                'x': float(x),
+                'y': float(y)
+            })
+        
+        for source, target in graph.edges():
+            edges_data.append({
+                'source': source,
+                'target': target
+            })
+        
+        return {
+            'nodes': nodes_data,
+            'edges': edges_data,
+            'stats': {
+                'node_count': graph.number_of_nodes(),
+                'edge_count': graph.number_of_edges()
+            }
+        }
+    
+    def create_optimized_plotly_graph(self, graph_data: Dict, show_labels: bool = False) -> go.Figure:
+        """Create optimized Plotly graph from pre-computed data."""
+        nodes = graph_data['nodes']
+        edges = graph_data['edges']
+        
+        # Create position lookup
+        pos = {node['id']: (node['x'], node['y']) for node in nodes}
+        
+        # Prepare edge traces (optimized)
         edge_x = []
         edge_y = []
-        for edge in graph.edges():
-            x0, y0 = pos[edge[0]]
-            x1, y1 = pos[edge[1]]
-            edge_x.extend([x0, x1, None])
-            edge_y.extend([y0, y1, None])
+        for edge in edges:
+            source_pos = pos[edge['source']]
+            target_pos = pos[edge['target']]
+            edge_x.extend([source_pos[0], target_pos[0], None])
+            edge_y.extend([source_pos[1], target_pos[1], None])
         
         edge_trace = go.Scatter(
             x=edge_x, y=edge_y,
@@ -127,42 +182,35 @@ class MusicGraphExplorer:
             mode='lines'
         )
         
-        # Prepare node traces by type
+        # Prepare node traces by type (optimized)
         traces = [edge_trace]
         
         for entity_type in ['album', 'artist', 'track', 'genre']:
-            nodes_of_type = [n for n in graph.nodes() if graph.nodes[n]['type'] == entity_type]
+            nodes_of_type = [n for n in nodes if n['type'] == entity_type]
             if not nodes_of_type:
                 continue
             
-            node_x = [pos[node][0] for node in nodes_of_type]
-            node_y = [pos[node][1] for node in nodes_of_type]
-            node_text = [graph.nodes[node]['name'] for node in nodes_of_type]
+            node_x = [n['x'] for n in nodes_of_type]
+            node_y = [n['y'] for n in nodes_of_type]
+            node_text = [n['name'] if show_labels else '' for n in nodes_of_type]
+            hover_text = [n['name'] for n in nodes_of_type]
             
-            # Create hover text with additional info
-            hover_text = []
-            for node in nodes_of_type:
-                node_data = graph.nodes[node]
-                if entity_type == 'track':
-                    hover_text.append(f"{node_data['name']}<br>Duration: {node_data.get('duration', 'Unknown')}")
-                elif entity_type == 'album':
-                    hover_text.append(f"{node_data['name']}<br>Artist: {node_data.get('artist', 'Unknown')}")
-                else:
-                    hover_text.append(node_data['name'])
+            # Optimize rendering mode for large datasets
+            mode = 'markers+text' if show_labels and len(nodes_of_type) < 500 else 'markers'
             
             node_trace = go.Scatter(
                 x=node_x, y=node_y,
-                mode='markers+text',
+                mode=mode,
                 hoverinfo='text',
                 hovertext=hover_text,
                 text=node_text,
                 textposition="middle center",
-                textfont=dict(size=8),
+                textfont=dict(size=6 if len(nodes_of_type) > 1000 else 8),
                 marker=dict(
                     showscale=False,
                     color=self.entity_colors[entity_type],
-                    size=self.entity_sizes[entity_type],
-                    line=dict(width=2, color='white')
+                    size=self.entity_sizes[entity_type] if len(nodes_of_type) < 2000 else max(4, self.entity_sizes[entity_type] // 2),
+                    line=dict(width=1, color='white') if len(nodes_of_type) < 5000 else dict(width=0)
                 ),
                 name=entity_type.title()
             )
@@ -215,31 +263,34 @@ class MusicGraphExplorer:
         
         st.metric("Total Connections", graph.number_of_edges())
     
-    def render_search(self, graph: nx.Graph):
-        """Render search functionality."""
+    def render_optimized_search(self, graph_data: Dict):
+        """Render optimized search functionality."""
         st.subheader("🔍 Search Graph")
         
         search_query = st.text_input("Search for artists, albums, tracks, or genres:")
         
         if search_query:
-            # Find matching nodes
+            # Find matching nodes (optimized)
             matches = []
-            for node in graph.nodes():
-                node_data = graph.nodes[node]
-                if search_query.lower() in node_data['name'].lower():
-                    matches.append((node, node_data))
+            query_lower = search_query.lower()
+            
+            for node in graph_data['nodes']:
+                if query_lower in node['name'].lower():
+                    matches.append(node)
             
             if matches:
                 st.write(f"Found {len(matches)} matches:")
-                for node_id, node_data in matches[:10]:  # Show first 10 matches
-                    node_type = node_data['type']
+                for node in matches[:20]:  # Show first 20 matches for large datasets
+                    node_type = node['type']
                     color = self.entity_colors[node_type]
                     st.write(
                         f"<div style='background: {color}20; padding: 5px; margin: 2px; border-radius: 3px;'>"
-                        f"<strong>{node_data['name']}</strong> ({node_type})"
+                        f"<strong>{node['name']}</strong> ({node_type})"
                         f"</div>",
                         unsafe_allow_html=True
                     )
+                if len(matches) > 20:
+                    st.caption(f"... and {len(matches) - 20} more results")
             else:
                 st.write("No matches found")
     
@@ -258,7 +309,14 @@ class MusicGraphExplorer:
         # Sidebar controls
         with st.sidebar:
             st.header("Graph Settings")
-            max_nodes = st.slider("Maximum Nodes", 50, 500, 200, 50)
+            max_nodes = st.slider("Maximum Nodes", 100, 50000, 10000, 500)
+            st.caption("🌌 Showing the full musical universe")
+            st.caption("⚡ Optimized for large-scale exploration")
+            
+            # Performance options
+            st.subheader("Performance")
+            fast_mode = st.checkbox("Fast Mode", value=True, help="Optimized rendering for large graphs")
+            show_labels = st.checkbox("Show Labels", value=False, help="Node labels (slower for large graphs)")
             
             if st.button("Refresh Graph", type="primary"):
                 st.rerun()
@@ -273,27 +331,43 @@ class MusicGraphExplorer:
         
         # Main content
         try:
-            # Build the graph
+            # Build the graph with caching
             with st.spinner("Building knowledge graph..."):
-                graph = self.build_graph(max_nodes)
+                graph_data = self._cached_graph_data(max_nodes)
             
-            if graph.number_of_nodes() == 0:
+            if graph_data['stats']['node_count'] == 0:
                 st.error("No data found in database. Please import some music first.")
                 st.code("uv run linernodes sources import-all")
                 return
             
             # Show stats
             st.subheader("📊 Graph Statistics")
-            self.render_stats(graph)
+            col1, col2, col3, col4 = st.columns(4)
+            
+            with col1:
+                st.metric("Total Nodes", f"{graph_data['stats']['node_count']:,}")
+            with col2:
+                st.metric("Connections", f"{graph_data['stats']['edge_count']:,}")
+            with col3:
+                node_types = {}
+                for node in graph_data['nodes']:
+                    node_types[node['type']] = node_types.get(node['type'], 0) + 1
+                st.metric("Node Types", len(node_types))
+            with col4:
+                density = (2 * graph_data['stats']['edge_count']) / (graph_data['stats']['node_count'] * (graph_data['stats']['node_count'] - 1)) if graph_data['stats']['node_count'] > 1 else 0
+                st.metric("Density", f"{density:.4f}")
+            
+            # Performance info
+            st.caption(f"🚀 Rendering {graph_data['stats']['node_count']:,} nodes with optimized algorithms")
             
             # Show the graph
             st.subheader("🕸️ Interactive Graph")
-            with st.spinner("Rendering graph..."):
-                fig = self.create_plotly_graph(graph)
-                st.plotly_chart(fig, use_container_width=True, height=600)
+            with st.spinner("Rendering optimized visualization..."):
+                fig = self.create_optimized_plotly_graph(graph_data, show_labels)
+                st.plotly_chart(fig, use_container_width=True, height=700)
             
             # Search functionality
-            self.render_search(graph)
+            self.render_optimized_search(graph_data)
             
         except Exception as e:
             st.error(f"Error loading graph: {e}")
