@@ -91,50 +91,83 @@ class MusicGraphExplorer:
         
         return graph
     
-    @st.cache_data
-    def _cached_graph_data(_self, max_nodes: int) -> Dict:
-        """Cache expensive graph computation."""
-        graph = _self.build_graph(max_nodes)
+    def _get_graph_data(self, max_nodes: int) -> Dict:
+        """PERFORMANCE FIX: Use persistent file cache instead of memory cache."""
+        return self.db_manager.get_graph_data_bulk_cached(limit=max_nodes)
+    
+    def _build_positioned_graph_data(self, cached_data: Dict) -> Dict:
+        """Build graph with positions from cached SQL data."""
+        # Build NetworkX graph for layout computation only
+        graph = self._build_graph_from_cached_data(cached_data)
         
-        # Pre-compute layout positions
-        if graph.number_of_nodes() > 2000:
-            # Ultra-fast layout for massive graphs
-            pos = nx.random_layout(graph)
-        elif graph.number_of_nodes() > 1000:
-            # Fast layout for large graphs
-            pos = nx.spring_layout(graph, k=0.3, iterations=10)
-        else:
-            # Quality layout for smaller graphs
-            pos = nx.spring_layout(graph, k=1, iterations=30)
+        # Compute layout positions
+        pos = self._compute_layout_positions(graph)
         
-        # Convert to serializable format
+        # Convert to serializable format with positions
         nodes_data = []
-        edges_data = []
+        for node in cached_data['nodes']:
+            if node['id'] in pos:
+                x, y = pos[node['id']]
+                nodes_data.append({
+                    'id': node['id'],
+                    'name': node['name'],
+                    'type': node['type'],
+                    'x': float(x),
+                    'y': float(y)
+                })
         
-        for node_id, node_data in graph.nodes(data=True):
-            x, y = pos[node_id]
-            nodes_data.append({
-                'id': node_id,
-                'name': node_data['name'],
-                'type': node_data['type'],
-                'x': float(x),
-                'y': float(y)
-            })
-        
-        for source, target in graph.edges():
-            edges_data.append({
-                'source': source,
-                'target': target
-            })
+        edges_data = cached_data['edges']
         
         return {
             'nodes': nodes_data,
             'edges': edges_data,
-            'stats': {
-                'node_count': graph.number_of_nodes(),
-                'edge_count': graph.number_of_edges()
-            }
+            'stats': cached_data['stats']
         }
+    
+    def _build_graph_from_cached_data(self, cached_data: Dict) -> nx.Graph:
+        """Build NetworkX graph from cached data."""
+        graph = nx.Graph()
+        
+        nodes = cached_data['nodes']
+        edges = cached_data['edges']
+        
+        # Bulk operations using cached data
+        node_list = []
+        for node in nodes:
+            color = self.entity_colors.get(node['type'], '#888888')
+            size = self.entity_sizes.get(node['type'], 15)
+            
+            node_list.append((
+                node['id'],
+                {
+                    'name': node['name'],
+                    'type': node['type'],
+                    'color': color,
+                    'size': size
+                }
+            ))
+        
+        graph.add_nodes_from(node_list)
+        edge_list = [(edge['source'], edge['target']) for edge in edges]
+        graph.add_edges_from(edge_list)
+        
+        return graph
+    
+    def _compute_layout_positions(self, graph: nx.Graph) -> Dict:
+        """Compute layout positions with adaptive algorithms."""
+        node_count = graph.number_of_nodes()
+        
+        if node_count > 2000:
+            # Ultra-fast layout for massive graphs
+            pos = nx.random_layout(graph, seed=42)
+        elif node_count > 1000:
+            # Fast layout for large graphs  
+            pos = nx.spring_layout(graph, k=0.3, iterations=10, seed=42)
+        else:
+            # Quality layout for smaller graphs
+            pos = nx.spring_layout(graph, k=1, iterations=30, seed=42)
+        
+        return pos
     
     def create_optimized_plotly_graph(self, graph_data: Dict, show_labels: bool = False) -> go.Figure:
         """Create optimized Plotly graph from pre-computed data."""
@@ -297,6 +330,7 @@ class MusicGraphExplorer:
             show_labels = st.checkbox("Show Labels", value=False, help="Node labels (slower for large graphs)")
             
             if st.button("Refresh Graph", type="primary"):
+                self.db_manager.invalidate_graph_cache()
                 st.rerun()
             
             st.markdown("---")
@@ -309,9 +343,10 @@ class MusicGraphExplorer:
         
         # Main content
         try:
-            # Build the graph with caching
-            with st.spinner("Building knowledge graph..."):
-                graph_data = self._cached_graph_data(max_nodes)
+            # Build the graph with persistent caching
+            with st.spinner("Loading knowledge graph..."):
+                graph_data = self._get_graph_data(max_nodes)
+                positioned_data = self._build_positioned_graph_data(graph_data)
             
             if graph_data['stats']['node_count'] == 0:
                 st.error("No data found in database. Please import some music first.")

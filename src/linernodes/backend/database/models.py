@@ -8,6 +8,9 @@ from datetime import datetime, date
 from typing import Optional, List, Dict, Any, Union
 from pathlib import Path
 import json
+import pickle
+import hashlib
+import os
 
 from .database import LinerDatabase
 
@@ -275,6 +278,8 @@ class DatabaseManager:
     
     def __init__(self, db_path: Optional[Path] = None):
         self.db = LinerDatabase(db_path)
+        # Register automatic cache invalidation on data changes
+        self.db.register_cache_invalidation_callback(self.invalidate_graph_cache)
     
     def search_music(self, query: str, limit: int = 50) -> List[Track]:
         """Search for tracks across the database."""
@@ -402,6 +407,94 @@ class DatabaseManager:
             
             cursor = conn.execute(query, params)
             return [dict(row) for row in cursor.fetchall()]
+    
+    def get_graph_cache_path(self) -> Path:
+        """Get path for persistent graph cache."""
+        cache_dir = Path.home() / ".cache" / "linernodes"
+        cache_dir.mkdir(parents=True, exist_ok=True)
+        return cache_dir / "graph_cache.pkl"
+    
+    def get_database_fingerprint(self) -> str:
+        """Get fingerprint of database state for cache invalidation."""
+        with self.db.connection() as conn:
+            # Get row counts and last modification times
+            tables_info = conn.execute("""
+                SELECT name, 
+                       (SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name=tables.name) as count
+                FROM (VALUES ('albums'), ('tracks'), ('artists')) as tables(name)
+            """).fetchall()
+            
+            # Add database file modification time
+            db_stat = os.stat(self.db.db_path)
+            fingerprint_data = {
+                'tables': dict(tables_info),
+                'db_mtime': db_stat.st_mtime,
+                'db_size': db_stat.st_size
+            }
+            
+            return hashlib.md5(str(fingerprint_data).encode()).hexdigest()
+    
+    def get_cached_graph_data(self, max_nodes: int = 5000) -> Optional[Dict]:
+        """Get pre-computed graph data from persistent cache."""
+        cache_path = self.get_graph_cache_path()
+        
+        if not cache_path.exists():
+            return None
+            
+        try:
+            with open(cache_path, 'rb') as f:
+                cached = pickle.load(f)
+            
+            # Check if cache is still valid
+            current_fingerprint = self.get_database_fingerprint()
+            if cached.get('fingerprint') != current_fingerprint:
+                return None  # Cache is stale
+                
+            # Check if cached data has enough nodes
+            if cached.get('max_nodes', 0) < max_nodes:
+                return None  # Need more nodes
+                
+            return cached.get('data')
+            
+        except Exception:
+            # Cache corrupted, remove it
+            cache_path.unlink(missing_ok=True)
+            return None
+    
+    def cache_graph_data(self, data: Dict, max_nodes: int):
+        """Store graph data in persistent cache."""
+        cache_path = self.get_graph_cache_path()
+        
+        cached = {
+            'data': data,
+            'fingerprint': self.get_database_fingerprint(),
+            'max_nodes': max_nodes,
+            'created_at': datetime.now().isoformat()
+        }
+        
+        try:
+            with open(cache_path, 'wb') as f:
+                pickle.dump(cached, f)
+        except Exception as e:
+            print(f"Warning: Could not cache graph data: {e}")
+    
+    def invalidate_graph_cache(self):
+        """Invalidate the persistent graph cache."""
+        cache_path = self.get_graph_cache_path()
+        cache_path.unlink(missing_ok=True)
+    
+    def get_graph_data_bulk_cached(self, limit: int = 5000) -> Dict:
+        """Get bulk graph data with persistent caching."""
+        # Try to get from cache first
+        cached_data = self.get_cached_graph_data(limit)
+        if cached_data:
+            return cached_data
+        
+        # Cache miss - compute and store
+        data = self.get_graph_data_bulk(limit)
+        self.cache_graph_data(data, limit)
+        
+        return data
     
     def find_or_create_artist(self, name: str, mbid: Optional[str] = None) -> Artist:
         """Find existing artist or create new one."""

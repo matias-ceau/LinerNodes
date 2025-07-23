@@ -33,7 +33,20 @@ class LinerDatabase:
             db_path = data_dir / "music.db"
         
         self.db_path = Path(db_path)
+        self._cache_invalidation_callbacks = []
         self._ensure_database()
+    
+    def register_cache_invalidation_callback(self, callback):
+        """Register a callback to be called when data changes."""
+        self._cache_invalidation_callbacks.append(callback)
+    
+    def _invalidate_caches(self):
+        """Call all registered cache invalidation callbacks."""
+        for callback in self._cache_invalidation_callbacks:
+            try:
+                callback()
+            except Exception as e:
+                logger.warning(f"Cache invalidation callback failed: {e}")
     
     def _ensure_database(self):
         """Create database and tables if they don't exist."""
@@ -476,6 +489,7 @@ class LinerDatabase:
                     kwargs.get('mbid')
                 )
             )
+            self._invalidate_caches()  # Invalidate graph cache on data change
             return cursor.lastrowid
     
     def add_album(self, title: str, **kwargs) -> int:
@@ -501,6 +515,7 @@ class LinerDatabase:
                     kwargs.get('mbid')
                 )
             )
+            self._invalidate_caches()  # Invalidate graph cache on data change
             return cursor.lastrowid
     
     def add_track(self, title: str, album_id: int, **kwargs) -> int:
@@ -529,6 +544,7 @@ class LinerDatabase:
                     kwargs.get('mbid')
                 )
             )
+            self._invalidate_caches()  # Invalidate graph cache on data change
             return cursor.lastrowid
     
     def add_source(self, track_id: int, source_type: str, source_id: str, **kwargs) -> int:
@@ -551,6 +567,7 @@ class LinerDatabase:
                     kwargs.get('last_verified')
                 )
             )
+            self._invalidate_caches()  # Invalidate graph cache on data change
             return cursor.lastrowid
     
     # Search and query methods
