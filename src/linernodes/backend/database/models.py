@@ -417,12 +417,14 @@ class DatabaseManager:
     def get_database_fingerprint(self) -> str:
         """Get fingerprint of database state for cache invalidation."""
         with self.db.connection() as conn:
-            # Get row counts and last modification times
-            tables_info = conn.execute("""
-                SELECT name, 
-                       (SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name=tables.name) as count
-                FROM (VALUES ('albums'), ('tracks'), ('artists')) as tables(name)
-            """).fetchall()
+            # Get row counts for key tables
+            tables_info = []
+            for table in ['albums', 'tracks', 'artists']:
+                try:
+                    count = conn.execute(f"SELECT COUNT(*) FROM {table}").fetchone()[0]
+                    tables_info.append((table, count))
+                except:
+                    tables_info.append((table, 0))
             
             # Add database file modification time
             db_stat = os.stat(self.db.db_path)
