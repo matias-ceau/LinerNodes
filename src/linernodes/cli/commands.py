@@ -4,6 +4,7 @@ import uvicorn
 import subprocess
 from pathlib import Path
 from datetime import datetime
+import sys
 
 from linernodes.backend.player.mpd_controller import MpdController
 from linernodes.config.config_manager import ConfigManager
@@ -556,7 +557,7 @@ def web(ctx: click.Context, port: int) -> None:
     
     # Run streamlit with the web interface
     subprocess.run([
-        "streamlit", "run", str(web_script), 
+        sys.executable, "-m", "streamlit", "run", str(web_script), 
         "--server.port", str(port),
         "--server.headless", "true"
     ])
@@ -575,7 +576,7 @@ def graph(ctx: click.Context, port: int) -> None:
     
     # Run streamlit with the graph explorer
     subprocess.run([
-        "streamlit", "run", str(graph_script),
+        sys.executable, "-m", "streamlit", "run", str(graph_script),
         "--server.port", str(port),
         "--server.headless", "true"
     ])

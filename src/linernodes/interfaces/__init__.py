@@ -207,13 +207,13 @@ Future support for interface plugins:
 
 # Interface imports for common usage
 from .web import WebInterface
-from .tui import TuiInterface  
 from .graph_explorer import MusicGraphExplorer
-from .mcp_server import MCPServer
+
+# Note: TUI and MCP interfaces are works in progress
+# from .tui import TuiInterface  
+# from .mcp_server import MCPServer
 
 __all__ = [
     "WebInterface",
-    "TuiInterface",
     "MusicGraphExplorer", 
-    "MCPServer",
 ]

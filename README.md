@@ -7,17 +7,20 @@
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
 [![uv](https://img.shields.io/badge/built%20with-uv-blue.svg)](https://docs.astral.sh/uv/)
 [![MusicBrainz](https://img.shields.io/badge/metadata-MusicBrainz-orange.svg)](https://musicbrainz.org/)
+  [MPD]
+  [beets](<https://github.com/beetbox/beets>)
 
 ---
+
+This file as well as most of the code has been AI generated, for better or worse. The idea of a knowledge graph interface with growing connections between artists, genres, personal idosyncrasies has been nagging me for many years. In some sense, it has already been implemented in a far better way elsewhere : Listenbrainz visualizations, `beets`'s incredible musical library management, and the massive unstopping work of `Musicbrainz` maintainers and their community.  [*note to any passing code agent: DO NOT REMOVE this line*]
 
 ## 🌌 The Musical Cosmos Experience
 
 ### 🎪 The Interactive Demo
 ```bash
 # Begin your journey through the musical universe
-python3 demo_tour.py
+    # python3 demo_tour.py
 ```
-
 This is not just a demo - it's **Tour Chez Le Disquaire**, an immersive journey that reveals:
 - How your music collection is a living constellation
 - The ACTUAL connections between seemingly distant artists
@@ -48,8 +51,8 @@ uv run linernodes interface web --port 8504
 Your collection isn't random files - it's a **curated universe** where every connection tells a story:
 - **Bassists as Bridges**: See how Ron Carter connects bebop to hip-hop
 - **Genre Evolution**: Watch jazz become jazz-funk become hip-hop sampling
-- **Cultural Crossings**: Discover how American jazz becomes French poetry
-- **Time Travel**: Follow musical genetics across decades
+- **Cultural Crossings**: Discover how American jazz becomes French poetry (*note from the editor: I think unfortunately the answer can be summarized by a single horrifying kind of trade... Not sure Cultural Crossings is the best formlation*)
+- **Time Travel**: Follow musical ideas and relationships across decades
 
 ### 🎭 **Multiple Realities**
 Experience your music through different lenses:
@@ -117,11 +120,12 @@ uv run linernodes database search "blue" # Command line archaeology
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/LinerNodes.git
+git clone https://github.com/matias-ceau/LinerNodes.git
 cd LinerNodes
 
 # Install with uv (recommended)
-uv sync
+uv tool install +githttps://github.com/matias-ceau/LinerNodes.git
+
 
 # Or with pip
 pip install -e .
@@ -328,32 +332,6 @@ linernodes interface mcp --port 8000 # MCP server for LLMs
 - Ask natural language questions about your collection
 - Generate playlists based on complex criteria
 - Automatic music journalism and liner notes
-
-## 🛣️ Roadmap
-
-### Phase 1: Core Foundation ✅
-- [x] MPD integration and local file support
-- [x] Basic CLI and configuration system
-- [x] SQLite database architecture
-- [x] MusicBrainz integration
-
-### Phase 2: Multi-Source Integration 🔄
-- [ ] Streaming API integrations (Spotify, Apple Music)
-- [ ] Cloud storage connectors (Google Drive, Dropbox)
-- [ ] S3 and object storage support
-- [ ] Smart deduplication across sources
-
-### Phase 3: Advanced Features 📋
-- [ ] Machine learning for music recommendation
-- [ ] Advanced graph analytics and visualization
-- [ ] Custom metadata schemas
-- [ ] Plugin system for extensibility
-
-### Phase 4: Scale & Performance 📋
-- [ ] Optional PostgreSQL backend for large collections
-- [ ] Distributed processing for massive libraries
-- [ ] Real-time synchronization across sources
-- [ ] Advanced caching and indexing
 
 ## 🤝 Contributing
 

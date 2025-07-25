@@ -216,6 +216,83 @@ uv run linernodes interface graph
 ## Memories
 - Reference for metadata is MusicBrainz
 
+# Performance Optimization Work Plan
+
+**Reference Document**: See detailed analysis in `PERFORMANCE_ARCHITECTURE_PLAN.md`
+
+## 🚨 Current Issue
+- **68% CPU usage** on graph interface due to MusicBrainz API rate limits (1/s) + SQLite N+1 queries
+- **Target**: <10% CPU, <3s load time for 2K nodes, zero external API calls during visualization
+
+## 🗄️ **DATABASE LAYER** 
+   ### **WORKER A** - Database Performance
+   #### **db1** - Add performance indexes
+   │   ├─ **db1a** - `albums.artist_credit` index
+   │   ├─ **db1b** - `tracks.album_id` index  
+   │   └─ **db1c** - `tracks.title` index
+   │
+   #### **db2** - Create materialized view
+   │   ├─ **db2a** - `graph_relationships` view
+   │   └─ **db2b** - album→artist→track patterns
+   │
+   #### **db3** - Bulk query methods
+       ├─ **db3a** - `get_graph_data_bulk(limit)`
+       └─ **db3b** - `get_relationships_batch()`
+
+## 🕸️ **GRAPH BUILDER**
+   ### **WORKER B** - Graph Construction  
+   #### **graph1** - Fix N+1 queries
+   │   ├─ **graph1a** - Replace `get_album_tracks()` loops
+   │   └─ **graph1b** - Single bulk data fetch
+   │
+   #### **graph2** - NetworkX optimization
+   │   ├─ **graph2a** - `graph.add_nodes_from()` bulk
+   │   └─ **graph2b** - `graph.add_edges_from()` bulk  
+   │
+   #### **graph3** - Smart sampling
+       ├─ **graph3a** - Top albums by track count
+       └─ **graph3b** - Diverse artist selection
+
+## ⚡ **CACHE LAYER**
+   ### **WORKER C** - Caching Strategy
+   #### **cache1** - SQL-level caching
+   │   ├─ **cache1a** - Move `@st.cache_data` to query results
+   │   └─ **cache1b** - Remove NetworkX object caching
+   │
+   #### **cache2** - Cache invalidation
+       ├─ **cache2a** - Database change detection
+       └─ **cache2b** - Incremental cache updates
+
+## 🖥️ **INTERFACE LAYER**  
+   ### **WORKER D** - UI Optimization
+   #### **ui1** - Remove external API calls
+   │   ├─ **ui1a** - Strip MusicBrainz imports
+   │   └─ **ui1b** - Local-only data pipeline
+   │
+   #### **ui2** - Performance monitoring
+       ├─ **ui2a** - Build time metrics
+       ├─ **ui2b** - CPU/memory dashboard
+       └─ **ui2c** - Node count statistics
+
+## 🧪 **TESTING & VALIDATION**
+   ### **WORKER E** - Quality Assurance
+   #### **test1** - Performance benchmarks  
+   │   ├─ **test1a** - Before/after CPU comparison
+   │   ├─ **test1b** - Memory usage analysis
+   │   └─ **test1c** - Load time measurements
+   │
+   #### **test2** - Data integrity validation
+       ├─ **test2a** - Graph structure verification
+       ├─ **test2b** - Relationship accuracy check
+       └─ **test2c** - Node count validation
+
+## 📋 **EXECUTION DEPENDENCY**
+```
+DATABASE (A) ──┐
+               ├─→ GRAPH BUILDER (B) ──┐
+CACHE (C) ─────┘                       ├─→ INTERFACE (D) ──→ TESTING (E)
+```
+
 # important-instruction-reminders
 Do what has been asked; nothing more, nothing less.
 NEVER create files unless they're absolutely necessary for achieving your goal.
