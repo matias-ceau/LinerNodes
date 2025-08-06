@@ -6,6 +6,20 @@ from pathlib import Path
 from datetime import datetime
 import sys
 
+# ---- Global completion flag support (uses Click builtin completion) ----
+# Provide a custom parameter type to strictly validate allowed shells.
+class _CompletionShell(click.ParamType):
+    name = "shell"
+    _choices = ("bash", "zsh", "fish")
+
+    def convert(self, value, param, ctx):
+        if value in self._choices:
+            return value
+        self.fail(f"invalid choice: {value}. (choose from {', '.join(self._choices)})", param, ctx)
+
+
+_COMPLETION_SHELL = _CompletionShell()
+
 # Test-facing shims re-exported for patching in tests
 # MarkdownCardGenerator import with fallback (must provide generate_card)
 try:
@@ -61,10 +75,38 @@ from linernodes.config.config_manager import ConfigManager
 # Actual definitions are inserted after the cli() function below.
 
 
-@click.group()
+@click.group(context_settings=dict(help_option_names=["-h", "--help"]))
+@click.option(
+    "--completion",
+    "completion_shell",
+    metavar="SHELL",
+    type=_COMPLETION_SHELL,
+    required=False,
+    help="Print shell completion script for SHELL (bash|zsh|fish) and exit.\n"
+         "Usage: linernodes --completion bash",
+    is_eager=True,
+    expose_value=True,
+)
 @click.pass_context
-def cli(ctx: click.Context) -> None:
+def cli(ctx: click.Context, completion_shell: Optional[str]) -> None:
     """LinerNodes CLI - MPD music player interface."""
+    # Handle completion script emission early and exit
+    if completion_shell:
+        # Use Click's builtin completion script generator
+        prog_name = "linernodes"
+        try:
+            script = click.shell_completion._get_completion_script(prog_name, shell=completion_shell)  # type: ignore[attr-defined]
+        except Exception:
+            # Fallback: use public API if available (Click >=8.1)
+            try:
+                from click.shell_completion import get_completion_script  # type: ignore
+                script = get_completion_script(prog_name, shell=completion_shell)
+            except Exception as e:
+                raise click.ClickException(f"Failed to generate completion script: {e}")
+        click.echo(script)
+        # Exit after printing completion
+        raise SystemExit(0)
+
     # Store the options in the context for use in subcommands
     ctx.ensure_object(dict)
 
