@@ -1,0 +1,280 @@
+/home/matias/git/matias-ceau/LinerNodes/scripts/quick_performance_test.py
+  /home/matias/git/matias-ceau/LinerNodes/scripts/quick_performance_test.py:20:27 - error: Cannot access attribute "_cached_graph_data" for class "MusicGraphExplorer"
+    Attribute "_cached_graph_data" is unknown (reportAttributeAccessIssue)
+/home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/database/database.py
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/database/database.py:493:20 - error: Type "int | None" is not assignable to return type "int"
+    Type "int | None" is not assignable to type "int"
+      "None" is not assignable to "int" (reportReturnType)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/database/database.py:519:20 - error: Type "int | None" is not assignable to return type "int"
+    Type "int | None" is not assignable to type "int"
+      "None" is not assignable to "int" (reportReturnType)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/database/database.py:548:20 - error: Type "int | None" is not assignable to return type "int"
+    Type "int | None" is not assignable to type "int"
+      "None" is not assignable to "int" (reportReturnType)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/database/database.py:571:20 - error: Type "int | None" is not assignable to return type "int"
+    Type "int | None" is not assignable to type "int"
+      "None" is not assignable to "int" (reportReturnType)
+/home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/database/models.py
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/database/models.py:388:63 - error: Expression of type "None" cannot be assigned to parameter of type "List[str]"
+    "None" is not assignable to "List[str]" (reportArgumentType)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/database/models.py:567:22 - error: Argument of type "int | None" cannot be assigned to parameter "album_id" of type "int" in function "__init__"
+    Type "int | None" is not assignable to type "int"
+      "None" is not assignable to "int" (reportArgumentType)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/database/models.py:581:22 - error: Argument of type "int | None" cannot be assigned to parameter "track_id" of type "int" in function "__init__"
+    Type "int | None" is not assignable to type "int"
+      "None" is not assignable to "int" (reportArgumentType)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/database/models.py:598:13 - error: Argument of type "float" cannot be assigned to parameter "value" of type "int" in function "__setitem__"
+    "float" is not assignable to "int" (reportArgumentType)
+/home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/player/mpd_config.py
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/player/mpd_config.py:19:41 - error: Cannot access attribute "config_dir" for class "ConfigManager"
+    Attribute "config_dir" is unknown (reportAttributeAccessIssue)
+/home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/player/mpd_controller.py
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/player/mpd_controller.py:244:21 - error: Cannot access attribute "update" for class "MPDClient"
+    Attribute "update" is unknown (reportAttributeAccessIssue)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/player/mpd_controller.py:248:28 - error: Cannot access attribute "status" for class "MPDClient"
+    Attribute "status" is unknown (reportAttributeAccessIssue)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/player/mpd_controller.py:252:28 - error: Cannot access attribute "playlistinfo" for class "MPDClient"
+    Attribute "playlistinfo" is unknown (reportAttributeAccessIssue)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/player/mpd_controller.py:257:25 - error: Cannot access attribute "play" for class "MPDClient"
+    Attribute "play" is unknown (reportAttributeAccessIssue)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/player/mpd_controller.py:259:25 - error: Cannot access attribute "play" for class "MPDClient"
+    Attribute "play" is unknown (reportAttributeAccessIssue)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/player/mpd_controller.py:262:21 - error: Cannot access attribute "pause" for class "MPDClient"
+    Attribute "pause" is unknown (reportAttributeAccessIssue)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/player/mpd_controller.py:266:21 - error: Cannot access attribute "stop" for class "MPDClient"
+    Attribute "stop" is unknown (reportAttributeAccessIssue)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/player/mpd_controller.py:270:21 - error: Cannot access attribute "next" for class "MPDClient"
+    Attribute "next" is unknown (reportAttributeAccessIssue)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/player/mpd_controller.py:274:21 - error: Cannot access attribute "previous" for class "MPDClient"
+    Attribute "previous" is unknown (reportAttributeAccessIssue)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/player/mpd_controller.py:278:21 - error: Cannot access attribute "setvol" for class "MPDClient"
+    Attribute "setvol" is unknown (reportAttributeAccessIssue)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/player/mpd_controller.py:281:21 - error: Cannot access attribute "add" for class "MPDClient"
+    Attribute "add" is unknown (reportAttributeAccessIssue)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/player/mpd_controller.py:284:21 - error: Cannot access attribute "clear" for class "MPDClient"
+    Attribute "clear" is unknown (reportAttributeAccessIssue)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/player/mpd_controller.py:287:28 - error: Cannot access attribute "currentsong" for class "MPDClient"
+    Attribute "currentsong" is unknown (reportAttributeAccessIssue)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/player/mpd_controller.py:291:28 - error: Cannot access attribute "listall" for class "MPDClient"
+    Attribute "listall" is unknown (reportAttributeAccessIssue)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/player/mpd_controller.py:295:29 - error: Cannot access attribute "listall" for class "MPDClient"
+    Attribute "listall" is unknown (reportAttributeAccessIssue)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/player/mpd_controller.py:305:29 - error: Cannot access attribute "listall" for class "MPDClient"
+    Attribute "listall" is unknown (reportAttributeAccessIssue)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/player/mpd_controller.py:317:29 - error: Cannot access attribute "listall" for class "MPDClient"
+    Attribute "listall" is unknown (reportAttributeAccessIssue)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/player/mpd_controller.py:321:29 - error: Cannot access attribute "add" for class "MPDClient"
+    Attribute "add" is unknown (reportAttributeAccessIssue)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/player/mpd_controller.py:339:25 - error: Cannot access attribute "close" for class "MPDClient"
+    Attribute "close" is unknown (reportAttributeAccessIssue)
+/home/matias/git/matias-ceau/LinerNodes/src/linernodes/cli/commands.py
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/cli/commands.py:146:5 - error: Function declaration "search" is obscured by a declaration of the same name (reportRedeclaration)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/cli/commands.py:212:36 - error: Cannot access attribute "status" for class "MPDClient"
+    Attribute "status" is unknown (reportAttributeAccessIssue)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/cli/commands.py:267:38 - error: Cannot access attribute "playlistinfo" for class "MPDClient"
+    Attribute "playlistinfo" is unknown (reportAttributeAccessIssue)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/cli/commands.py:268:42 - error: Cannot access attribute "currentsong" for class "MPDClient"
+    Attribute "currentsong" is unknown (reportAttributeAccessIssue)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/cli/commands.py:534:12 - error: Type "bool" is not assignable to return type "None"
+    "bool" is not assignable to "None" (reportReturnType)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/cli/commands.py:642:5 - error: Function declaration "status" is obscured by a declaration of the same name (reportRedeclaration)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/cli/commands.py:651:40 - error: Cannot access attribute "status" for class "MPDClient"
+    Attribute "status" is unknown (reportAttributeAccessIssue)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/cli/commands.py:1066:56 - error: Expression of type "None" cannot be assigned to parameter of type "str"
+    "None" is not assignable to "str" (reportArgumentType)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/cli/commands.py:1106:67 - error: Argument of type "int | None" cannot be assigned to parameter "album_id" of type "int" in function "get_album_tracks"
+    Type "int | None" is not assignable to type "int"
+      "None" is not assignable to "int" (reportArgumentType)
+/home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/fast_graph_explorer.py
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/fast_graph_explorer.py:198:17 - error: Operator "+=" not supported for types "Unknown | tuple[Unknown, ...] | Scatter | None" and "tuple[Incomplete, Incomplete, None]"
+    Operator "+" not supported for types "None" and "tuple[Incomplete, Incomplete, None]"
+    Operator "+" not supported for types "Scatter" and "tuple[Incomplete, Incomplete, None]" (reportOperatorIssue)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/fast_graph_explorer.py:199:17 - error: Operator "+=" not supported for types "Unknown | tuple[Unknown, ...] | Scatter | None" and "tuple[Incomplete, Incomplete, None]"
+    Operator "+" not supported for types "None" and "tuple[Incomplete, Incomplete, None]"
+    Operator "+" not supported for types "Scatter" and "tuple[Incomplete, Incomplete, None]" (reportOperatorIssue)
+/home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/mcp_server.py
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/mcp_server.py:43:36 - error: Cannot access attribute "status" for class "MPDClient"
+    Attribute "status" is unknown (reportAttributeAccessIssue)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/mcp_server.py:83:27 - error: Cannot access attribute "stop" for class "MPDClient"
+    Attribute "stop" is unknown (reportAttributeAccessIssue)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/mcp_server.py:93:27 - error: Cannot access attribute "next" for class "MPDClient"
+    Attribute "next" is unknown (reportAttributeAccessIssue)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/mcp_server.py:103:27 - error: Cannot access attribute "previous" for class "MPDClient"
+    Attribute "previous" is unknown (reportAttributeAccessIssue)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/mcp_server.py:116:27 - error: Cannot access attribute "setvol" for class "MPDClient"
+    Attribute "setvol" is unknown (reportAttributeAccessIssue)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/mcp_server.py:126:27 - error: Cannot access attribute "update" for class "MPDClient"
+    Attribute "update" is unknown (reportAttributeAccessIssue)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/mcp_server.py:136:38 - error: Cannot access attribute "playlistinfo" for class "MPDClient"
+    Attribute "playlistinfo" is unknown (reportAttributeAccessIssue)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/mcp_server.py:147:37 - error: Cannot access attribute "search" for class "MPDClient"
+    Attribute "search" is unknown (reportAttributeAccessIssue)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/mcp_server.py:189:16 - error: Cannot access attribute "get_app" for class "FastMCP[Unknown]"
+    Attribute "get_app" is unknown (reportAttributeAccessIssue)
+/home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/tui.py
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/tui.py:143:45 - error: Cannot access attribute "status" for class "MPDClient"
+    Attribute "status" is unknown (reportAttributeAccessIssue)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/tui.py:183:45 - error: Cannot access attribute "status" for class "MPDClient"
+    Attribute "status" is unknown (reportAttributeAccessIssue)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/tui.py:194:36 - error: Cannot access attribute "next" for class "MPDClient"
+    Attribute "next" is unknown (reportAttributeAccessIssue)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/tui.py:200:36 - error: Cannot access attribute "previous" for class "MPDClient"
+    Attribute "previous" is unknown (reportAttributeAccessIssue)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/tui.py:206:36 - error: Cannot access attribute "stop" for class "MPDClient"
+    Attribute "stop" is unknown (reportAttributeAccessIssue)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/tui.py:212:36 - error: Cannot access attribute "update" for class "MPDClient"
+    Attribute "update" is unknown (reportAttributeAccessIssue)
+/home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/web.py
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/web.py:43:45 - error: Cannot access attribute "status" for class "MPDClient"
+    Attribute "status" is unknown (reportAttributeAccessIssue)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/web.py:110:44 - error: Cannot access attribute "previous" for class "MPDClient"
+    Attribute "previous" is unknown (reportAttributeAccessIssue)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/web.py:120:53 - error: Cannot access attribute "status" for class "MPDClient"
+    Attribute "status" is unknown (reportAttributeAccessIssue)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/web.py:135:44 - error: Cannot access attribute "next" for class "MPDClient"
+    Attribute "next" is unknown (reportAttributeAccessIssue)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/web.py:145:44 - error: Cannot access attribute "stop" for class "MPDClient"
+    Attribute "stop" is unknown (reportAttributeAccessIssue)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/web.py:155:44 - error: Cannot access attribute "update" for class "MPDClient"
+    Attribute "update" is unknown (reportAttributeAccessIssue)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/web.py:166:57 - error: Cannot access attribute "status" for class "MPDClient"
+    Attribute "status" is unknown (reportAttributeAccessIssue)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/web.py:170:40 - error: Cannot access attribute "setvol" for class "MPDClient"
+    Attribute "setvol" is unknown (reportAttributeAccessIssue)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/web.py:183:47 - error: Cannot access attribute "playlistinfo" for class "MPDClient"
+    Attribute "playlistinfo" is unknown (reportAttributeAccessIssue)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/web.py:196:52 - error: Cannot access attribute "play" for class "MPDClient"
+    Attribute "play" is unknown (reportAttributeAccessIssue)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/web.py:239:50 - error: Cannot access attribute "search" for class "MPDClient"
+    Attribute "search" is unknown (reportAttributeAccessIssue)
+/home/matias/git/matias-ceau/LinerNodes/src/linernodes/knowledge_graph/graph_db.py
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/knowledge_graph/graph_db.py:223:20 - error: Type "list[BaseEntity | None]" is not assignable to return type "List[Album]" (reportReturnType)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/knowledge_graph/graph_db.py:240:20 - error: Type "list[BaseEntity | None]" is not assignable to return type "List[BaseEntity]" (reportReturnType)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/knowledge_graph/graph_db.py:312:20 - error: Type "list[BaseEntity | None]" is not assignable to return type "List[BaseEntity]" (reportReturnType)
+/home/matias/git/matias-ceau/LinerNodes/src/linernodes/knowledge_graph/models.py
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/knowledge_graph/models.py:51:28 - error: Type "None" is not assignable to declared type "datetime"
+    "None" is not assignable to "datetime" (reportAssignmentType)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/knowledge_graph/models.py:52:28 - error: Type "None" is not assignable to declared type "datetime"
+    "None" is not assignable to "datetime" (reportAssignmentType)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/knowledge_graph/models.py:53:32 - error: Type "None" is not assignable to declared type "Dict[str, Any]"
+    "None" is not assignable to "Dict[str, Any]" (reportAssignmentType)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/knowledge_graph/models.py:78:25 - error: Type "None" is not assignable to declared type "List[str]"
+    "None" is not assignable to "List[str]" (reportAssignmentType)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/knowledge_graph/models.py:79:29 - error: Type "None" is not assignable to declared type "List[str]"
+    "None" is not assignable to "List[str]" (reportAssignmentType)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/knowledge_graph/models.py:109:32 - error: Type "None" is not assignable to declared type "List[str]"
+    "None" is not assignable to "List[str]" (reportAssignmentType)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/knowledge_graph/models.py:110:31 - error: Type "None" is not assignable to declared type "List[str]"
+    "None" is not assignable to "List[str]" (reportAssignmentType)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/knowledge_graph/models.py:142:30 - error: Type "None" is not assignable to declared type "List[str]"
+    "None" is not assignable to "List[str]" (reportAssignmentType)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/knowledge_graph/models.py:143:24 - error: Type "None" is not assignable to declared type "List[str]"
+    "None" is not assignable to "List[str]" (reportAssignmentType)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/knowledge_graph/models.py:173:34 - error: Type "None" is not assignable to declared type "Dict[str, Any]"
+    "None" is not assignable to "Dict[str, Any]" (reportAssignmentType)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/knowledge_graph/models.py:176:28 - error: Type "None" is not assignable to declared type "datetime"
+    "None" is not assignable to "datetime" (reportAssignmentType)
+/home/matias/git/matias-ceau/LinerNodes/src/linernodes/knowledge_graph/musicbrainz_integration.py
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/knowledge_graph/musicbrainz_integration.py:48:24 - error: Type "BaseEntity" is not assignable to return type "Album | None"
+    Type "BaseEntity" is not assignable to type "Album | None"
+      "BaseEntity" is not assignable to "Album"
+      "BaseEntity" is not assignable to "None" (reportReturnType)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/knowledge_graph/musicbrainz_integration.py:84:24 - error: Type "BaseEntity" is not assignable to return type "Artist | None"
+    Type "BaseEntity" is not assignable to type "Artist | None"
+      "BaseEntity" is not assignable to "Artist"
+      "BaseEntity" is not assignable to "None" (reportReturnType)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/knowledge_graph/musicbrainz_integration.py:232:24 - error: Argument of type "None" cannot be assigned to parameter "id" of type "str" in function "__init__"
+    "None" is not assignable to "str" (reportArgumentType)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/knowledge_graph/musicbrainz_integration.py:270:24 - error: Argument of type "None" cannot be assigned to parameter "id" of type "str" in function "__init__"
+    "None" is not assignable to "str" (reportArgumentType)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/knowledge_graph/musicbrainz_integration.py:305:20 - error: Argument of type "None" cannot be assigned to parameter "id" of type "str" in function "__init__"
+    "None" is not assignable to "str" (reportArgumentType)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/knowledge_graph/musicbrainz_integration.py:333:28 - error: Argument of type "None" cannot be assigned to parameter "id" of type "str" in function "__init__"
+    "None" is not assignable to "str" (reportArgumentType)
+/home/matias/git/matias-ceau/LinerNodes/src/linernodes/sources/local_files.py
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/sources/local_files.py:13:29 - error: "ID3NoHeaderError" is not exported from module "mutagen.id3"
+    Import from "mutagen.id3._util" instead (reportPrivateImportUsage)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/sources/local_files.py:49:25 - error: Cannot access attribute "exists" for class "str"
+    Attribute "exists" is unknown (reportAttributeAccessIssue)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/sources/local_files.py:49:43 - error: Cannot access attribute "is_dir" for class "str"
+    Attribute "is_dir" is unknown (reportAttributeAccessIssue)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/sources/local_files.py:56:30 - error: Cannot access attribute "exists" for class "str"
+    Attribute "exists" is unknown (reportAttributeAccessIssue)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/sources/local_files.py:63:49 - error: Argument of type "Any | str | Path" cannot be assigned to parameter "directory" of type "Path" in function "_scan_directory"
+    Type "Any | str | Path" is not assignable to type "Path"
+      "str" is not assignable to "Path" (reportArgumentType)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/sources/local_files.py:162:26 - error: "mutagen" is possibly unbound (reportPossiblyUnboundVariable)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/sources/local_files.py:162:34 - error: "File" is not exported from module "mutagen" (reportPrivateImportUsage)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/sources/local_files.py:173:39 - error: "update" is not a known attribute of "None" (reportOptionalMemberAccess)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/sources/local_files.py:200:45 - error: Argument of type "Unknown | list[Unknown]" cannot be assigned to parameter "x" of type "ConvertibleToInt" in function "__new__"
+    Type "Unknown | list[Unknown]" is not assignable to type "ConvertibleToInt"
+      Type "list[Unknown]" is not assignable to type "ConvertibleToInt"
+        "list[Unknown]" is not assignable to "str"
+        "list[Unknown]" is incompatible with protocol "Buffer"
+          "__buffer__" is not present
+        "list[Unknown]" is incompatible with protocol "SupportsInt"
+          "__int__" is not present
+        "list[Unknown]" is incompatible with protocol "SupportsIndex"
+    ... (reportArgumentType)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/sources/local_files.py:200:45 - error: Argument of type "Unknown | list[Unknown]" cannot be assigned to parameter "x" of type "ConvertibleToInt" in function "__new__"
+    Type "Unknown | list[Unknown]" is not assignable to type "ConvertibleToInt"
+      Type "list[Unknown]" is not assignable to type "ConvertibleToInt"
+        "list[Unknown]" is not assignable to "str"
+        "list[Unknown]" is incompatible with protocol "Buffer"
+          "__buffer__" is not present
+        "list[Unknown]" is incompatible with protocol "SupportsInt"
+          "__int__" is not present
+        "list[Unknown]" is incompatible with protocol "SupportsIndex" (reportArgumentType)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/sources/local_files.py:216:17 - error: "ID3NoHeaderError" is possibly unbound (reportPossiblyUnboundVariable)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/sources/local_files.py:273:41 - error: "get" is not a known attribute of "None" (reportOptionalMemberAccess)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/sources/local_files.py:308:37 - error: Cannot access attribute "exists" for class "str"
+    Attribute "exists" is unknown (reportAttributeAccessIssue)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/sources/local_files.py:313:26 - error: Cannot access attribute "exists" for class "str"
+    Attribute "exists" is unknown (reportAttributeAccessIssue)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/sources/local_files.py:315:48 - error: Cannot access attribute "rglob" for class "str"
+    Attribute "rglob" is unknown (reportAttributeAccessIssue)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/sources/local_files.py:315:92 - error: Cannot access attribute "glob" for class "str"
+    Attribute "glob" is unknown (reportAttributeAccessIssue)
+/home/matias/git/matias-ceau/LinerNodes/tests/test_cli.py
+  /home/matias/git/matias-ceau/LinerNodes/tests/test_cli.py:1:8 - error: Import "pytest" could not be resolved (reportMissingImports)
+/home/matias/git/matias-ceau/LinerNodes/tests/test_config_manager.py
+  /home/matias/git/matias-ceau/LinerNodes/tests/test_config_manager.py:1:8 - error: Import "pytest" could not be resolved (reportMissingImports)
+  /home/matias/git/matias-ceau/LinerNodes/tests/test_config_manager.py:31:31 - error: Cannot access attribute "config_file" for class "ConfigManager"
+    Attribute "config_file" is unknown (reportAttributeAccessIssue)
+  /home/matias/git/matias-ceau/LinerNodes/tests/test_config_manager.py:38:35 - error: Cannot access attribute "config_file" for class "ConfigManager"
+    Attribute "config_file" is unknown (reportAttributeAccessIssue)
+  /home/matias/git/matias-ceau/LinerNodes/tests/test_config_manager.py:46:35 - error: Cannot access attribute "config_file" for class "ConfigManager"
+    Attribute "config_file" is unknown (reportAttributeAccessIssue)
+/home/matias/git/matias-ceau/LinerNodes/tests/test_graph_data.py
+  /home/matias/git/matias-ceau/LinerNodes/tests/test_graph_data.py:14:31 - error: Cannot access attribute "_cached_graph_data" for class "MusicGraphExplorer"
+    Attribute "_cached_graph_data" is unknown (reportAttributeAccessIssue)
+/home/matias/git/matias-ceau/LinerNodes/tests/test_interfaces.py
+  /home/matias/git/matias-ceau/LinerNodes/tests/test_interfaces.py:1:8 - error: Import "pytest" could not be resolved (reportMissingImports)
+  /home/matias/git/matias-ceau/LinerNodes/tests/test_interfaces.py:21:18 - error: Object of type "FunctionTool" is not callable
+    Attribute "__call__" is unknown (reportCallIssue)
+  /home/matias/git/matias-ceau/LinerNodes/tests/test_interfaces.py:48:18 - error: Object of type "FunctionTool" is not callable
+    Attribute "__call__" is unknown (reportCallIssue)
+  /home/matias/git/matias-ceau/LinerNodes/tests/test_interfaces.py:63:18 - error: Object of type "FunctionTool" is not callable
+    Attribute "__call__" is unknown (reportCallIssue)
+  /home/matias/git/matias-ceau/LinerNodes/tests/test_interfaces.py:77:18 - error: Object of type "FunctionTool" is not callable
+    Attribute "__call__" is unknown (reportCallIssue)
+  /home/matias/git/matias-ceau/LinerNodes/tests/test_interfaces.py:168:62 - error: "GraphExplorer" is unknown import symbol (reportAttributeAccessIssue)
+  /home/matias/git/matias-ceau/LinerNodes/tests/test_interfaces.py:179:62 - error: "GraphExplorer" is unknown import symbol (reportAttributeAccessIssue)
+/home/matias/git/matias-ceau/LinerNodes/tests/test_knowledge_graph.py
+  /home/matias/git/matias-ceau/LinerNodes/tests/test_knowledge_graph.py:1:8 - error: Import "pytest" could not be resolved (reportMissingImports)
+  /home/matias/git/matias-ceau/LinerNodes/tests/test_knowledge_graph.py:97:26 - error: Cannot access attribute "artist_credit" for class "BaseEntity"
+    Attribute "artist_credit" is unknown (reportAttributeAccessIssue)
+  /home/matias/git/matias-ceau/LinerNodes/tests/test_knowledge_graph.py:130:16 - error: Argument of type "None" cannot be assigned to parameter "id" of type "str" in function "__init__"
+    "None" is not assignable to "str" (reportArgumentType)
+  /home/matias/git/matias-ceau/LinerNodes/tests/test_knowledge_graph.py:160:16 - error: Argument of type "None" cannot be assigned to parameter "id" of type "str" in function "__init__"
+    "None" is not assignable to "str" (reportArgumentType)
+  /home/matias/git/matias-ceau/LinerNodes/tests/test_knowledge_graph.py:167:16 - error: Argument of type "None" cannot be assigned to parameter "id" of type "str" in function "__init__"
+    "None" is not assignable to "str" (reportArgumentType)
+  /home/matias/git/matias-ceau/LinerNodes/tests/test_knowledge_graph.py:363:12 - error: Argument of type "None" cannot be assigned to parameter "id" of type "str" in function "__init__"
+    "None" is not assignable to "str" (reportArgumentType)
+  /home/matias/git/matias-ceau/LinerNodes/tests/test_knowledge_graph.py:370:12 - error: Argument of type "None" cannot be assigned to parameter "id" of type "str" in function "__init__"
+    "None" is not assignable to "str" (reportArgumentType)
+/home/matias/git/matias-ceau/LinerNodes/tests/test_performance.py
+  /home/matias/git/matias-ceau/LinerNodes/tests/test_performance.py:29:35 - error: Cannot access attribute "_cached_graph_data" for class "MusicGraphExplorer"
+    Attribute "_cached_graph_data" is unknown (reportAttributeAccessIssue)
+123 errors, 0 warnings, 0 informations 

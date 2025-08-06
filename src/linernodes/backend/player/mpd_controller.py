@@ -2,10 +2,79 @@ import os
 import subprocess
 import shutil
 from pathlib import Path
-from mpd import MPDClient
-from xdg import xdg_config_home, xdg_data_home, xdg_state_home, xdg_cache_home
-
+from typing import Any, Dict, List, Optional, Iterable, Protocol, runtime_checkable, cast
+from mpd import MPDClient as _RealMPDClient
 from linernodes.config.config_manager import ConfigManager
+
+@runtime_checkable
+class MPDClient(Protocol):
+    def connect(self, *args: Any, **kwargs: Any) -> Any: ...
+    def disconnect(self) -> Any: ...
+    def update(self, *args: Any, **kwargs: Any) -> Any: ...
+    def status(self) -> Dict[str, Any]: ...
+    def playlistinfo(self) -> List[Dict[str, Any]]: ...
+    def play(self, *args: Any, **kwargs: Any) -> Any: ...
+    def pause(self, *args: Any, **kwargs: Any) -> Any: ...
+    def stop(self, *args: Any, **kwargs: Any) -> Any: ...
+    def next(self) -> Any: ...
+    def previous(self) -> Any: ...
+    def setvol(self, volume: int) -> Any: ...
+    def add(self, uri: str) -> Any: ...
+    def clear(self) -> Any: ...
+    def currentsong(self) -> Dict[str, Any]: ...
+    def listall(self, uri: Optional[str] = None) -> Iterable[Dict[str, Any]]: ...
+    def close(self) -> Any: ...
+
+# Keep a runtime alias to the real client for construction if used elsewhere
+RealMPDClient = _RealMPDClient
+
+# Support both pyxdg and xdg-base-dirs style APIs
+try:
+    # pyxdg
+    from xdg.BaseDirectory import (
+        xdg_config_home as _xdg_config_home,
+        xdg_data_home as _xdg_data_home,
+        xdg_state_home as _xdg_state_home,
+        xdg_cache_home as _xdg_cache_home,
+    )
+    def xdg_config_home() -> str: return _xdg_config_home  # type: ignore[no-redef]
+    def xdg_data_home() -> str: return _xdg_data_home      # type: ignore[no-redef]
+    def xdg_state_home() -> str: return _xdg_state_home    # type: ignore[no-redef]
+    def xdg_cache_home() -> str: return _xdg_cache_home    # type: ignore[no-redef]
+except Exception:
+    # Fallback: emulate using pathlib and environment variables
+    import os as _os
+    from pathlib import Path as _Path
+
+    def _home_dir(env: str, default: str) -> str:
+        val = _os.environ.get(env)
+        if val:
+            return val
+        return str(_Path.home() / default)
+
+    def xdg_config_home() -> str:
+        return _home_dir("XDG_CONFIG_HOME", ".config")
+
+    def xdg_data_home() -> str:
+        return _home_dir("XDG_DATA_HOME", ".local/share")
+
+    def xdg_state_home() -> str:
+        return _home_dir("XDG_STATE_HOME", ".local/state")
+
+    def xdg_cache_home() -> str:
+        return _home_dir("XDG_CACHE_HOME", ".cache")
+
+# moved to top to satisfy import-order (ruff E402)
+
+# Lightweight logging (no hard dependency on setup)
+try:
+    from linernodes.logging.setup import get_logger
+
+    _logger = get_logger("linernodes.mpd")
+except Exception:  # pragma: no cover
+    import logging as _fallback_logging
+
+    _logger = _fallback_logging.getLogger("linernodes.mpd")
 
 
 class MpdController:
@@ -20,6 +89,18 @@ class MpdController:
         self.host = mpd_cfg.get("host", "localhost")
         self.port = int(mpd_cfg.get("port", 6600))
         self.music_dir = os.path.expanduser(mpd_cfg.get("music_dir", "~/music"))
+
+        # Autospawn policy (Phase 0): keep enabled by default
+        # Priority: ENV override > config value > default True
+        env_autospawn = os.getenv("LINERNODES_MPD_AUTOSPAWN")
+        if env_autospawn is not None:
+            self.autospawn_enabled = env_autospawn in ("1", "true", "TRUE", "yes", "on")
+        else:
+            self.autospawn_enabled = bool(mpd_cfg.get("autospawn", True))
+        _logger.debug(
+            "MPD autospawn policy evaluated",
+            extra={"operation": "mpd_policy", "autospawn": self.autospawn_enabled},
+        )
 
         # XDG-based application directories
         self.app_name = "linernodes"
@@ -47,21 +128,54 @@ class MpdController:
         ]:
             directory.mkdir(parents=True, exist_ok=True)
 
-        # If custom config is enabled, generate and ensure MPD is running with it
+        # If custom config is enabled, generate config; spawn based on policy
         if self.use_custom_config:
             self._generate_mpd_config()
-            self._ensure_mpd_running()
+            if self.autospawn_enabled:
+                _logger.info(
+                    "Ensuring MPD is running (autospawn enabled)",
+                    extra={"operation": "mpd_spawn"},
+                )
+                self._ensure_mpd_running()
+            else:
+                _logger.info(
+                    "Skipping MPD autospawn per policy",
+                    extra={"operation": "mpd_spawn"},
+                )
             self.socket_path = str(self.custom_socket)
             self.config.set("mpd", "use_custom_config", True)  # persist flag if needed
 
-        self.client = MPDClient()
+        self.client = cast(MPDClient, RealMPDClient())
         # Try connection via socket first, fallback to TCP
         try:
             self.client.connect(self.socket_path)
+            _logger.debug(
+                "Connected to MPD via socket",
+                extra={"operation": "mpd_connect", "endpoint": self.socket_path},
+            )
         except Exception as e:
+            _logger.warning(
+                "Socket connect failed, trying TCP",
+                extra={"operation": "mpd_connect", "error": str(e)},
+            )
             try:
                 self.client.connect(self.host, self.port)
+                _logger.debug(
+                    "Connected to MPD via TCP",
+                    extra={
+                        "operation": "mpd_connect",
+                        "endpoint": f"{self.host}:{self.port}",
+                    },
+                )
             except Exception as connect_error:
+                _logger.error(
+                    "Failed to connect to MPD",
+                    extra={
+                        "operation": "mpd_connect",
+                        "socket_error": str(e),
+                        "tcp_error": str(connect_error),
+                    },
+                )
                 raise Exception(
                     f"Failed to connect to MPD: {connect_error}. Original error: {e}"
                 )
@@ -122,6 +236,10 @@ audio_output {{
     def _ensure_mpd_running(self):
         """Ensure MPD is running with our custom configuration."""
         if not self.mpd_config_file.exists():
+            _logger.warning(
+                "MPD config file missing; cannot start MPD",
+                extra={"operation": "mpd_spawn"},
+            )
             return
 
         # Check if MPD is already running with our config (by PID file)
@@ -130,21 +248,39 @@ audio_output {{
                 with self.pid_file.open("r") as f:
                     pid = int(f.read().strip())
                 os.kill(pid, 0)
+                _logger.debug(
+                    "MPD already running (pid file present)",
+                    extra={"operation": "mpd_spawn", "pid": pid},
+                )
                 return  # process exists
             except Exception:
-                pass
+                _logger.info(
+                    "Stale PID file detected; attempting restart",
+                    extra={"operation": "mpd_spawn"},
+                )
 
         # Start MPD via system command if available
         if shutil.which("mpd") is not None:
             try:
-                subprocess.run(
+                result = subprocess.run(
                     ["mpd", str(self.mpd_config_file)],
                     check=True,
                     stdout=subprocess.PIPE,
                     stderr=subprocess.PIPE,
                 )
-            except subprocess.SubprocessError:
-                pass
+                _logger.info(
+                    "MPD started",
+                    extra={"operation": "mpd_spawn", "returncode": result.returncode},
+                )
+            except subprocess.SubprocessError as e:
+                _logger.error(
+                    "Failed to start MPD",
+                    extra={"operation": "mpd_spawn", "error": str(e)},
+                )
+        else:
+            _logger.error(
+                "MPD binary not found in PATH", extra={"operation": "mpd_spawn"}
+            )
 
     def _configure_mpd(self):
         """Configure MPD settings based on config."""
@@ -212,42 +348,43 @@ audio_output {{
     def list_all_files(self):
         """List all files in music directory."""
         return self.client.listall()
-    
+
     def search_files(self, pattern: str = ""):
         """Search for files matching pattern."""
         files = self.client.listall()
         matching_files = []
         for item in files:
-            if 'file' in item and pattern.lower() in item['file'].lower():
-                matching_files.append(item['file'])
+            if "file" in item and pattern.lower() in item["file"].lower():
+                matching_files.append(item["file"])
         return matching_files[:10]  # Return first 10 matches
-    
+
     def get_albums(self):
         """Get all albums (directories) in the music library."""
         albums = set()
         files = self.client.listall()
         for item in files:
-            if 'file' in item:
+            if "file" in item:
                 # Extract album directory (first two path components typically)
-                path_parts = item['file'].split('/')
+                path_parts = item["file"].split("/")
                 if len(path_parts) >= 2:
-                    album_path = '/'.join(path_parts[:2])
+                    album_path = "/".join(path_parts[:2])
                     albums.add(album_path)
         return sorted(list(albums))
-    
+
     def add_album_to_playlist(self, album_path: str):
         """Add all files from an album directory to playlist."""
         files = self.client.listall()
         added_files = []
         for item in files:
-            if 'file' in item and item['file'].startswith(album_path + '/'):
-                self.client.add(item['file'])
-                added_files.append(item['file'])
+            if "file" in item and item["file"].startswith(album_path + "/"):
+                self.client.add(item["file"])
+                added_files.append(item["file"])
         return added_files
-    
+
     def load_random_albums(self, count: int = 10):
         """Load random albums into the playlist."""
         import random
+
         albums = self.get_albums()
         if albums:
             selected = random.sample(albums, min(count, len(albums)))

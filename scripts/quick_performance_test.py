@@ -33,7 +33,7 @@ def quick_test():
         print(f"📈 Database has {nodes:,} nodes - could handle 10K+ with more data")
     
     # Test adaptive algorithm selection
-    print(f"\n🧠 Layout algorithm used: ", end="")
+    print("\n🧠 Layout algorithm used: ", end="")
     if nodes > 2000:
         print("Random layout (optimized for large graphs)")
     elif nodes > 1000:
@@ -46,7 +46,7 @@ def quick_test():
 if __name__ == "__main__":
     success, node_count, time_taken = quick_test()
     
-    print(f"\n🌐 Graph interface: http://localhost:8507")
+    print("\n🌐 Graph interface: http://localhost:8507")
     print("🔧 Use the slider to test different node limits interactively")
     
     if success:

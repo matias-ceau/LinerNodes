@@ -1,0 +1,262 @@
+/home/matias/git/matias-ceau/LinerNodes/scripts/quick_performance_test.py
+  /home/matias/git/matias-ceau/LinerNodes/scripts/quick_performance_test.py:20:27 - error: Cannot access attribute "_cached_graph_data" for class "MusicGraphExplorer"
+    Attribute "_cached_graph_data" is unknown (reportAttributeAccessIssue)
+/home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/database/database.py
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/database/database.py:492:20 - error: Type "int | None" is not assignable to return type "int"
+    Type "int | None" is not assignable to type "int"
+      "None" is not assignable to "int" (reportReturnType)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/database/database.py:518:20 - error: Type "int | None" is not assignable to return type "int"
+    Type "int | None" is not assignable to type "int"
+      "None" is not assignable to "int" (reportReturnType)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/database/database.py:547:20 - error: Type "int | None" is not assignable to return type "int"
+    Type "int | None" is not assignable to type "int"
+      "None" is not assignable to "int" (reportReturnType)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/database/database.py:570:20 - error: Type "int | None" is not assignable to return type "int"
+    Type "int | None" is not assignable to type "int"
+      "None" is not assignable to "int" (reportReturnType)
+/home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/database/models.py
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/database/models.py:387:63 - error: Expression of type "None" cannot be assigned to parameter of type "List[str]"
+    "None" is not assignable to "List[str]" (reportArgumentType)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/database/models.py:566:22 - error: Argument of type "int | None" cannot be assigned to parameter "album_id" of type "int" in function "__init__"
+    Type "int | None" is not assignable to type "int"
+      "None" is not assignable to "int" (reportArgumentType)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/database/models.py:580:22 - error: Argument of type "int | None" cannot be assigned to parameter "track_id" of type "int" in function "__init__"
+    Type "int | None" is not assignable to type "int"
+      "None" is not assignable to "int" (reportArgumentType)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/database/models.py:597:13 - error: Argument of type "float" cannot be assigned to parameter "value" of type "int" in function "__setitem__"
+    "float" is not assignable to "int" (reportArgumentType)
+/home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/player/mpd_config.py
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/player/mpd_config.py:19:41 - error: Cannot access attribute "config_dir" for class "ConfigManager"
+    Attribute "config_dir" is unknown (reportAttributeAccessIssue)
+/home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/player/mpd_controller.py
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/player/mpd_controller.py:34:10 - warning: Import "xdg.BaseDirectory" could not be resolved from source (reportMissingModuleSource)
+/home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/fast_graph_explorer.py
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/fast_graph_explorer.py:194:17 - error: Operator "+=" not supported for types "Unknown | tuple[Unknown, ...] | Scatter | None" and "tuple[Incomplete, Incomplete, None]"
+    Operator "+" not supported for types "None" and "tuple[Incomplete, Incomplete, None]"
+    Operator "+" not supported for types "Scatter" and "tuple[Incomplete, Incomplete, None]" (reportOperatorIssue)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/fast_graph_explorer.py:195:17 - error: Operator "+=" not supported for types "Unknown | tuple[Unknown, ...] | Scatter | None" and "tuple[Incomplete, Incomplete, None]"
+    Operator "+" not supported for types "None" and "tuple[Incomplete, Incomplete, None]"
+    Operator "+" not supported for types "Scatter" and "tuple[Incomplete, Incomplete, None]" (reportOperatorIssue)
+/home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/graph_explorer.py
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/graph_explorer.py:290:37 - error: "columns" is not a known attribute of "None" (reportOptionalMemberAccess)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/graph_explorer.py:299:16 - error: "metric" is not a known attribute of "None" (reportOptionalMemberAccess)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/graph_explorer.py:301:16 - error: "metric" is not a known attribute of "None" (reportOptionalMemberAccess)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/graph_explorer.py:303:16 - error: "metric" is not a known attribute of "None" (reportOptionalMemberAccess)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/graph_explorer.py:305:16 - error: "metric" is not a known attribute of "None" (reportOptionalMemberAccess)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/graph_explorer.py:307:12 - error: "metric" is not a known attribute of "None" (reportOptionalMemberAccess)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/graph_explorer.py:311:12 - error: "subheader" is not a known attribute of "None" (reportOptionalMemberAccess)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/graph_explorer.py:313:27 - error: "text_input" is not a known attribute of "None" (reportOptionalMemberAccess)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/graph_explorer.py:325:20 - error: "write" is not a known attribute of "None" (reportOptionalMemberAccess)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/graph_explorer.py:329:24 - error: "write" is not a known attribute of "None" (reportOptionalMemberAccess)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/graph_explorer.py:336:24 - error: "caption" is not a known attribute of "None" (reportOptionalMemberAccess)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/graph_explorer.py:338:20 - error: "write" is not a known attribute of "None" (reportOptionalMemberAccess)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/graph_explorer.py:342:12 - error: "set_page_config" is not a known attribute of "None" (reportOptionalMemberAccess)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/graph_explorer.py:349:12 - error: "title" is not a known attribute of "None" (reportOptionalMemberAccess)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/graph_explorer.py:350:12 - error: "markdown" is not a known attribute of "None" (reportOptionalMemberAccess)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/graph_explorer.py:353:17 - error: "sidebar" is not a known attribute of "None" (reportOptionalMemberAccess)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/graph_explorer.py:354:16 - error: "header" is not a known attribute of "None" (reportOptionalMemberAccess)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/graph_explorer.py:355:28 - error: "slider" is not a known attribute of "None" (reportOptionalMemberAccess)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/graph_explorer.py:356:16 - error: "caption" is not a known attribute of "None" (reportOptionalMemberAccess)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/graph_explorer.py:357:16 - error: "caption" is not a known attribute of "None" (reportOptionalMemberAccess)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/graph_explorer.py:360:16 - error: "subheader" is not a known attribute of "None" (reportOptionalMemberAccess)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/graph_explorer.py:366:29 - error: "columns" is not a known attribute of "None" (reportOptionalMemberAccess)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/graph_explorer.py:369:20 - error: "metric" is not a known attribute of "None" (reportOptionalMemberAccess)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/graph_explorer.py:373:20 - error: "metric" is not a known attribute of "None" (reportOptionalMemberAccess)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/graph_explorer.py:377:20 - error: "success" is not a known attribute of "None" (reportOptionalMemberAccess)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/graph_explorer.py:379:20 - error: "warning" is not a known attribute of "None" (reportOptionalMemberAccess)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/graph_explorer.py:382:20 - error: "checkbox" is not a known attribute of "None" (reportOptionalMemberAccess)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/graph_explorer.py:383:30 - error: "checkbox" is not a known attribute of "None" (reportOptionalMemberAccess)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/graph_explorer.py:385:19 - error: "button" is not a known attribute of "None" (reportOptionalMemberAccess)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/graph_explorer.py:387:20 - error: "rerun" is not a known attribute of "None" (reportOptionalMemberAccess)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/graph_explorer.py:389:19 - error: "button" is not a known attribute of "None" (reportOptionalMemberAccess)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/graph_explorer.py:391:20 - error: "success" is not a known attribute of "None" (reportOptionalMemberAccess)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/graph_explorer.py:393:16 - error: "markdown" is not a known attribute of "None" (reportOptionalMemberAccess)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/graph_explorer.py:394:16 - error: "subheader" is not a known attribute of "None" (reportOptionalMemberAccess)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/graph_explorer.py:396:20 - error: "write" is not a known attribute of "None" (reportOptionalMemberAccess)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/graph_explorer.py:405:21 - error: "spinner" is not a known attribute of "None" (reportOptionalMemberAccess)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/graph_explorer.py:416:20 - error: "error" is not a known attribute of "None" (reportOptionalMemberAccess)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/graph_explorer.py:417:20 - error: "code" is not a known attribute of "None" (reportOptionalMemberAccess)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/graph_explorer.py:421:16 - error: "subheader" is not a known attribute of "None" (reportOptionalMemberAccess)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/graph_explorer.py:422:41 - error: "columns" is not a known attribute of "None" (reportOptionalMemberAccess)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/graph_explorer.py:425:20 - error: "metric" is not a known attribute of "None" (reportOptionalMemberAccess)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/graph_explorer.py:427:20 - error: "metric" is not a known attribute of "None" (reportOptionalMemberAccess)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/graph_explorer.py:432:20 - error: "metric" is not a known attribute of "None" (reportOptionalMemberAccess)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/graph_explorer.py:435:20 - error: "metric" is not a known attribute of "None" (reportOptionalMemberAccess)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/graph_explorer.py:438:16 - error: "caption" is not a known attribute of "None" (reportOptionalMemberAccess)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/graph_explorer.py:441:16 - error: "subheader" is not a known attribute of "None" (reportOptionalMemberAccess)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/graph_explorer.py:442:21 - error: "spinner" is not a known attribute of "None" (reportOptionalMemberAccess)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/graph_explorer.py:446:20 - error: "plotly_chart" is not a known attribute of "None" (reportOptionalMemberAccess)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/graph_explorer.py:449:16 - error: "subheader" is not a known attribute of "None" (reportOptionalMemberAccess)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/graph_explorer.py:450:41 - error: "columns" is not a known attribute of "None" (reportOptionalMemberAccess)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/graph_explorer.py:453:20 - error: "metric" is not a known attribute of "None" (reportOptionalMemberAccess)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/graph_explorer.py:455:20 - error: "metric" is not a known attribute of "None" (reportOptionalMemberAccess)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/graph_explorer.py:458:20 - error: "metric" is not a known attribute of "None" (reportOptionalMemberAccess)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/graph_explorer.py:462:20 - error: "metric" is not a known attribute of "None" (reportOptionalMemberAccess)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/graph_explorer.py:467:20 - error: "success" is not a known attribute of "None" (reportOptionalMemberAccess)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/graph_explorer.py:469:20 - error: "info" is not a known attribute of "None" (reportOptionalMemberAccess)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/graph_explorer.py:471:20 - error: "warning" is not a known attribute of "None" (reportOptionalMemberAccess)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/graph_explorer.py:477:16 - error: "error" is not a known attribute of "None" (reportOptionalMemberAccess)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/graph_explorer.py:478:16 - error: "code" is not a known attribute of "None" (reportOptionalMemberAccess)
+/home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/mcp_server.py
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/mcp_server.py:147:37 - error: Cannot access attribute "search" for class "MPDClient"
+    Attribute "search" is unknown (reportAttributeAccessIssue)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/mcp_server.py:189:16 - error: Cannot access attribute "get_app" for class "FastMCP[Unknown]"
+    Attribute "get_app" is unknown (reportAttributeAccessIssue)
+/home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/web.py
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/web.py:87:28 - error: "None" is not iterable
+    "__iter__" method not defined (reportGeneralTypeIssues)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/web.py:114:40 - error: "None" is not iterable
+    "__iter__" method not defined (reportGeneralTypeIssues)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/web.py:179:47 - error: Argument of type "int | None" cannot be assigned to parameter "volume" of type "int" in function "setvol"
+    Type "int | None" is not assignable to type "int"
+      "None" is not assignable to "int" (reportArgumentType)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/web.py:199:34 - error: "None" is not iterable
+    "__iter__" method not defined (reportGeneralTypeIssues)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/web.py:220:22 - error: "None" is not iterable
+    "__iter__" method not defined (reportGeneralTypeIssues)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/web.py:238:22 - error: "None" is not iterable
+    "__iter__" method not defined (reportGeneralTypeIssues)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/web.py:248:50 - error: Cannot access attribute "search" for class "MPDClient"
+    Attribute "search" is unknown (reportAttributeAccessIssue)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/web.py:257:38 - error: "None" is not iterable
+    "__iter__" method not defined (reportGeneralTypeIssues)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/web.py:287:26 - error: "None" is not iterable
+    "__iter__" method not defined (reportGeneralTypeIssues)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/web.py:297:32 - error: "None" is not iterable
+    "__iter__" method not defined (reportGeneralTypeIssues)
+/home/matias/git/matias-ceau/LinerNodes/src/linernodes/knowledge_graph/graph_db.py
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/knowledge_graph/graph_db.py:227:20 - error: Type "list[BaseEntity | None]" is not assignable to return type "List[Album]" (reportReturnType)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/knowledge_graph/graph_db.py:244:20 - error: Type "list[BaseEntity | None]" is not assignable to return type "List[BaseEntity]" (reportReturnType)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/knowledge_graph/graph_db.py:316:20 - error: Type "list[BaseEntity | None]" is not assignable to return type "List[BaseEntity]" (reportReturnType)
+/home/matias/git/matias-ceau/LinerNodes/src/linernodes/knowledge_graph/models.py
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/knowledge_graph/models.py:51:28 - error: Type "None" is not assignable to declared type "datetime"
+    "None" is not assignable to "datetime" (reportAssignmentType)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/knowledge_graph/models.py:52:28 - error: Type "None" is not assignable to declared type "datetime"
+    "None" is not assignable to "datetime" (reportAssignmentType)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/knowledge_graph/models.py:53:32 - error: Type "None" is not assignable to declared type "Dict[str, Any]"
+    "None" is not assignable to "Dict[str, Any]" (reportAssignmentType)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/knowledge_graph/models.py:78:25 - error: Type "None" is not assignable to declared type "List[str]"
+    "None" is not assignable to "List[str]" (reportAssignmentType)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/knowledge_graph/models.py:79:29 - error: Type "None" is not assignable to declared type "List[str]"
+    "None" is not assignable to "List[str]" (reportAssignmentType)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/knowledge_graph/models.py:109:32 - error: Type "None" is not assignable to declared type "List[str]"
+    "None" is not assignable to "List[str]" (reportAssignmentType)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/knowledge_graph/models.py:110:31 - error: Type "None" is not assignable to declared type "List[str]"
+    "None" is not assignable to "List[str]" (reportAssignmentType)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/knowledge_graph/models.py:142:30 - error: Type "None" is not assignable to declared type "List[str]"
+    "None" is not assignable to "List[str]" (reportAssignmentType)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/knowledge_graph/models.py:143:24 - error: Type "None" is not assignable to declared type "List[str]"
+    "None" is not assignable to "List[str]" (reportAssignmentType)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/knowledge_graph/models.py:173:34 - error: Type "None" is not assignable to declared type "Dict[str, Any]"
+    "None" is not assignable to "Dict[str, Any]" (reportAssignmentType)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/knowledge_graph/models.py:176:28 - error: Type "None" is not assignable to declared type "datetime"
+    "None" is not assignable to "datetime" (reportAssignmentType)
+/home/matias/git/matias-ceau/LinerNodes/src/linernodes/knowledge_graph/musicbrainz_integration.py
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/knowledge_graph/musicbrainz_integration.py:48:24 - error: Type "BaseEntity" is not assignable to return type "Album | None"
+    Type "BaseEntity" is not assignable to type "Album | None"
+      "BaseEntity" is not assignable to "Album"
+      "BaseEntity" is not assignable to "None" (reportReturnType)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/knowledge_graph/musicbrainz_integration.py:84:24 - error: Type "BaseEntity" is not assignable to return type "Artist | None"
+    Type "BaseEntity" is not assignable to type "Artist | None"
+      "BaseEntity" is not assignable to "Artist"
+      "BaseEntity" is not assignable to "None" (reportReturnType)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/knowledge_graph/musicbrainz_integration.py:232:24 - error: Argument of type "None" cannot be assigned to parameter "id" of type "str" in function "__init__"
+    "None" is not assignable to "str" (reportArgumentType)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/knowledge_graph/musicbrainz_integration.py:270:24 - error: Argument of type "None" cannot be assigned to parameter "id" of type "str" in function "__init__"
+    "None" is not assignable to "str" (reportArgumentType)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/knowledge_graph/musicbrainz_integration.py:305:20 - error: Argument of type "None" cannot be assigned to parameter "id" of type "str" in function "__init__"
+    "None" is not assignable to "str" (reportArgumentType)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/knowledge_graph/musicbrainz_integration.py:333:28 - error: Argument of type "None" cannot be assigned to parameter "id" of type "str" in function "__init__"
+    "None" is not assignable to "str" (reportArgumentType)
+/home/matias/git/matias-ceau/LinerNodes/src/linernodes/observability/retry.py
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/observability/retry.py:24:42 - error: Type "(name: str | None = None) -> Logger" is not assignable to declared type "(name: str) -> _NullLogger"
+    Type "(name: str | None = None) -> Logger" is not assignable to type "(name: str) -> _NullLogger"
+      Function return type "Logger" is incompatible with type "_NullLogger"
+        "Logger" is not assignable to "_NullLogger" (reportAssignmentType)
+/home/matias/git/matias-ceau/LinerNodes/src/linernodes/services/ingestion_service.py
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/services/ingestion_service.py:67:23 - error: Cannot access attribute "to_dict" for class "SourceStatus"
+    Attribute "to_dict" is unknown (reportAttributeAccessIssue)
+/home/matias/git/matias-ceau/LinerNodes/src/linernodes/sources/local_files.py
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/sources/local_files.py:50:25 - error: Cannot access attribute "exists" for class "str"
+    Attribute "exists" is unknown (reportAttributeAccessIssue)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/sources/local_files.py:50:43 - error: Cannot access attribute "is_dir" for class "str"
+    Attribute "is_dir" is unknown (reportAttributeAccessIssue)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/sources/local_files.py:57:30 - error: Cannot access attribute "exists" for class "str"
+    Attribute "exists" is unknown (reportAttributeAccessIssue)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/sources/local_files.py:64:49 - error: Argument of type "Any | str | Path" cannot be assigned to parameter "directory" of type "Path" in function "_scan_directory"
+    Type "Any | str | Path" is not assignable to type "Path"
+      "str" is not assignable to "Path" (reportArgumentType)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/sources/local_files.py:163:26 - error: "mutagen" is possibly unbound (reportPossiblyUnboundVariable)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/sources/local_files.py:163:34 - error: "File" is not exported from module "mutagen" (reportPrivateImportUsage)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/sources/local_files.py:203:45 - error: Argument of type "Unknown | list[Unknown]" cannot be assigned to parameter "x" of type "ConvertibleToInt" in function "__new__"
+    Type "Unknown | list[Unknown]" is not assignable to type "ConvertibleToInt"
+      Type "list[Unknown]" is not assignable to type "ConvertibleToInt"
+        "list[Unknown]" is not assignable to "str"
+        "list[Unknown]" is incompatible with protocol "Buffer"
+          "__buffer__" is not present
+        "list[Unknown]" is incompatible with protocol "SupportsInt"
+          "__int__" is not present
+        "list[Unknown]" is incompatible with protocol "SupportsIndex"
+    ... (reportArgumentType)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/sources/local_files.py:203:45 - error: Argument of type "Unknown | list[Unknown]" cannot be assigned to parameter "x" of type "ConvertibleToInt" in function "__new__"
+    Type "Unknown | list[Unknown]" is not assignable to type "ConvertibleToInt"
+      Type "list[Unknown]" is not assignable to type "ConvertibleToInt"
+        "list[Unknown]" is not assignable to "str"
+        "list[Unknown]" is incompatible with protocol "Buffer"
+          "__buffer__" is not present
+        "list[Unknown]" is incompatible with protocol "SupportsInt"
+          "__int__" is not present
+        "list[Unknown]" is incompatible with protocol "SupportsIndex" (reportArgumentType)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/sources/local_files.py:219:17 - error: "ID3NoHeaderError" is possibly unbound (reportPossiblyUnboundVariable)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/sources/local_files.py:276:41 - error: "get" is not a known attribute of "None" (reportOptionalMemberAccess)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/sources/local_files.py:311:37 - error: Cannot access attribute "exists" for class "str"
+    Attribute "exists" is unknown (reportAttributeAccessIssue)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/sources/local_files.py:316:26 - error: Cannot access attribute "exists" for class "str"
+    Attribute "exists" is unknown (reportAttributeAccessIssue)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/sources/local_files.py:318:48 - error: Cannot access attribute "rglob" for class "str"
+    Attribute "rglob" is unknown (reportAttributeAccessIssue)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/sources/local_files.py:318:92 - error: Cannot access attribute "glob" for class "str"
+    Attribute "glob" is unknown (reportAttributeAccessIssue)
+/home/matias/git/matias-ceau/LinerNodes/tests/test_cli.py
+  /home/matias/git/matias-ceau/LinerNodes/tests/test_cli.py:1:8 - error: Import "pytest" could not be resolved (reportMissingImports)
+/home/matias/git/matias-ceau/LinerNodes/tests/test_config_manager.py
+  /home/matias/git/matias-ceau/LinerNodes/tests/test_config_manager.py:1:8 - error: Import "pytest" could not be resolved (reportMissingImports)
+  /home/matias/git/matias-ceau/LinerNodes/tests/test_config_manager.py:31:31 - error: Cannot access attribute "config_file" for class "ConfigManager"
+    Attribute "config_file" is unknown (reportAttributeAccessIssue)
+  /home/matias/git/matias-ceau/LinerNodes/tests/test_config_manager.py:38:35 - error: Cannot access attribute "config_file" for class "ConfigManager"
+    Attribute "config_file" is unknown (reportAttributeAccessIssue)
+  /home/matias/git/matias-ceau/LinerNodes/tests/test_config_manager.py:46:35 - error: Cannot access attribute "config_file" for class "ConfigManager"
+    Attribute "config_file" is unknown (reportAttributeAccessIssue)
+/home/matias/git/matias-ceau/LinerNodes/tests/test_graph_data.py
+  /home/matias/git/matias-ceau/LinerNodes/tests/test_graph_data.py:14:31 - error: Cannot access attribute "_cached_graph_data" for class "MusicGraphExplorer"
+    Attribute "_cached_graph_data" is unknown (reportAttributeAccessIssue)
+/home/matias/git/matias-ceau/LinerNodes/tests/test_interfaces.py
+  /home/matias/git/matias-ceau/LinerNodes/tests/test_interfaces.py:1:8 - error: Import "pytest" could not be resolved (reportMissingImports)
+  /home/matias/git/matias-ceau/LinerNodes/tests/test_interfaces.py:20:18 - error: Object of type "FunctionTool" is not callable
+    Attribute "__call__" is unknown (reportCallIssue)
+  /home/matias/git/matias-ceau/LinerNodes/tests/test_interfaces.py:47:18 - error: Object of type "FunctionTool" is not callable
+    Attribute "__call__" is unknown (reportCallIssue)
+  /home/matias/git/matias-ceau/LinerNodes/tests/test_interfaces.py:62:18 - error: Object of type "FunctionTool" is not callable
+    Attribute "__call__" is unknown (reportCallIssue)
+  /home/matias/git/matias-ceau/LinerNodes/tests/test_interfaces.py:76:18 - error: Object of type "FunctionTool" is not callable
+    Attribute "__call__" is unknown (reportCallIssue)
+  /home/matias/git/matias-ceau/LinerNodes/tests/test_interfaces.py:167:62 - error: "GraphExplorer" is unknown import symbol (reportAttributeAccessIssue)
+  /home/matias/git/matias-ceau/LinerNodes/tests/test_interfaces.py:178:62 - error: "GraphExplorer" is unknown import symbol (reportAttributeAccessIssue)
+/home/matias/git/matias-ceau/LinerNodes/tests/test_knowledge_graph.py
+  /home/matias/git/matias-ceau/LinerNodes/tests/test_knowledge_graph.py:1:8 - error: Import "pytest" could not be resolved (reportMissingImports)
+  /home/matias/git/matias-ceau/LinerNodes/tests/test_knowledge_graph.py:96:26 - error: Cannot access attribute "artist_credit" for class "BaseEntity"
+    Attribute "artist_credit" is unknown (reportAttributeAccessIssue)
+  /home/matias/git/matias-ceau/LinerNodes/tests/test_knowledge_graph.py:129:16 - error: Argument of type "None" cannot be assigned to parameter "id" of type "str" in function "__init__"
+    "None" is not assignable to "str" (reportArgumentType)
+  /home/matias/git/matias-ceau/LinerNodes/tests/test_knowledge_graph.py:159:16 - error: Argument of type "None" cannot be assigned to parameter "id" of type "str" in function "__init__"
+    "None" is not assignable to "str" (reportArgumentType)
+  /home/matias/git/matias-ceau/LinerNodes/tests/test_knowledge_graph.py:166:16 - error: Argument of type "None" cannot be assigned to parameter "id" of type "str" in function "__init__"
+    "None" is not assignable to "str" (reportArgumentType)
+  /home/matias/git/matias-ceau/LinerNodes/tests/test_knowledge_graph.py:362:12 - error: Argument of type "None" cannot be assigned to parameter "id" of type "str" in function "__init__"
+    "None" is not assignable to "str" (reportArgumentType)
+  /home/matias/git/matias-ceau/LinerNodes/tests/test_knowledge_graph.py:369:12 - error: Argument of type "None" cannot be assigned to parameter "id" of type "str" in function "__init__"
+    "None" is not assignable to "str" (reportArgumentType)
+/home/matias/git/matias-ceau/LinerNodes/tests/test_performance.py
+  /home/matias/git/matias-ceau/LinerNodes/tests/test_performance.py:29:35 - error: Cannot access attribute "_cached_graph_data" for class "MusicGraphExplorer"
+    Attribute "_cached_graph_data" is unknown (reportAttributeAccessIssue)
+140 errors, 1 warning, 0 informations 

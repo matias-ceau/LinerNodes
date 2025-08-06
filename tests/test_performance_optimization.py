@@ -151,7 +151,7 @@ class TestPerformanceOptimizations:
         
         node_count = graph_data['stats']['node_count']
         
-        print(f"📊 Performance test results:")
+        print("📊 Performance test results:")
         print(f"   • Nodes: {node_count:,}")
         print(f"   • Load time: {load_time:.2f}s")  
         print(f"   • CPU usage: {cpu_usage:.1f}%")

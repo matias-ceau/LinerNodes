@@ -1,6 +1,5 @@
 import pytest
-from unittest.mock import Mock, patch, MagicMock
-from pathlib import Path
+from unittest.mock import Mock, patch
 
 # Test the interface modules - we'll mock external dependencies
 

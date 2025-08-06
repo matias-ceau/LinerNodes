@@ -4,7 +4,7 @@ Defines the contract that all source types must implement.
 """
 
 from abc import ABC, abstractmethod
-from typing import List, Dict, Any, Iterator, Optional, Tuple
+from typing import List, Dict, Any, Iterator, Optional, Tuple, Type
 from dataclasses import dataclass
 from pathlib import Path
 import logging
@@ -185,16 +185,16 @@ class SourceRegistry:
     """Registry for managing different source types."""
     
     def __init__(self):
-        self._source_classes = {}
-        self._sources = {}
+        self._source_classes: Dict[str, Type[MusicSource]] = {}
+        self._sources: Dict[str, MusicSource] = {}
         self.logger = logging.getLogger(f"{__name__}.SourceRegistry")
     
     def register_source_class(self, source_type: str, source_class: type):
         """Register a source class."""
         if not issubclass(source_class, MusicSource):
-            raise ValueError(f"Source class must inherit from MusicSource")
+            raise ValueError("Source class must inherit from MusicSource")
         
-        self._source_classes[source_type] = source_class
+        self._source_classes[source_type] = source_class  # type: ignore[assignment]
         self.logger.info(f"Registered source type: {source_type}")
     
     def create_source(self, source_type: str, name: str, config: Dict[str, Any]) -> MusicSource:

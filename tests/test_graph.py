@@ -5,7 +5,6 @@ import sys
 import time
 import subprocess
 import requests
-from pathlib import Path
 
 def test_graph_interface():
     """Test that the graph interface starts and serves content."""
@@ -23,9 +22,9 @@ def test_graph_interface():
             response = requests.get("http://localhost:8503", timeout=2)
             if response.status_code == 200:
                 print("✅ Graph interface is running!")
-                print(f"🌐 Access at: http://localhost:8503")
+                print("🌐 Access at: http://localhost:8503")
                 return True
-        except:
+        except Exception:
             time.sleep(1)
             continue
     
@@ -37,7 +36,7 @@ def test_graph_interface():
         if stderr:
             print("Error output:")
             print(stderr.decode())
-    except:
+    except Exception:
         pass
         
     return False

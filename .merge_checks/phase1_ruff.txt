@@ -1,0 +1,947 @@
+scripts/demo_tour.py:10:21: F401 [*] `pathlib.Path` imported but unused
+   |
+ 8 | import subprocess
+ 9 | import webbrowser
+10 | from pathlib import Path
+   |                     ^^^^ F401
+11 | from rich.console import Console
+12 | from rich.panel import Panel
+   |
+   = help: Remove unused import: `pathlib.Path`
+
+scripts/demo_tour.py:17:25: F401 [*] `rich.layout.Layout` imported but unused
+   |
+15 | from rich.progress import track
+16 | from rich.table import Table
+17 | from rich.layout import Layout
+   |                         ^^^^^^ F401
+18 | from rich.live import Live
+19 | import requests
+   |
+   = help: Remove unused import: `rich.layout.Layout`
+
+scripts/demo_tour.py:18:23: F401 [*] `rich.live.Live` imported but unused
+   |
+16 | from rich.table import Table
+17 | from rich.layout import Layout
+18 | from rich.live import Live
+   |                       ^^^^ F401
+19 | import requests
+   |
+   = help: Remove unused import: `rich.live.Live`
+
+scripts/demo_tour.py:19:8: F401 [*] `requests` imported but unused
+   |
+17 | from rich.layout import Layout
+18 | from rich.live import Live
+19 | import requests
+   |        ^^^^^^^^ F401
+20 |
+21 | console = Console()
+   |
+   = help: Remove unused import: `requests`
+
+scripts/demo_tour.py:116:9: E722 Do not use bare `except`
+    |
+115 |                 self.console.print(table)
+116 |         except:
+    |         ^^^^^^ E722
+117 |             self.console.print("🎭 The universe statistics remain mysterious for now...")
+    |
+
+scripts/demo_tour.py:142:9: E722 Do not use bare `except`
+    |
+140 |             else:
+141 |                 self.console.print("🌟 The search reveals mysteries yet to be imported...")
+142 |         except:
+    |         ^^^^^^ E722
+143 |             self.console.print("🎭 The cosmic search requires more time to materialize...")
+    |
+
+scripts/demo_tour.py:163:17: F841 Local variable `graph_process` is assigned to but never used
+    |
+161 |                 # Start the graph interface
+162 |                 self.console.print("🌌 Starting the graph interface...")
+163 |                 graph_process = subprocess.Popen([
+    |                 ^^^^^^^^^^^^^ F841
+164 |                     "uv", "run", "linernodes", "interface", "graph", 
+165 |                     "--port", str(self.graph_port)
+    |
+    = help: Remove assignment to unused variable `graph_process`
+
+scripts/demo_tour.py:179:21: E722 Do not use bare `except`
+    |
+177 |                         startup_success = True
+178 |                         break
+179 |                     except:
+    |                     ^^^^^^ E722
+180 |                         continue
+    |
+
+scripts/quick_performance_test.py:36:11: F541 [*] f-string without any placeholders
+   |
+35 |     # Test adaptive algorithm selection
+36 |     print(f"\n🧠 Layout algorithm used: ", end="")
+   |           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ F541
+37 |     if nodes > 2000:
+38 |         print("Random layout (optimized for large graphs)")
+   |
+   = help: Remove extraneous `f` prefix
+
+scripts/quick_performance_test.py:49:11: F541 [*] f-string without any placeholders
+   |
+47 |     success, node_count, time_taken = quick_test()
+48 |     
+49 |     print(f"\n🌐 Graph interface: http://localhost:8507")
+   |           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ F541
+50 |     print("🔧 Use the slider to test different node limits interactively")
+   |
+   = help: Remove extraneous `f` prefix
+
+src/linernodes/backend/database/database.py:10:47: F401 [*] `typing.Tuple` imported but unused
+   |
+ 8 | import logging
+ 9 | from pathlib import Path
+10 | from typing import Optional, List, Dict, Any, Tuple
+   |                                               ^^^^^ F401
+11 | from datetime import datetime, timezone
+12 | from contextlib import contextmanager
+   |
+   = help: Remove unused import: `typing.Tuple`
+
+src/linernodes/backend/database/database.py:11:22: F401 [*] `datetime.datetime` imported but unused
+   |
+ 9 | from pathlib import Path
+10 | from typing import Optional, List, Dict, Any, Tuple
+11 | from datetime import datetime, timezone
+   |                      ^^^^^^^^ F401
+12 | from contextlib import contextmanager
+   |
+   = help: Remove unused import
+
+src/linernodes/backend/database/database.py:11:32: F401 [*] `datetime.timezone` imported but unused
+   |
+ 9 | from pathlib import Path
+10 | from typing import Optional, List, Dict, Any, Tuple
+11 | from datetime import datetime, timezone
+   |                                ^^^^^^^^ F401
+12 | from contextlib import contextmanager
+   |
+   = help: Remove unused import
+
+src/linernodes/backend/database/models.py:8:47: F401 [*] `typing.Union` imported but unused
+   |
+ 6 | from dataclasses import dataclass, asdict, field
+ 7 | from datetime import datetime, date
+ 8 | from typing import Optional, List, Dict, Any, Union
+   |                                               ^^^^^ F401
+ 9 | from pathlib import Path
+10 | import json
+   |
+   = help: Remove unused import: `typing.Union`
+
+src/linernodes/backend/database/models.py:10:8: F401 [*] `json` imported but unused
+   |
+ 8 | from typing import Optional, List, Dict, Any, Union
+ 9 | from pathlib import Path
+10 | import json
+   |        ^^^^ F401
+11 | import pickle
+12 | import hashlib
+   |
+   = help: Remove unused import: `json`
+
+src/linernodes/backend/database/models.py:426:17: E722 Do not use bare `except`
+    |
+424 |                     count = conn.execute(f"SELECT COUNT(*) FROM {table}").fetchone()[0]
+425 |                     tables_info.append((table, count))
+426 |                 except:
+    |                 ^^^^^^ E722
+427 |                     tables_info.append((table, 0))
+    |
+
+src/linernodes/backend/player/mpd_config.py:2:31: F401 [*] `typing.Optional` imported but unused
+  |
+1 | from pathlib import Path
+2 | from typing import Dict, Any, Optional
+  |                               ^^^^^^^^ F401
+3 | from linernodes.config.config_manager import ConfigManager
+  |
+  = help: Remove unused import: `typing.Optional`
+
+src/linernodes/cli/commands.py:11:57: F401 [*] `linernodes.logging.setup.get_logger` imported but unused
+   |
+ 9 | # Initialize logging early for CLI
+10 | try:
+11 |     from linernodes.logging.setup import setup_logging, get_logger
+   |                                                         ^^^^^^^^^^ F401
+12 |     _cli_logger = setup_logging("linernodes.cli")
+13 |     _cli_logger.debug("CLI logging initialized", extra={"operation": "cli_boot"})
+   |
+   = help: Remove unused import: `linernodes.logging.setup.get_logger`
+
+src/linernodes/cli/commands.py:508:5: F841 Local variable `kg_cards_dir` is assigned to but never used
+    |
+506 |     # Validate knowledge graph paths
+507 |     kg_db_path = Path(config_manager.get("knowledge_graph", "db_path", "")).expanduser()
+508 |     kg_cards_dir = Path(config_manager.get("knowledge_graph", "cards_dir", "")).expanduser()
+    |     ^^^^^^^^^^^^ F841
+509 |     
+510 |     # Check if parent directories exist for database
+    |
+    = help: Remove assignment to unused variable `kg_cards_dir`
+
+src/linernodes/cli/commands.py:777:5: F811 Redefinition of unused `status` from line 642
+    |
+775 | @sources.command()
+776 | @click.pass_context
+777 | def status(ctx: click.Context) -> None:
+    |     ^^^^^^ F811
+778 |     """Show status of all configured sources."""
+779 |     from rich.console import Console
+    |
+    = help: Remove definition: `status`
+
+src/linernodes/cli/commands.py:790:23: F541 [*] f-string without any placeholders
+    |
+789 |         # Summary info
+790 |         console.print(f"[bold]Sources Summary[/bold]")
+    |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ F541
+791 |         console.print(f"Total sources: {summary['total_sources']}")
+792 |         console.print(f"Available: {summary['available_sources']}")
+    |
+    = help: Remove extraneous `f` prefix
+
+src/linernodes/cli/commands.py:797:23: F541 [*] f-string without any placeholders
+    |
+795 |         # Database stats
+796 |         db_stats = summary['database_stats']
+797 |         console.print(f"\n[bold]Database Stats[/bold]")
+    |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ F541
+798 |         console.print(f"Artists: {db_stats.get('artists', 0):,}")
+799 |         console.print(f"Albums: {db_stats.get('albums', 0):,}")
+    |
+    = help: Remove extraneous `f` prefix
+
+src/linernodes/cli/commands.py:808:23: F541 [*] f-string without any placeholders
+    |
+807 |         # Sources table
+808 |         console.print(f"\n[bold]Source Details[/bold]")
+    |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ F541
+809 |         table = Table(show_header=True)
+810 |         table.add_column("Name")
+    |
+    = help: Remove extraneous `f` prefix
+
+src/linernodes/cli/commands.py:1051:27: F541 [*] f-string without any placeholders
+     |
+1049 |             progress.update(task, description="Optimization complete!")
+1050 |             
+1051 |             console.print(f"\n[green]✓[/green] Database optimized successfully")
+     |                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ F541
+1052 |             if vacuum:
+1053 |                 console.print("[green]✓[/green] Database vacuumed and analyzed")
+     |
+     = help: Remove extraneous `f` prefix
+
+src/linernodes/cli/commands.py:1066:5: F811 Redefinition of unused `search` from line 146
+     |
+1064 | @click.option("--limit", default=20, help="Maximum number of results")
+1065 | @click.pass_context
+1066 | def search(ctx: click.Context, query: str, type: str = None, limit: int = 20) -> None:
+     |     ^^^^^^ F811
+1067 |     """Search for tracks, albums, or artists."""
+1068 |     from rich.console import Console
+     |
+     = help: Remove definition: `search`
+
+src/linernodes/interfaces/fast_graph_explorer.py:9:26: F401 [*] `typing.List` imported but unused
+   |
+ 7 | import plotly.graph_objects as go
+ 8 | import networkx as nx
+ 9 | from typing import Dict, List, Set, Tuple, Optional
+   |                          ^^^^ F401
+10 | import json
+11 | import sys
+   |
+   = help: Remove unused import
+
+src/linernodes/interfaces/fast_graph_explorer.py:9:32: F401 [*] `typing.Set` imported but unused
+   |
+ 7 | import plotly.graph_objects as go
+ 8 | import networkx as nx
+ 9 | from typing import Dict, List, Set, Tuple, Optional
+   |                                ^^^ F401
+10 | import json
+11 | import sys
+   |
+   = help: Remove unused import
+
+src/linernodes/interfaces/fast_graph_explorer.py:9:37: F401 [*] `typing.Tuple` imported but unused
+   |
+ 7 | import plotly.graph_objects as go
+ 8 | import networkx as nx
+ 9 | from typing import Dict, List, Set, Tuple, Optional
+   |                                     ^^^^^ F401
+10 | import json
+11 | import sys
+   |
+   = help: Remove unused import
+
+src/linernodes/interfaces/fast_graph_explorer.py:10:8: F401 [*] `json` imported but unused
+   |
+ 8 | import networkx as nx
+ 9 | from typing import Dict, List, Set, Tuple, Optional
+10 | import json
+   |        ^^^^ F401
+11 | import sys
+12 | from pathlib import Path
+   |
+   = help: Remove unused import: `json`
+
+src/linernodes/interfaces/fast_graph_explorer.py:14:25: F401 [*] `collections.defaultdict` imported but unused
+   |
+12 | from pathlib import Path
+13 | import time
+14 | from collections import defaultdict, Counter
+   |                         ^^^^^^^^^^^ F401
+15 |
+16 | # Handle imports
+   |
+   = help: Remove unused import
+
+src/linernodes/interfaces/fast_graph_explorer.py:14:38: F401 [*] `collections.Counter` imported but unused
+   |
+12 | from pathlib import Path
+13 | import time
+14 | from collections import defaultdict, Counter
+   |                                      ^^^^^^^ F401
+15 |
+16 | # Handle imports
+   |
+   = help: Remove unused import
+
+src/linernodes/interfaces/fast_graph_explorer.py:23:69: F401 [*] `linernodes.backend.database.models.Track` imported but unused
+   |
+21 |     import os
+22 |     sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
+23 |     from linernodes.backend.database.models import DatabaseManager, Track, Album, Artist
+   |                                                                     ^^^^^ F401
+24 |     from linernodes.backend.database.database import LinerDatabase
+   |
+   = help: Remove unused import
+
+src/linernodes/interfaces/fast_graph_explorer.py:23:76: F401 [*] `linernodes.backend.database.models.Album` imported but unused
+   |
+21 |     import os
+22 |     sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
+23 |     from linernodes.backend.database.models import DatabaseManager, Track, Album, Artist
+   |                                                                            ^^^^^ F401
+24 |     from linernodes.backend.database.database import LinerDatabase
+   |
+   = help: Remove unused import
+
+src/linernodes/interfaces/fast_graph_explorer.py:23:83: F401 [*] `linernodes.backend.database.models.Artist` imported but unused
+   |
+21 |     import os
+22 |     sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
+23 |     from linernodes.backend.database.models import DatabaseManager, Track, Album, Artist
+   |                                                                                   ^^^^^^ F401
+24 |     from linernodes.backend.database.database import LinerDatabase
+   |
+   = help: Remove unused import
+
+src/linernodes/interfaces/fast_graph_explorer.py:24:54: F401 [*] `linernodes.backend.database.database.LinerDatabase` imported but unused
+   |
+22 |     sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
+23 |     from linernodes.backend.database.models import DatabaseManager, Track, Album, Artist
+24 |     from linernodes.backend.database.database import LinerDatabase
+   |                                                      ^^^^^^^^^^^^^ F401
+   |
+   = help: Remove unused import: `linernodes.backend.database.database.LinerDatabase`
+
+src/linernodes/interfaces/graph_explorer.py:8:26: F401 [*] `plotly.express` imported but unused
+   |
+ 6 | import streamlit as st
+ 7 | import plotly.graph_objects as go
+ 8 | import plotly.express as px
+   |                          ^^ F401
+ 9 | import networkx as nx
+10 | from typing import Dict, List, Set, Tuple, Optional
+   |
+   = help: Remove unused import: `plotly.express`
+
+src/linernodes/interfaces/graph_explorer.py:10:26: F401 [*] `typing.List` imported but unused
+   |
+ 8 | import plotly.express as px
+ 9 | import networkx as nx
+10 | from typing import Dict, List, Set, Tuple, Optional
+   |                          ^^^^ F401
+11 | import json
+12 | import sys
+   |
+   = help: Remove unused import
+
+src/linernodes/interfaces/graph_explorer.py:10:32: F401 [*] `typing.Set` imported but unused
+   |
+ 8 | import plotly.express as px
+ 9 | import networkx as nx
+10 | from typing import Dict, List, Set, Tuple, Optional
+   |                                ^^^ F401
+11 | import json
+12 | import sys
+   |
+   = help: Remove unused import
+
+src/linernodes/interfaces/graph_explorer.py:10:37: F401 [*] `typing.Tuple` imported but unused
+   |
+ 8 | import plotly.express as px
+ 9 | import networkx as nx
+10 | from typing import Dict, List, Set, Tuple, Optional
+   |                                     ^^^^^ F401
+11 | import json
+12 | import sys
+   |
+   = help: Remove unused import
+
+src/linernodes/interfaces/graph_explorer.py:11:8: F401 [*] `json` imported but unused
+   |
+ 9 | import networkx as nx
+10 | from typing import Dict, List, Set, Tuple, Optional
+11 | import json
+   |        ^^^^ F401
+12 | import sys
+13 | from pathlib import Path
+   |
+   = help: Remove unused import: `json`
+
+src/linernodes/interfaces/graph_explorer.py:14:8: F401 [*] `random` imported but unused
+   |
+12 | import sys
+13 | from pathlib import Path
+14 | import random
+   |        ^^^^^^ F401
+15 | import numpy as np
+16 | from functools import lru_cache
+   |
+   = help: Remove unused import: `random`
+
+src/linernodes/interfaces/graph_explorer.py:15:17: F401 [*] `numpy` imported but unused
+   |
+13 | from pathlib import Path
+14 | import random
+15 | import numpy as np
+   |                 ^^ F401
+16 | from functools import lru_cache
+17 | import time
+   |
+   = help: Remove unused import: `numpy`
+
+src/linernodes/interfaces/graph_explorer.py:16:23: F401 [*] `functools.lru_cache` imported but unused
+   |
+14 | import random
+15 | import numpy as np
+16 | from functools import lru_cache
+   |                       ^^^^^^^^^ F401
+17 | import time
+18 | import psutil
+   |
+   = help: Remove unused import: `functools.lru_cache`
+
+src/linernodes/interfaces/graph_explorer.py:29:69: F401 [*] `linernodes.backend.database.models.Track` imported but unused
+   |
+27 |     import os
+28 |     sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
+29 |     from linernodes.backend.database.models import DatabaseManager, Track, Album, Artist
+   |                                                                     ^^^^^ F401
+30 |     from linernodes.backend.database.database import LinerDatabase
+   |
+   = help: Remove unused import
+
+src/linernodes/interfaces/graph_explorer.py:29:76: F401 [*] `linernodes.backend.database.models.Album` imported but unused
+   |
+27 |     import os
+28 |     sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
+29 |     from linernodes.backend.database.models import DatabaseManager, Track, Album, Artist
+   |                                                                            ^^^^^ F401
+30 |     from linernodes.backend.database.database import LinerDatabase
+   |
+   = help: Remove unused import
+
+src/linernodes/interfaces/graph_explorer.py:29:83: F401 [*] `linernodes.backend.database.models.Artist` imported but unused
+   |
+27 |     import os
+28 |     sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
+29 |     from linernodes.backend.database.models import DatabaseManager, Track, Album, Artist
+   |                                                                                   ^^^^^^ F401
+30 |     from linernodes.backend.database.database import LinerDatabase
+   |
+   = help: Remove unused import
+
+src/linernodes/interfaces/graph_explorer.py:30:54: F401 [*] `linernodes.backend.database.database.LinerDatabase` imported but unused
+   |
+28 |     sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
+29 |     from linernodes.backend.database.models import DatabaseManager, Track, Album, Artist
+30 |     from linernodes.backend.database.database import LinerDatabase
+   |                                                      ^^^^^^^^^^^^^ F401
+   |
+   = help: Remove unused import: `linernodes.backend.database.database.LinerDatabase`
+
+src/linernodes/interfaces/graph_explorer.py:384:13: F841 Local variable `fast_mode` is assigned to but never used
+    |
+383 |             # Performance options
+384 |             fast_mode = st.checkbox("Fast Mode", value=True, help="Optimized rendering for large graphs")
+    |             ^^^^^^^^^ F841
+385 |             show_labels = st.checkbox("Show Labels", value=False, help="Node labels (slower for large graphs)")
+    |
+    = help: Remove assignment to unused variable `fast_mode`
+
+src/linernodes/interfaces/mcp_server.py:55:25: F841 [*] Local variable `e` is assigned to but never used
+   |
+53 |         )
+54 |         
+55 |     except Exception as e:
+   |                         ^ F841
+56 |         return PlayerStatus(state="error")
+   |
+   = help: Remove assignment to unused variable `e`
+
+src/linernodes/interfaces/tui.py:2:55: F401 [*] `textual.containers.Vertical` imported but unused
+  |
+1 | from textual.app import App, ComposeResult
+2 | from textual.containers import Container, Horizontal, Vertical
+  |                                                       ^^^^^^^^ F401
+3 | from textual.widgets import Header, Footer, Static, Button, ProgressBar, Label, DataTable
+4 | from textual.binding import Binding
+  |
+  = help: Remove unused import: `textual.containers.Vertical`
+
+src/linernodes/interfaces/tui.py:8:22: F401 [*] `datetime.datetime` imported but unused
+  |
+6 | from textual import work
+7 | import asyncio
+8 | from datetime import datetime
+  |                      ^^^^^^^^ F401
+9 | from typing import Optional
+  |
+  = help: Remove unused import: `datetime.datetime`
+
+src/linernodes/knowledge_graph/graph_db.py:3:36: F401 [*] `typing.Dict` imported but unused
+  |
+1 | import duckdb
+2 | import json
+3 | from typing import List, Optional, Dict, Any, Set, Tuple
+  |                                    ^^^^ F401
+4 | from pathlib import Path
+5 | from datetime import datetime
+  |
+  = help: Remove unused import
+
+src/linernodes/knowledge_graph/graph_db.py:3:42: F401 [*] `typing.Any` imported but unused
+  |
+1 | import duckdb
+2 | import json
+3 | from typing import List, Optional, Dict, Any, Set, Tuple
+  |                                          ^^^ F401
+4 | from pathlib import Path
+5 | from datetime import datetime
+  |
+  = help: Remove unused import
+
+src/linernodes/knowledge_graph/graph_db.py:3:47: F401 [*] `typing.Set` imported but unused
+  |
+1 | import duckdb
+2 | import json
+3 | from typing import List, Optional, Dict, Any, Set, Tuple
+  |                                               ^^^ F401
+4 | from pathlib import Path
+5 | from datetime import datetime
+  |
+  = help: Remove unused import
+
+src/linernodes/knowledge_graph/graph_db.py:3:52: F401 [*] `typing.Tuple` imported but unused
+  |
+1 | import duckdb
+2 | import json
+3 | from typing import List, Optional, Dict, Any, Set, Tuple
+  |                                                    ^^^^^ F401
+4 | from pathlib import Path
+5 | from datetime import datetime
+  |
+  = help: Remove unused import
+
+src/linernodes/knowledge_graph/graph_db.py:4:21: F401 [*] `pathlib.Path` imported but unused
+  |
+2 | import json
+3 | from typing import List, Optional, Dict, Any, Set, Tuple
+4 | from pathlib import Path
+  |                     ^^^^ F401
+5 | from datetime import datetime
+  |
+  = help: Remove unused import: `pathlib.Path`
+
+src/linernodes/knowledge_graph/graph_db.py:5:22: F401 [*] `datetime.datetime` imported but unused
+  |
+3 | from typing import List, Optional, Dict, Any, Set, Tuple
+4 | from pathlib import Path
+5 | from datetime import datetime
+  |                      ^^^^^^^^ F401
+6 |
+7 | from .models import (
+  |
+  = help: Remove unused import: `datetime.datetime`
+
+src/linernodes/knowledge_graph/markdown_cards.py:2:41: F401 [*] `typing.List` imported but unused
+  |
+1 | import yaml
+2 | from typing import Dict, Any, Optional, List
+  |                                         ^^^^ F401
+3 | from pathlib import Path
+4 | from datetime import datetime
+  |
+  = help: Remove unused import: `typing.List`
+
+src/linernodes/knowledge_graph/markdown_cards.py:4:22: F401 [*] `datetime.datetime` imported but unused
+  |
+2 | from typing import Dict, Any, Optional, List
+3 | from pathlib import Path
+4 | from datetime import datetime
+  |                      ^^^^^^^^ F401
+5 |
+6 | from .models import (
+  |
+  = help: Remove unused import: `datetime.datetime`
+
+src/linernodes/knowledge_graph/models.py:2:47: F401 [*] `typing.Set` imported but unused
+  |
+1 | from dataclasses import dataclass
+2 | from typing import Optional, List, Dict, Any, Set
+  |                                               ^^^ F401
+3 | from datetime import datetime
+4 | from enum import Enum
+  |
+  = help: Remove unused import: `typing.Set`
+
+src/linernodes/knowledge_graph/musicbrainz_integration.py:7:20: F401 [*] `.models.Recording` imported but unused
+  |
+6 | from .models import (
+7 |     Album, Artist, Recording, Label, Person, Genre, Relationship,
+  |                    ^^^^^^^^^ F401
+8 |     EntityType, RelationshipType, EntityFactory
+9 | )
+  |
+  = help: Remove unused import
+
+src/linernodes/knowledge_graph/musicbrainz_integration.py:7:31: F401 [*] `.models.Label` imported but unused
+  |
+6 | from .models import (
+7 |     Album, Artist, Recording, Label, Person, Genre, Relationship,
+  |                               ^^^^^ F401
+8 |     EntityType, RelationshipType, EntityFactory
+9 | )
+  |
+  = help: Remove unused import
+
+src/linernodes/knowledge_graph/musicbrainz_integration.py:7:38: F401 [*] `.models.Person` imported but unused
+  |
+6 | from .models import (
+7 |     Album, Artist, Recording, Label, Person, Genre, Relationship,
+  |                                      ^^^^^^ F401
+8 |     EntityType, RelationshipType, EntityFactory
+9 | )
+  |
+  = help: Remove unused import
+
+src/linernodes/knowledge_graph/musicbrainz_integration.py:7:46: F401 [*] `.models.Genre` imported but unused
+  |
+6 | from .models import (
+7 |     Album, Artist, Recording, Label, Person, Genre, Relationship,
+  |                                              ^^^^^ F401
+8 |     EntityType, RelationshipType, EntityFactory
+9 | )
+  |
+  = help: Remove unused import
+
+src/linernodes/knowledge_graph/musicbrainz_integration.py:119:13: E722 Do not use bare `except`
+    |
+117 |                 else:  # Full date
+118 |                     release_date = datetime.strptime(date_str, '%Y-%m-%d')
+119 |             except:
+    |             ^^^^^^ E722
+120 |                 pass
+    |
+
+src/linernodes/knowledge_graph/musicbrainz_integration.py:180:17: E722 Do not use bare `except`
+    |
+178 |                 try:
+179 |                     begin_date = datetime.strptime(life_span['begin'], '%Y-%m-%d')
+180 |                 except:
+    |                 ^^^^^^ E722
+181 |                     try:
+182 |                         begin_date = datetime.strptime(life_span['begin'], '%Y')
+    |
+
+src/linernodes/knowledge_graph/musicbrainz_integration.py:183:21: E722 Do not use bare `except`
+    |
+181 |                     try:
+182 |                         begin_date = datetime.strptime(life_span['begin'], '%Y')
+183 |                     except:
+    |                     ^^^^^^ E722
+184 |                         pass
+    |
+
+src/linernodes/knowledge_graph/musicbrainz_integration.py:189:17: E722 Do not use bare `except`
+    |
+187 |                 try:
+188 |                     end_date = datetime.strptime(life_span['end'], '%Y-%m-%d')
+189 |                 except:
+    |                 ^^^^^^ E722
+190 |                     try:
+191 |                         end_date = datetime.strptime(life_span['end'], '%Y')
+    |
+
+src/linernodes/knowledge_graph/musicbrainz_integration.py:192:21: E722 Do not use bare `except`
+    |
+190 |                     try:
+191 |                         end_date = datetime.strptime(life_span['end'], '%Y')
+192 |                     except:
+    |                     ^^^^^^ E722
+193 |                         pass
+    |
+
+src/linernodes/knowledge_graph/musicbrainz_integration.py:360:9: E722 Do not use bare `except`
+    |
+358 |             if result:
+359 |                 return self.kg_db._row_to_entity(result)
+360 |         except:
+    |         ^^^^^^ E722
+361 |             pass
+362 |         return None
+    |
+
+src/linernodes/sources/__init__.py:137:15: F401 `.local_files` imported but unused; consider removing, adding to `__all__`, or using a redundant alias
+    |
+136 | # Import source implementations to register them
+137 | from . import local_files
+    |               ^^^^^^^^^^^ F401
+138 |
+139 | __all__ = ['MusicSource', 'SourceTrack', 'SourceStatus', 'source_registry', 'SourceManager']
+    |
+    = help: Add unused import `local_files` to __all__
+
+src/linernodes/sources/base.py:195:30: F541 [*] f-string without any placeholders
+    |
+193 |         """Register a source class."""
+194 |         if not issubclass(source_class, MusicSource):
+195 |             raise ValueError(f"Source class must inherit from MusicSource")
+    |                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ F541
+196 |         
+197 |         self._source_classes[source_type] = source_class
+    |
+    = help: Remove extraneous `f` prefix
+
+src/linernodes/sources/source_manager.py:6:47: F401 [*] `typing.Iterator` imported but unused
+  |
+4 | """
+5 |
+6 | from typing import List, Dict, Any, Optional, Iterator
+  |                                               ^^^^^^^^ F401
+7 | from pathlib import Path
+8 | import logging
+  |
+  = help: Remove unused import: `typing.Iterator`
+
+src/linernodes/sources/source_manager.py:7:21: F401 [*] `pathlib.Path` imported but unused
+  |
+6 | from typing import List, Dict, Any, Optional, Iterator
+7 | from pathlib import Path
+  |                     ^^^^ F401
+8 | import logging
+9 | from datetime import datetime, timezone
+  |
+  = help: Remove unused import: `pathlib.Path`
+
+src/linernodes/sources/source_manager.py:9:32: F401 [*] `datetime.timezone` imported but unused
+   |
+ 7 | from pathlib import Path
+ 8 | import logging
+ 9 | from datetime import datetime, timezone
+   |                                ^^^^^^^^ F401
+10 |
+11 | from .base import MusicSource, SourceStatus, source_registry
+   |
+   = help: Remove unused import: `datetime.timezone`
+
+src/linernodes/sources/source_manager.py:12:56: F401 [*] `..backend.database.models.Track` imported but unused
+   |
+11 | from .base import MusicSource, SourceStatus, source_registry
+12 | from ..backend.database.models import DatabaseManager, Track
+   |                                                        ^^^^^ F401
+13 | from ..config.config_manager import ConfigManager
+   |
+   = help: Remove unused import: `..backend.database.models.Track`
+
+src/linernodes/sources/source_manager.py:200:21: F841 Local variable `db_track` is assigned to but never used
+    |
+199 |                     # Import track
+200 |                     db_track = self.db_manager.import_track_from_source(
+    |                     ^^^^^^^^ F841
+201 |                         track_data=track.to_dict(),
+202 |                         source_data=track.to_source_dict()
+    |
+    = help: Remove assignment to unused variable `db_track`
+
+tests/test_cli.py:2:40: F401 [*] `unittest.mock.MagicMock` imported but unused
+  |
+1 | import pytest
+2 | from unittest.mock import Mock, patch, MagicMock
+  |                                        ^^^^^^^^^ F401
+3 | from click.testing import CliRunner
+4 | import tempfile
+  |
+  = help: Remove unused import: `unittest.mock.MagicMock`
+
+tests/test_graph.py:8:21: F401 [*] `pathlib.Path` imported but unused
+   |
+ 6 | import subprocess
+ 7 | import requests
+ 8 | from pathlib import Path
+   |                     ^^^^ F401
+ 9 |
+10 | def test_graph_interface():
+   |
+   = help: Remove unused import: `pathlib.Path`
+
+tests/test_graph.py:26:23: F541 [*] f-string without any placeholders
+   |
+24 |             if response.status_code == 200:
+25 |                 print("✅ Graph interface is running!")
+26 |                 print(f"🌐 Access at: http://localhost:8503")
+   |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ F541
+27 |                 return True
+28 |         except:
+   |
+   = help: Remove extraneous `f` prefix
+
+tests/test_graph.py:28:9: E722 Do not use bare `except`
+   |
+26 |                 print(f"🌐 Access at: http://localhost:8503")
+27 |                 return True
+28 |         except:
+   |         ^^^^^^ E722
+29 |             time.sleep(1)
+30 |             continue
+   |
+
+tests/test_graph.py:40:5: E722 Do not use bare `except`
+   |
+38 |             print("Error output:")
+39 |             print(stderr.decode())
+40 |     except:
+   |     ^^^^^^ E722
+41 |         pass
+   |
+
+tests/test_interfaces.py:2:40: F401 [*] `unittest.mock.MagicMock` imported but unused
+  |
+1 | import pytest
+2 | from unittest.mock import Mock, patch, MagicMock
+  |                                        ^^^^^^^^^ F401
+3 | from pathlib import Path
+  |
+  = help: Remove unused import: `unittest.mock.MagicMock`
+
+tests/test_interfaces.py:3:21: F401 [*] `pathlib.Path` imported but unused
+  |
+1 | import pytest
+2 | from unittest.mock import Mock, patch, MagicMock
+3 | from pathlib import Path
+  |                     ^^^^ F401
+4 |
+5 | # Test the interface modules - we'll mock external dependencies
+  |
+  = help: Remove unused import: `pathlib.Path`
+
+tests/test_knowledge_graph.py:8:5: F401 [*] `src.linernodes.knowledge_graph.models.Album` imported but unused
+   |
+ 7 | from src.linernodes.knowledge_graph.models import (
+ 8 |     Album, Artist, Recording, Genre, Person, Label,
+   |     ^^^^^ F401
+ 9 |     EntityType, RelationshipType, EntityFactory, Relationship
+10 | )
+   |
+   = help: Remove unused import
+
+tests/test_knowledge_graph.py:8:12: F401 [*] `src.linernodes.knowledge_graph.models.Artist` imported but unused
+   |
+ 7 | from src.linernodes.knowledge_graph.models import (
+ 8 |     Album, Artist, Recording, Genre, Person, Label,
+   |            ^^^^^^ F401
+ 9 |     EntityType, RelationshipType, EntityFactory, Relationship
+10 | )
+   |
+   = help: Remove unused import
+
+tests/test_knowledge_graph.py:8:20: F401 [*] `src.linernodes.knowledge_graph.models.Recording` imported but unused
+   |
+ 7 | from src.linernodes.knowledge_graph.models import (
+ 8 |     Album, Artist, Recording, Genre, Person, Label,
+   |                    ^^^^^^^^^ F401
+ 9 |     EntityType, RelationshipType, EntityFactory, Relationship
+10 | )
+   |
+   = help: Remove unused import
+
+tests/test_knowledge_graph.py:8:31: F401 [*] `src.linernodes.knowledge_graph.models.Genre` imported but unused
+   |
+ 7 | from src.linernodes.knowledge_graph.models import (
+ 8 |     Album, Artist, Recording, Genre, Person, Label,
+   |                               ^^^^^ F401
+ 9 |     EntityType, RelationshipType, EntityFactory, Relationship
+10 | )
+   |
+   = help: Remove unused import
+
+tests/test_knowledge_graph.py:8:38: F401 [*] `src.linernodes.knowledge_graph.models.Person` imported but unused
+   |
+ 7 | from src.linernodes.knowledge_graph.models import (
+ 8 |     Album, Artist, Recording, Genre, Person, Label,
+   |                                      ^^^^^^ F401
+ 9 |     EntityType, RelationshipType, EntityFactory, Relationship
+10 | )
+   |
+   = help: Remove unused import
+
+tests/test_knowledge_graph.py:8:46: F401 [*] `src.linernodes.knowledge_graph.models.Label` imported but unused
+   |
+ 7 | from src.linernodes.knowledge_graph.models import (
+ 8 |     Album, Artist, Recording, Genre, Person, Label,
+   |                                              ^^^^^ F401
+ 9 |     EntityType, RelationshipType, EntityFactory, Relationship
+10 | )
+   |
+   = help: Remove unused import
+
+tests/test_performance.py:120:11: F541 [*] f-string without any placeholders
+    |
+118 |     performance_summary(results)
+119 |     
+120 |     print(f"\n🌐 Graph interface running at: http://localhost:8507")
+    |           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ F541
+121 |     print("🔧 Use the 'Maximum Nodes' slider to test different scales interactively")
+    |
+    = help: Remove extraneous `f` prefix
+
+tests/test_performance_optimization.py:154:15: F541 [*] f-string without any placeholders
+    |
+152 |         node_count = graph_data['stats']['node_count']
+153 |         
+154 |         print(f"📊 Performance test results:")
+    |               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ F541
+155 |         print(f"   • Nodes: {node_count:,}")
+156 |         print(f"   • Load time: {load_time:.2f}s")  
+    |
+    = help: Remove extraneous `f` prefix
+
+Found 92 errors.
+[*] 73 fixable with the `--fix` option (4 hidden fixes can be enabled with the `--unsafe-fixes` option).

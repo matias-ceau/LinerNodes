@@ -7,16 +7,12 @@ A guided journey through the musical universe in your collection.
 import time
 import subprocess
 import webbrowser
-from pathlib import Path
 from rich.console import Console
 from rich.panel import Panel
 from rich.text import Text
 from rich.prompt import Prompt, Confirm
 from rich.progress import track
 from rich.table import Table
-from rich.layout import Layout
-from rich.live import Live
-import requests
 
 console = Console()
 
@@ -113,7 +109,7 @@ class DisquaireTour:
                 table.add_row("Connections", "∞")
                 
                 self.console.print(table)
-        except:
+        except Exception:
             self.console.print("🎭 The universe statistics remain mysterious for now...")
     
     def chapter_2_first_search(self):
@@ -139,7 +135,7 @@ class DisquaireTour:
                 self.console.print(result.stdout)
             else:
                 self.console.print("🌟 The search reveals mysteries yet to be imported...")
-        except:
+        except Exception:
             self.console.print("🎭 The cosmic search requires more time to materialize...")
         
         self.console.print("\n💡 Notice: Each result is not just a song - it's a node in the infinite network.")
@@ -160,8 +156,8 @@ class DisquaireTour:
             try:
                 # Start the graph interface
                 self.console.print("🌌 Starting the graph interface...")
-                graph_process = subprocess.Popen([
-                    "uv", "run", "linernodes", "interface", "graph", 
+                _ = subprocess.Popen([
+                    "uv", "run", "linernodes", "interface", "graph",
                     "--port", str(self.graph_port)
                 ], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
                 
@@ -176,7 +172,7 @@ class DisquaireTour:
                         urllib.request.urlopen(graph_url, timeout=1)
                         startup_success = True
                         break
-                    except:
+                    except Exception:
                         continue
                 
                 if startup_success:
