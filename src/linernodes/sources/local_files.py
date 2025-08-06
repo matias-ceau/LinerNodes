@@ -10,7 +10,8 @@ import mimetypes
 
 try:
     import mutagen
-    from mutagen.id3 import ID3NoHeaderError
+    # Correct private import path noted by pyright
+    from mutagen.id3._util import ID3NoHeaderError  # type: ignore[reportPrivateImportUsage]
     MUTAGEN_AVAILABLE = True
 except ImportError:
     MUTAGEN_AVAILABLE = False
@@ -50,7 +51,7 @@ class LocalFileSource(LocalSource):
     
     def scan_tracks(self) -> Iterator[SourceTrack]:
         """Scan all configured directories for music files."""
-        processed_files = set()
+        processed_files: Set[str] = set()
         
         for music_dir in self.music_dirs:
             if not music_dir.exists():
@@ -170,6 +171,8 @@ class LocalFileSource(LocalSource):
             # Audio properties
             if hasattr(audio_file, 'info'):
                 info = audio_file.info
+                if track.source_metadata is None:
+                    track.source_metadata = {}
                 track.source_metadata.update({
                     'bitrate': getattr(info, 'bitrate', None),
                     'sample_rate': getattr(info, 'sample_rate', None),
@@ -296,7 +299,7 @@ class LocalFileSource(LocalSource):
     
     def get_directories_summary(self) -> Dict[str, Any]:
         """Get summary information about configured directories."""
-        summary = {
+        summary: Dict[str, Any] = {
             'directories': [],
             'total_files': 0,
             'total_size': 0,

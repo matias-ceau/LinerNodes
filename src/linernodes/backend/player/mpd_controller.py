@@ -2,8 +2,66 @@ import os
 import subprocess
 import shutil
 from pathlib import Path
-from mpd import MPDClient
-from xdg import xdg_config_home, xdg_data_home, xdg_state_home, xdg_cache_home
+from typing import Any, Dict, List, Optional, Iterable, Protocol, runtime_checkable
+from mpd import MPDClient as _RealMPDClient
+
+@runtime_checkable
+class MPDClient(Protocol):
+    def connect(self, *args: Any, **kwargs: Any) -> Any: ...
+    def disconnect(self) -> Any: ...
+    def update(self, *args: Any, **kwargs: Any) -> Any: ...
+    def status(self) -> Dict[str, Any]: ...
+    def playlistinfo(self) -> List[Dict[str, Any]]: ...
+    def play(self, *args: Any, **kwargs: Any) -> Any: ...
+    def pause(self, *args: Any, **kwargs: Any) -> Any: ...
+    def stop(self, *args: Any, **kwargs: Any) -> Any: ...
+    def next(self) -> Any: ...
+    def previous(self) -> Any: ...
+    def setvol(self, volume: int) -> Any: ...
+    def add(self, uri: str) -> Any: ...
+    def clear(self) -> Any: ...
+    def currentsong(self) -> Dict[str, Any]: ...
+    def listall(self, uri: Optional[str] = None) -> Iterable[Dict[str, Any]]: ...
+    def close(self) -> Any: ...
+
+# Keep a runtime alias to the real client for construction if used elsewhere
+RealMPDClient = _RealMPDClient
+
+# Support both pyxdg and xdg-base-dirs style APIs
+try:
+    # pyxdg
+    from xdg.BaseDirectory import (
+        xdg_config_home as _xdg_config_home,
+        xdg_data_home as _xdg_data_home,
+        xdg_state_home as _xdg_state_home,
+        xdg_cache_home as _xdg_cache_home,
+    )
+    def xdg_config_home() -> str: return _xdg_config_home  # type: ignore[no-redef]
+    def xdg_data_home() -> str: return _xdg_data_home      # type: ignore[no-redef]
+    def xdg_state_home() -> str: return _xdg_state_home    # type: ignore[no-redef]
+    def xdg_cache_home() -> str: return _xdg_cache_home    # type: ignore[no-redef]
+except Exception:
+    # Fallback: emulate using pathlib and environment variables
+    import os as _os
+    from pathlib import Path as _Path
+
+    def _home_dir(env: str, default: str) -> str:
+        val = _os.environ.get(env)
+        if val:
+            return val
+        return str(_Path.home() / default)
+
+    def xdg_config_home() -> str:
+        return _home_dir("XDG_CONFIG_HOME", ".config")
+
+    def xdg_data_home() -> str:
+        return _home_dir("XDG_DATA_HOME", ".local/share")
+
+    def xdg_state_home() -> str:
+        return _home_dir("XDG_STATE_HOME", ".local/state")
+
+    def xdg_cache_home() -> str:
+        return _home_dir("XDG_CACHE_HOME", ".cache")
 
 from linernodes.config.config_manager import ConfigManager
 

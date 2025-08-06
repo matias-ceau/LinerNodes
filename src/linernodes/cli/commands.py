@@ -505,7 +505,8 @@ def config_validate(ctx: click.Context) -> None:
     
     # Validate knowledge graph paths
     kg_db_path = Path(config_manager.get("knowledge_graph", "db_path", "")).expanduser()
-    kg_cards_dir = Path(config_manager.get("knowledge_graph", "cards_dir", "")).expanduser()
+    # kg_cards_dir not used yet
+    # kg_cards_dir = Path(config_manager.get("knowledge_graph", "cards_dir", "")).expanduser()
     
     # Check if parent directories exist for database
     if not kg_db_path.parent.exists():

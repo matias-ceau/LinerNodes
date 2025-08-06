@@ -100,4 +100,4 @@ ERROR tests/test_knowledge_graph.py
 ERROR tests/test_performance.py
 ERROR tests/test_performance_optimization.py
 !!!!!!!!!!!!!!!!!!! Interrupted: 6 errors during collection !!!!!!!!!!!!!!!!!!!!
-6 errors in 0.28s
+6 errors in 0.39s
