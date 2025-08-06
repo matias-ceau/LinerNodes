@@ -6,6 +6,15 @@ from pathlib import Path
 from datetime import datetime
 import sys
 
+# Initialize logging early for CLI
+try:
+    from linernodes.logging.setup import setup_logging, get_logger
+    _cli_logger = setup_logging("linernodes.cli")
+    _cli_logger.debug("CLI logging initialized", extra={"operation": "cli_boot"})
+except Exception:
+    # Logging must not break CLI startup; fail-safe
+    _cli_logger = None
+
 from linernodes.backend.player.mpd_controller import MpdController
 from linernodes.config.config_manager import ConfigManager
 
@@ -22,6 +31,19 @@ def cli(ctx: click.Context) -> None:
 
     # Store references to config
     ctx.obj["config"] = config
+
+    # Announce base configuration via logging if available
+    if _cli_logger:
+        try:
+            _cli_logger.info(
+                "CLI started",
+                extra={
+                    "operation": "cli_start",
+                    "config_sources": ",".join(config.get_config_info().get("sources", [])),
+                },
+            )
+        except Exception:
+            pass
 
 
 @cli.group()
