@@ -52,7 +52,7 @@ def get_player_status() -> PlayerStatus:
             position=position
         )
         
-    except Exception as e:
+    except Exception:
         return PlayerStatus(state="error")
 
 @mcp.tool()

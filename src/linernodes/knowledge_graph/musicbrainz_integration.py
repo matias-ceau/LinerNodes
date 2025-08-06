@@ -4,7 +4,7 @@ from datetime import datetime
 import time
 
 from .models import (
-    Album, Artist, Recording, Label, Person, Genre, Relationship,
+    Album, Artist, Relationship,
     EntityType, RelationshipType, EntityFactory
 )
 from .graph_db import KnowledgeGraphDB

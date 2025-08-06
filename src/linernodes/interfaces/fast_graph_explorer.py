@@ -6,12 +6,10 @@ No external API calls, optimized for beets/local databases
 import streamlit as st
 import plotly.graph_objects as go
 import networkx as nx
-from typing import Dict, List, Set, Tuple, Optional
-import json
+from typing import Dict, Optional
 import sys
 from pathlib import Path
 import time
-from collections import defaultdict, Counter
 
 # Handle imports
 try:
@@ -20,8 +18,7 @@ try:
 except ImportError:
     import os
     sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
-    from linernodes.backend.database.models import DatabaseManager, Track, Album, Artist
-    from linernodes.backend.database.database import LinerDatabase
+    from linernodes.backend.database.models import DatabaseManager
 
 
 class FastMusicGraphExplorer:

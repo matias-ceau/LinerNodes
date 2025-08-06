@@ -8,7 +8,7 @@ import sys
 
 # Initialize logging early for CLI
 try:
-    from linernodes.logging.setup import setup_logging, get_logger
+    from linernodes.logging.setup import setup_logging
     _cli_logger = setup_logging("linernodes.cli")
     _cli_logger.debug("CLI logging initialized", extra={"operation": "cli_boot"})
 except Exception:
@@ -787,14 +787,14 @@ def status(ctx: click.Context) -> None:
         summary = source_manager.get_summary()
         
         # Summary info
-        console.print(f"[bold]Sources Summary[/bold]")
+        console.print("[bold]Sources Summary[/bold]")
         console.print(f"Total sources: {summary['total_sources']}")
         console.print(f"Available: {summary['available_sources']}")
         console.print(f"Types: {', '.join(summary['source_types'])}")
         
         # Database stats
         db_stats = summary['database_stats']
-        console.print(f"\n[bold]Database Stats[/bold]")
+        console.print("\n[bold]Database Stats[/bold]")
         console.print(f"Artists: {db_stats.get('artists', 0):,}")
         console.print(f"Albums: {db_stats.get('albums', 0):,}")
         console.print(f"Tracks: {db_stats.get('tracks', 0):,}")
@@ -805,7 +805,7 @@ def status(ctx: click.Context) -> None:
             console.print(f"Coverage: {coverage:.1f}%")
         
         # Sources table
-        console.print(f"\n[bold]Source Details[/bold]")
+        console.print("\n[bold]Source Details[/bold]")
         table = Table(show_header=True)
         table.add_column("Name")
         table.add_column("Type") 
@@ -1048,7 +1048,7 @@ def optimize(ctx: click.Context, vacuum: bool) -> None:
             
             progress.update(task, description="Optimization complete!")
             
-            console.print(f"\n[green]✓[/green] Database optimized successfully")
+            console.print("\n[green]✓[/green] Database optimized successfully")
             if vacuum:
                 console.print("[green]✓[/green] Database vacuumed and analyzed")
             else:

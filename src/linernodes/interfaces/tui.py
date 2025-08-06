@@ -1,11 +1,10 @@
 from textual.app import App, ComposeResult
-from textual.containers import Container, Horizontal, Vertical
+from textual.containers import Container, Horizontal
 from textual.widgets import Header, Footer, Static, Button, ProgressBar, Label, DataTable
 from textual.binding import Binding
 from textual.reactive import reactive
 from textual import work
 import asyncio
-from datetime import datetime
 from typing import Optional
 
 from ..backend.player.mpd_controller import MpdController

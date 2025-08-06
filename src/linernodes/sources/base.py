@@ -192,7 +192,7 @@ class SourceRegistry:
     def register_source_class(self, source_type: str, source_class: type):
         """Register a source class."""
         if not issubclass(source_class, MusicSource):
-            raise ValueError(f"Source class must inherit from MusicSource")
+            raise ValueError("Source class must inherit from MusicSource")
         
         self._source_classes[source_type] = source_class
         self.logger.info(f"Registered source type: {source_type}")

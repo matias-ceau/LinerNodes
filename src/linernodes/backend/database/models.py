@@ -5,9 +5,8 @@ Provides high-level interfaces to the SQLite database operations.
 
 from dataclasses import dataclass, asdict, field
 from datetime import datetime, date
-from typing import Optional, List, Dict, Any, Union
+from typing import Optional, List, Dict, Any
 from pathlib import Path
-import json
 import pickle
 import hashlib
 import os

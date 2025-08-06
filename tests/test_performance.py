@@ -117,7 +117,7 @@ def main():
     results = test_performance(node_counts)
     performance_summary(results)
     
-    print(f"\n🌐 Graph interface running at: http://localhost:8507")
+    print("\n🌐 Graph interface running at: http://localhost:8507")
     print("🔧 Use the 'Maximum Nodes' slider to test different scales interactively")
 
 if __name__ == "__main__":

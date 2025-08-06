@@ -1,0 +1,103 @@
+
+==================================== ERRORS ====================================
+______________ ERROR collecting scripts/quick_performance_test.py ______________
+ImportError while importing test module '/home/matias/git/matias-ceau/LinerNodes/scripts/quick_performance_test.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/lib/python3.13/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/quick_performance_test.py:9: in <module>
+    from linernodes.interfaces.graph_explorer import MusicGraphExplorer
+E   ModuleNotFoundError: No module named 'linernodes'
+______________________ ERROR collecting tests/test_cli.py ______________________
+ImportError while importing test module '/home/matias/git/matias-ceau/LinerNodes/tests/test_cli.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/lib/python3.13/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_cli.py:8: in <module>
+    from src.linernodes.cli.commands import cli
+src/linernodes/__init__.py:119: in <module>
+    from .backend.database.models import DatabaseManager, Track, Album, Artist
+src/linernodes/backend/__init__.py:59: in <module>
+    from .player.mpd_controller import MpdController
+src/linernodes/backend/player/__init__.py:108: in <module>
+    from .mpd_controller import MpdController
+src/linernodes/backend/player/mpd_controller.py:6: in <module>
+    from xdg import xdg_config_home, xdg_data_home, xdg_state_home, xdg_cache_home
+E   ImportError: cannot import name 'xdg_config_home' from 'xdg' (/usr/lib/python3.13/site-packages/xdg/__init__.py)
+__________________ ERROR collecting tests/test_graph_data.py ___________________
+ImportError while importing test module '/home/matias/git/matias-ceau/LinerNodes/tests/test_graph_data.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/lib/python3.13/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_graph_data.py:4: in <module>
+    from src.linernodes.interfaces.graph_explorer import MusicGraphExplorer
+src/linernodes/__init__.py:120: in <module>
+    from .backend.player.mpd_controller import MpdController
+src/linernodes/backend/__init__.py:59: in <module>
+    from .player.mpd_controller import MpdController
+src/linernodes/backend/player/__init__.py:108: in <module>
+    from .mpd_controller import MpdController
+src/linernodes/backend/player/mpd_controller.py:6: in <module>
+    from xdg import xdg_config_home, xdg_data_home, xdg_state_home, xdg_cache_home
+E   ImportError: cannot import name 'xdg_config_home' from 'xdg' (/usr/lib/python3.13/site-packages/xdg/__init__.py)
+________________ ERROR collecting tests/test_knowledge_graph.py ________________
+ImportError while importing test module '/home/matias/git/matias-ceau/LinerNodes/tests/test_knowledge_graph.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/lib/python3.13/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_knowledge_graph.py:7: in <module>
+    from src.linernodes.knowledge_graph.models import (
+src/linernodes/__init__.py:120: in <module>
+    from .backend.player.mpd_controller import MpdController
+src/linernodes/backend/__init__.py:59: in <module>
+    from .player.mpd_controller import MpdController
+src/linernodes/backend/player/__init__.py:108: in <module>
+    from .mpd_controller import MpdController
+src/linernodes/backend/player/mpd_controller.py:6: in <module>
+    from xdg import xdg_config_home, xdg_data_home, xdg_state_home, xdg_cache_home
+E   ImportError: cannot import name 'xdg_config_home' from 'xdg' (/usr/lib/python3.13/site-packages/xdg/__init__.py)
+__________________ ERROR collecting tests/test_performance.py __________________
+ImportError while importing test module '/home/matias/git/matias-ceau/LinerNodes/tests/test_performance.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/lib/python3.13/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_performance.py:14: in <module>
+    from linernodes.interfaces.graph_explorer import MusicGraphExplorer
+E   ModuleNotFoundError: No module named 'linernodes'
+___________ ERROR collecting tests/test_performance_optimization.py ____________
+ImportError while importing test module '/home/matias/git/matias-ceau/LinerNodes/tests/test_performance_optimization.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/lib/python3.13/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_performance_optimization.py:16: in <module>
+    from linernodes.backend.database.models import DatabaseManager
+src/linernodes/__init__.py:119: in <module>
+    from .backend.database.models import DatabaseManager, Track, Album, Artist
+src/linernodes/backend/__init__.py:59: in <module>
+    from .player.mpd_controller import MpdController
+src/linernodes/backend/player/__init__.py:108: in <module>
+    from .mpd_controller import MpdController
+src/linernodes/backend/player/mpd_controller.py:6: in <module>
+    from xdg import xdg_config_home, xdg_data_home, xdg_state_home, xdg_cache_home
+E   ImportError: cannot import name 'xdg_config_home' from 'xdg' (/usr/lib/python3.13/site-packages/xdg/__init__.py)
+=========================== short test summary info ============================
+ERROR scripts/quick_performance_test.py
+ERROR tests/test_cli.py
+ERROR tests/test_graph_data.py
+ERROR tests/test_knowledge_graph.py
+ERROR tests/test_performance.py
+ERROR tests/test_performance_optimization.py
+!!!!!!!!!!!!!!!!!!! Interrupted: 6 errors during collection !!!!!!!!!!!!!!!!!!!!
+6 errors in 0.28s

@@ -5,15 +5,10 @@ Provides an interactive graph visualization of your music collection.
 
 import streamlit as st
 import plotly.graph_objects as go
-import plotly.express as px
 import networkx as nx
-from typing import Dict, List, Set, Tuple, Optional
-import json
+from typing import Dict, Optional
 import sys
 from pathlib import Path
-import random
-import numpy as np
-from functools import lru_cache
 import time
 import psutil
 import os
@@ -26,8 +21,7 @@ except ImportError:
     # Handle direct execution by adding parent directory to path
     import os
     sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
-    from linernodes.backend.database.models import DatabaseManager, Track, Album, Artist
-    from linernodes.backend.database.database import LinerDatabase
+    from linernodes.backend.database.models import DatabaseManager
 
 
 class MusicGraphExplorer:
