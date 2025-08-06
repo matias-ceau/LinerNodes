@@ -9,7 +9,7 @@ TODO: Consider enabling a DuckDB backend via a feature flag in a future phase.
 
 from __future__ import annotations
 
-from typing import Optional, Dict
+from typing import Optional, Dict, Any
 
 # Lightweight logging (safe import)
 try:
@@ -35,7 +35,7 @@ class GraphService:
         self._db = db_manager or DatabaseManager()
         _logger.debug("GraphService initialized", extra={"operation": "graph_init"})
 
-    def graph_data(self, limit: int = 5000) -> Dict:
+    def graph_data(self, limit: int = 5000) -> Dict[str, Any]:
         _logger.debug(
             "graph_data called",
             extra={"operation": "graph_data", "limit": limit},

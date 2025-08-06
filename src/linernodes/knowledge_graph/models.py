@@ -44,23 +44,17 @@ class RelationshipType(Enum):
 @dataclass
 class BaseEntity:
     """Base class for all knowledge graph entities."""
-    id: str
+    id: Optional[str]
     entity_type: EntityType
     name: str
     mbid: Optional[str] = None  # MusicBrainz ID
-    created_at: datetime = None
-    updated_at: datetime = None
-    metadata: Dict[str, Any] = None
+    created_at: datetime = datetime.now()
+    updated_at: datetime = datetime.now()
+    metadata: Dict[str, Any] = {}
     
     def __post_init__(self):
         if not self.id:
             self.id = str(uuid.uuid4())
-        if not self.created_at:
-            self.created_at = datetime.now()
-        if not self.updated_at:
-            self.updated_at = datetime.now()
-        if not self.metadata:
-            self.metadata = {}
 
 @dataclass
 class Album(BaseEntity):
@@ -75,16 +69,12 @@ class Album(BaseEntity):
     packaging: Optional[str] = None  # CD, Vinyl, Digital, etc.
     total_tracks: int = 0
     total_length: Optional[int] = None  # in seconds
-    genres: List[str] = None
-    recordings: List[str] = None  # List of recording IDs
+    genres: List[str] = []
+    recordings: List[str] = []
     
     def __post_init__(self):
         super().__post_init__()
         self.entity_type = EntityType.ALBUM
-        if not self.genres:
-            self.genres = []
-        if not self.recordings:
-            self.recordings = []
 
 @dataclass  
 class Artist(BaseEntity):
@@ -106,16 +96,12 @@ class Artist(BaseEntity):
 class Genre(BaseEntity):
     """Genre/style entity."""
     description: str = ""
-    parent_genres: List[str] = None  # List of parent genre IDs
-    child_genres: List[str] = None   # List of child genre IDs
+    parent_genres: List[str] = []
+    child_genres: List[str] = []
     
     def __post_init__(self):
         super().__post_init__()
         self.entity_type = EntityType.GENRE
-        if not self.parent_genres:
-            self.parent_genres = []
-        if not self.child_genres:
-            self.child_genres = []
 
 @dataclass
 class Recording(BaseEntity):
@@ -139,16 +125,12 @@ class Person(BaseEntity):
     death_date: Optional[datetime] = None
     gender: Optional[str] = None
     country: Optional[str] = None
-    instruments: List[str] = None
-    roles: List[str] = None  # Producer, Engineer, Vocalist, etc.
+    instruments: List[str] = []
+    roles: List[str] = []
     
     def __post_init__(self):
         super().__post_init__()
         self.entity_type = EntityType.PERSON
-        if not self.instruments:
-            self.instruments = []
-        if not self.roles:
-            self.roles = []
 
 @dataclass
 class Label(BaseEntity):
@@ -166,77 +148,106 @@ class Label(BaseEntity):
 @dataclass
 class Relationship:
     """Relationship between two entities."""
-    id: str
+    id: Optional[str]
     source_id: str
     target_id: str
     relationship_type: RelationshipType
-    attributes: Dict[str, Any] = None
+    attributes: Dict[str, Any] = {}
     begin_date: Optional[datetime] = None
     end_date: Optional[datetime] = None
-    created_at: datetime = None
+    created_at: datetime = datetime.now()
     
     def __post_init__(self):
         if not self.id:
             self.id = str(uuid.uuid4())
-        if not self.created_at:
-            self.created_at = datetime.now()
-        if not self.attributes:
-            self.attributes = {}
 
 class EntityFactory:
     """Factory for creating entities with proper validation."""
-    
+
+    @staticmethod
+    def _coerce_entity_type(value: object | None, default_et: EntityType) -> EntityType:
+        """
+        Accept either an EntityType or a string; return a valid EntityType.
+        Falls back to default_et for None or invalid strings.
+        """
+        if isinstance(value, EntityType):
+            return value
+        if isinstance(value, str):
+            try:
+                return EntityType(value)
+            except Exception:
+                return default_et
+        return default_et
+
     @staticmethod
     def create_album(name: str, **kwargs) -> Album:
         """Create a new Album entity."""
+        entity_type_val: object | None = kwargs.pop('entity_type', None)
+        entity_type = EntityFactory._coerce_entity_type(entity_type_val, EntityType.ALBUM)
         return Album(
-            id=kwargs.get('id', str(uuid.uuid4())),
+            id=kwargs.get('id'),
             name=name,
+            entity_type=entity_type,
             **kwargs
         )
     
     @staticmethod
     def create_artist(name: str, **kwargs) -> Artist:
         """Create a new Artist entity."""
+        entity_type_val: object | None = kwargs.pop('entity_type', None)
+        entity_type = EntityFactory._coerce_entity_type(entity_type_val, EntityType.ARTIST)
         return Artist(
-            id=kwargs.get('id', str(uuid.uuid4())),
+            id=kwargs.get('id'),
             name=name,
             sort_name=kwargs.get('sort_name', name),
+            entity_type=entity_type,
             **kwargs
         )
     
     @staticmethod
     def create_genre(name: str, **kwargs) -> Genre:
         """Create a new Genre entity."""
+        entity_type_val: object | None = kwargs.pop('entity_type', None)
+        entity_type = EntityFactory._coerce_entity_type(entity_type_val, EntityType.GENRE)
         return Genre(
-            id=kwargs.get('id', str(uuid.uuid4())),
+            id=kwargs.get('id'),
             name=name,
+            entity_type=entity_type,
             **kwargs
         )
     
     @staticmethod
     def create_recording(name: str, **kwargs) -> Recording:
         """Create a new Recording entity."""
+        entity_type_val: object | None = kwargs.pop('entity_type', None)
+        entity_type = EntityFactory._coerce_entity_type(entity_type_val, EntityType.RECORDING)
         return Recording(
-            id=kwargs.get('id', str(uuid.uuid4())),
+            id=kwargs.get('id'),
             name=name,
+            entity_type=entity_type,
             **kwargs
         )
     
     @staticmethod
     def create_person(name: str, **kwargs) -> Person:
         """Create a new Person entity."""
+        entity_type_val: object | None = kwargs.pop('entity_type', None)
+        entity_type = EntityFactory._coerce_entity_type(entity_type_val, EntityType.PERSON)
         return Person(
-            id=kwargs.get('id', str(uuid.uuid4())),
+            id=kwargs.get('id'),
             name=name,
+            entity_type=entity_type,
             **kwargs
         )
     
     @staticmethod
     def create_label(name: str, **kwargs) -> Label:
         """Create a new Label entity."""
+        entity_type_val: object | None = kwargs.pop('entity_type', None)
+        entity_type = EntityFactory._coerce_entity_type(entity_type_val, EntityType.LABEL)
         return Label(
-            id=kwargs.get('id', str(uuid.uuid4())),
+            id=kwargs.get('id'),
             name=name,
+            entity_type=entity_type,
             **kwargs
         )

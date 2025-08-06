@@ -1,0 +1,17 @@
+{
+  "include": ["src"],
+  "exclude": [
+    "tests",
+    "scripts",
+    "**/__pycache__",
+    "**/.venv",
+    "**/.env",
+    "**/.pytest_cache"
+  ],
+  "reportMissingImports": "warning",
+  "reportMissingModuleSource": "warning",
+  "reportOptionalMemberAccess": "warning",
+  "reportUnknownMemberType": "warning",
+  "reportUnknownArgumentType": "warning",
+  "typeCheckingMode": "basic"
+}

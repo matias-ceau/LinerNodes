@@ -24,7 +24,7 @@ def test_graph_interface():
                 print("✅ Graph interface is running!")
                 print("🌐 Access at: http://localhost:8503")
                 return True
-        except:
+        except Exception:
             time.sleep(1)
             continue
     
@@ -36,7 +36,7 @@ def test_graph_interface():
         if stderr:
             print("Error output:")
             print(stderr.decode())
-    except:
+    except Exception:
         pass
         
     return False

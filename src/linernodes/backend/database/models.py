@@ -57,107 +57,44 @@ class Artist:
     end_date: Optional[date] = None
     country: Optional[str] = None
     bio_summary: Optional[str] = None
-    created_at: Optional[datetime] = None
-    updated_at: Optional[datetime] = None
+    created_at: datetime = field(default_factory=datetime.now)
+    updated_at: datetime = field(default_factory=datetime.now)
     
     def save(self, db: LinerDatabase) -> int:
-        """Save artist to database and return the assigned ID.
-        
-        Persists the artist to the database, automatically handling ID assignment
-        and timestamp management. Only saves non-None values to allow partial updates.
-        
-        Args:
-            db (LinerDatabase): Database connection instance
-            
-        Returns:
-            int: The database ID assigned to this artist
-            
-        Raises:
-            DatabaseError: If the save operation fails
-            
-        Example:
-            >>> artist = Artist(name="Thelonious Monk", type="Person")
-            >>> artist_id = artist.save(database)
-            >>> print(f"Artist saved with ID: {artist_id}")
-        """
-        data = {k: v for k, v in asdict(self).items() 
-                if k not in ['id', 'created_at', 'updated_at'] and v is not None}
+        data = {k: v for k, v in asdict(self).items() if k not in ['id', 'created_at', 'updated_at'] and v is not None}
         self.id = db.add_artist(**data)
         return self.id
 
 
 @dataclass
 class Album:
-    """Album entity model representing music releases and collections.
-    
-    This class represents albums, EPs, singles, and other music releases with
-    comprehensive metadata including release information, track statistics,
-    and cover art management.
-    
-    Attributes:
-        title (str): Album title as displayed
-        id (Optional[int]): Database primary key, auto-assigned
-        mbid (Optional[str]): MusicBrainz release ID for canonical identification
-        artist_credit (Optional[str]): Main artist(s) credited for the album
-        release_date (Optional[date]): Official release date
-        release_date_precision (Optional[str]): Precision level (year/month/day)
-        type (Optional[str]): Release type (Album, Single, EP, Compilation, etc.)
-        status (Optional[str]): Release status (Official, Promotion, Bootleg, etc.)
-        barcode (Optional[str]): UPC/EAN barcode for physical releases
-        total_tracks (Optional[int]): Expected number of tracks
-        total_discs (Optional[int]): Number of discs/media in release
-        cover_art_url (Optional[str]): URL to cover art image
-        cover_art_local_path (Optional[str]): Local path to cached cover art
-        created_at (Optional[datetime]): Record creation timestamp
-        updated_at (Optional[datetime]): Last modification timestamp
-        
-    Computed Attributes (populated by database queries):
-        actual_track_count (Optional[int]): Actual number of tracks in database
-        total_duration_ms (Optional[int]): Total album duration in milliseconds
-        artists (Optional[str]): All contributing artists, comma-separated
-        
-    Example:
-        >>> album = Album(
-        ...     title="Kind of Blue",
-        ...     artist_credit="Miles Davis",
-        ...     release_date=date(1959, 8, 17),
-        ...     type="Album"
-        ... )
-        >>> album_id = album.save(database)
-    """
     title: str
     id: Optional[int] = None
     mbid: Optional[str] = None
     artist_credit: Optional[str] = None
     release_date: Optional[date] = None
-    release_date_precision: Optional[str] = None  # year, month, day
-    type: Optional[str] = None  # Album, Single, EP, etc.
-    status: Optional[str] = None  # Official, Promotion, etc.
+    release_date_precision: Optional[str] = None
+    type: Optional[str] = None
+    status: Optional[str] = None
     barcode: Optional[str] = None
     total_tracks: Optional[int] = None
     total_discs: Optional[int] = None
     cover_art_url: Optional[str] = None
     cover_art_local_path: Optional[str] = None
-    created_at: Optional[datetime] = None
-    updated_at: Optional[datetime] = None
-    
-    # Computed fields
+    created_at: datetime = field(default_factory=datetime.now)
+    updated_at: datetime = field(default_factory=datetime.now)
     actual_track_count: Optional[int] = None
     total_duration_ms: Optional[int] = None
-    artists: Optional[str] = None  # Comma-separated artist names
+    artists: List[str] = field(default_factory=list)
     
     def save(self, db: LinerDatabase) -> int:
-        """Save album to database."""
-        data = {k: v for k, v in asdict(self).items() 
-                if k not in ['id', 'created_at', 'updated_at', 'actual_track_count', 
-                            'total_duration_ms', 'artists'] and v is not None}
+        data = {k: v for k, v in asdict(self).items() if k not in ['id', 'created_at', 'updated_at', 'actual_track_count', 'total_duration_ms', 'artists'] and v is not None}
         self.id = db.add_album(**data)
         return self.id
 
 
 @dataclass
 class Track:
-    """Track entity model."""
     title: str
     album_id: int
     id: Optional[int] = None
@@ -209,15 +146,13 @@ class Source:
     id: Optional[int] = None
     source_url: Optional[str] = None
     source_metadata: Optional[Dict[str, Any]] = field(default_factory=dict)
-    quality: Optional[str] = None  # lossless, high, medium, low
+    quality: Optional[str] = None
     availability: str = 'available'
     last_verified: Optional[datetime] = None
-    created_at: Optional[datetime] = None
-    
+    created_at: datetime = field(default_factory=datetime.now)
+
     def save(self, db: LinerDatabase) -> int:
-        """Save source to database."""
-        data = {k: v for k, v in asdict(self).items() 
-                if k not in ['id', 'created_at'] and v is not None}
+        data = {k: v for k, v in asdict(self).items() if k not in ['id', 'created_at'] and v is not None}
         self.id = db.add_source(**data)
         return self.id
     
@@ -422,7 +357,7 @@ class DatabaseManager:
                 try:
                     count = conn.execute(f"SELECT COUNT(*) FROM {table}").fetchone()[0]
                     tables_info.append((table, count))
-                except:
+                except Exception:
                     tables_info.append((table, 0))
             
             # Add database file modification time
@@ -589,14 +524,12 @@ class DatabaseManager:
         return track
     
     def get_stats(self) -> Dict[str, Any]:
-        """Get comprehensive database statistics."""
         stats = self.db.get_database_stats()
         
-        # Add derived statistics
-        if stats['tracks'] > 0:
-            stats['coverage_percent'] = (stats['available_tracks'] / stats['tracks']) * 100
+        if stats.get('tracks', 0) > 0:
+            stats['coverage_percent'] = (stats.get('available_tracks', 0) / stats['tracks']) * 100
         else:
-            stats['coverage_percent'] = 0
+            stats['coverage_percent'] = 0.0
         
         return stats
     

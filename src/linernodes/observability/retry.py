@@ -22,16 +22,15 @@ from typing import Any, Callable, Tuple, Type, TypeVar
 try:
     # Centralized logger pattern
     from linernodes.logging.setup import get_logger
-except Exception:  # pragma: no cover - import must stay safe at runtime
-
-    def get_logger(name: str):  # type: ignore[override]
-        # Fallback minimal logger to keep import safety; emits nothing by default.
-        class _NullLogger:
-            def debug(self, *args: Any, **kwargs: Any) -> None:  # noqa: D401 - trivial
-                """No-op debug."""
-                return None
-
-        return _NullLogger()
+except Exception:  # pragma: no cover
+    def get_logger(name: str):  # type: ignore[no-redef]
+        """Fallback logger returning a stdlib logger with debug method."""
+        import logging as _fallback_logging
+        logger = _fallback_logging.getLogger(name)
+        # ensure it has at least a null handler to avoid 'No handler' warnings
+        if not logger.handlers:
+            logger.addHandler(_fallback_logging.NullHandler())
+        return logger
 
 
 F = TypeVar("F", bound=Callable[..., Any])

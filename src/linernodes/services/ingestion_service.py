@@ -59,18 +59,20 @@ class IngestionService:
 
     def status(self) -> Dict:
         _logger.debug("status invoked", extra={"operation": "ingestion_status"})
-        # Convert SourceStatus dataclasses to dicts if needed
         statuses = self._manager.get_source_statuses()
-        try:
-            return {
-                "sources": [
-                    s.to_dict() if hasattr(s, "to_dict") else dict(s.__dict__)
-                    for s in statuses
-                ]  # type: ignore[attr-defined]
-            }
-        except Exception:
-            # Fallback: represent minimally
-            return {"sources": [str(s) for s in statuses]}
+        # Normalize each status object to a plain dict without relying on to_dict
+        normalized = []
+        for s in statuses:
+            if isinstance(s, dict):
+                normalized.append(s)
+            else:
+                # dataclass-like or simple objects
+                data = getattr(s, "__dict__", None)
+                if isinstance(data, dict):
+                    normalized.append(data)
+                else:
+                    normalized.append({"value": str(s)})
+        return {"sources": normalized}
 
     def sync(self, name: str) -> Dict:
         _logger.info(

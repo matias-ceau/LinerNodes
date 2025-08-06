@@ -2,8 +2,9 @@ import os
 import subprocess
 import shutil
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Iterable, Protocol, runtime_checkable
+from typing import Any, Dict, List, Optional, Iterable, Protocol, runtime_checkable, cast
 from mpd import MPDClient as _RealMPDClient
+from linernodes.config.config_manager import ConfigManager
 
 @runtime_checkable
 class MPDClient(Protocol):
@@ -63,7 +64,7 @@ except Exception:
     def xdg_cache_home() -> str:
         return _home_dir("XDG_CACHE_HOME", ".cache")
 
-from linernodes.config.config_manager import ConfigManager
+# moved to top to satisfy import-order (ruff E402)
 
 # Lightweight logging (no hard dependency on setup)
 try:
@@ -144,7 +145,7 @@ class MpdController:
             self.socket_path = str(self.custom_socket)
             self.config.set("mpd", "use_custom_config", True)  # persist flag if needed
 
-        self.client = MPDClient()
+        self.client = cast(MPDClient, RealMPDClient())
         # Try connection via socket first, fallback to TCP
         try:
             self.client.connect(self.socket_path)

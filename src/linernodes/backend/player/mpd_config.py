@@ -15,8 +15,12 @@ class MPDConfig:
         path_str = self.mpd_config.get("socket_path")
         if path_str:
             return Path(path_str)
-        # Default to config directory/mpd if not specified
-        return Path(self.config_manager.config_dir) / "mpd"
+        # Default to the first config path found
+        config_paths = self.config_manager._get_config_paths()
+        if config_paths:
+            return config_paths[0].parent / "mpd"
+        # Fallback to a default path if no config files are found
+        return Path.home() / ".config" / "linernodes" / "mpd"
 
     def get_host(self) -> str:
         """Get MPD host."""

@@ -29,44 +29,44 @@
   /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/player/mpd_config.py:19:41 - error: Cannot access attribute "config_dir" for class "ConfigManager"
     Attribute "config_dir" is unknown (reportAttributeAccessIssue)
 /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/player/mpd_controller.py
-  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/player/mpd_controller.py:33:10 - warning: Import "xdg.BaseDirectory" could not be resolved from source (reportMissingModuleSource)
-  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/player/mpd_controller.py:302:21 - error: Cannot access attribute "update" for class "RealMPDClient"
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/player/mpd_controller.py:34:10 - warning: Import "xdg.BaseDirectory" could not be resolved from source (reportMissingModuleSource)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/player/mpd_controller.py:303:21 - error: Cannot access attribute "update" for class "RealMPDClient"
     Attribute "update" is unknown (reportAttributeAccessIssue)
-  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/player/mpd_controller.py:306:28 - error: Cannot access attribute "status" for class "RealMPDClient"
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/player/mpd_controller.py:307:28 - error: Cannot access attribute "status" for class "RealMPDClient"
     Attribute "status" is unknown (reportAttributeAccessIssue)
-  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/player/mpd_controller.py:310:28 - error: Cannot access attribute "playlistinfo" for class "RealMPDClient"
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/player/mpd_controller.py:311:28 - error: Cannot access attribute "playlistinfo" for class "RealMPDClient"
     Attribute "playlistinfo" is unknown (reportAttributeAccessIssue)
-  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/player/mpd_controller.py:315:25 - error: Cannot access attribute "play" for class "RealMPDClient"
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/player/mpd_controller.py:316:25 - error: Cannot access attribute "play" for class "RealMPDClient"
     Attribute "play" is unknown (reportAttributeAccessIssue)
-  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/player/mpd_controller.py:317:25 - error: Cannot access attribute "play" for class "RealMPDClient"
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/player/mpd_controller.py:318:25 - error: Cannot access attribute "play" for class "RealMPDClient"
     Attribute "play" is unknown (reportAttributeAccessIssue)
-  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/player/mpd_controller.py:320:21 - error: Cannot access attribute "pause" for class "RealMPDClient"
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/player/mpd_controller.py:321:21 - error: Cannot access attribute "pause" for class "RealMPDClient"
     Attribute "pause" is unknown (reportAttributeAccessIssue)
-  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/player/mpd_controller.py:324:21 - error: Cannot access attribute "stop" for class "RealMPDClient"
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/player/mpd_controller.py:325:21 - error: Cannot access attribute "stop" for class "RealMPDClient"
     Attribute "stop" is unknown (reportAttributeAccessIssue)
-  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/player/mpd_controller.py:328:21 - error: Cannot access attribute "next" for class "RealMPDClient"
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/player/mpd_controller.py:329:21 - error: Cannot access attribute "next" for class "RealMPDClient"
     Attribute "next" is unknown (reportAttributeAccessIssue)
-  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/player/mpd_controller.py:332:21 - error: Cannot access attribute "previous" for class "RealMPDClient"
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/player/mpd_controller.py:333:21 - error: Cannot access attribute "previous" for class "RealMPDClient"
     Attribute "previous" is unknown (reportAttributeAccessIssue)
-  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/player/mpd_controller.py:336:21 - error: Cannot access attribute "setvol" for class "RealMPDClient"
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/player/mpd_controller.py:337:21 - error: Cannot access attribute "setvol" for class "RealMPDClient"
     Attribute "setvol" is unknown (reportAttributeAccessIssue)
-  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/player/mpd_controller.py:339:21 - error: Cannot access attribute "add" for class "RealMPDClient"
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/player/mpd_controller.py:340:21 - error: Cannot access attribute "add" for class "RealMPDClient"
     Attribute "add" is unknown (reportAttributeAccessIssue)
-  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/player/mpd_controller.py:342:21 - error: Cannot access attribute "clear" for class "RealMPDClient"
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/player/mpd_controller.py:343:21 - error: Cannot access attribute "clear" for class "RealMPDClient"
     Attribute "clear" is unknown (reportAttributeAccessIssue)
-  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/player/mpd_controller.py:345:28 - error: Cannot access attribute "currentsong" for class "RealMPDClient"
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/player/mpd_controller.py:346:28 - error: Cannot access attribute "currentsong" for class "RealMPDClient"
     Attribute "currentsong" is unknown (reportAttributeAccessIssue)
-  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/player/mpd_controller.py:349:28 - error: Cannot access attribute "listall" for class "RealMPDClient"
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/player/mpd_controller.py:350:28 - error: Cannot access attribute "listall" for class "RealMPDClient"
     Attribute "listall" is unknown (reportAttributeAccessIssue)
-  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/player/mpd_controller.py:353:29 - error: Cannot access attribute "listall" for class "RealMPDClient"
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/player/mpd_controller.py:354:29 - error: Cannot access attribute "listall" for class "RealMPDClient"
     Attribute "listall" is unknown (reportAttributeAccessIssue)
-  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/player/mpd_controller.py:363:29 - error: Cannot access attribute "listall" for class "RealMPDClient"
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/player/mpd_controller.py:364:29 - error: Cannot access attribute "listall" for class "RealMPDClient"
     Attribute "listall" is unknown (reportAttributeAccessIssue)
-  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/player/mpd_controller.py:375:29 - error: Cannot access attribute "listall" for class "RealMPDClient"
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/player/mpd_controller.py:376:29 - error: Cannot access attribute "listall" for class "RealMPDClient"
     Attribute "listall" is unknown (reportAttributeAccessIssue)
-  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/player/mpd_controller.py:379:29 - error: Cannot access attribute "add" for class "RealMPDClient"
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/player/mpd_controller.py:380:29 - error: Cannot access attribute "add" for class "RealMPDClient"
     Attribute "add" is unknown (reportAttributeAccessIssue)
-  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/player/mpd_controller.py:397:25 - error: Cannot access attribute "close" for class "RealMPDClient"
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/backend/player/mpd_controller.py:398:25 - error: Cannot access attribute "close" for class "RealMPDClient"
     Attribute "close" is unknown (reportAttributeAccessIssue)
 /home/matias/git/matias-ceau/LinerNodes/src/linernodes/cli/commands.py
   /home/matias/git/matias-ceau/LinerNodes/src/linernodes/cli/commands.py:146:5 - error: Function declaration "search" is obscured by a declaration of the same name (reportRedeclaration)
@@ -76,12 +76,11 @@
     Attribute "playlistinfo" is unknown (reportAttributeAccessIssue)
   /home/matias/git/matias-ceau/LinerNodes/src/linernodes/cli/commands.py:268:42 - error: Cannot access attribute "currentsong" for class "RealMPDClient"
     Attribute "currentsong" is unknown (reportAttributeAccessIssue)
-  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/cli/commands.py:648:5 - error: Function declaration "status" is obscured by a declaration of the same name (reportRedeclaration)
   /home/matias/git/matias-ceau/LinerNodes/src/linernodes/cli/commands.py:657:40 - error: Cannot access attribute "status" for class "RealMPDClient"
     Attribute "status" is unknown (reportAttributeAccessIssue)
-  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/cli/commands.py:1072:56 - error: Expression of type "None" cannot be assigned to parameter of type "str"
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/cli/commands.py:1018:56 - error: Expression of type "None" cannot be assigned to parameter of type "str"
     "None" is not assignable to "str" (reportArgumentType)
-  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/cli/commands.py:1112:67 - error: Argument of type "int | None" cannot be assigned to parameter "album_id" of type "int" in function "get_album_tracks"
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/cli/commands.py:1058:67 - error: Argument of type "int | None" cannot be assigned to parameter "album_id" of type "int" in function "get_album_tracks"
     Type "int | None" is not assignable to type "int"
       "None" is not assignable to "int" (reportArgumentType)
 /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/fast_graph_explorer.py
@@ -124,32 +123,48 @@
   /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/tui.py:211:36 - error: Cannot access attribute "update" for class "RealMPDClient"
     Attribute "update" is unknown (reportAttributeAccessIssue)
 /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/web.py
-  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/web.py:43:45 - error: Cannot access attribute "status" for class "RealMPDClient"
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/web.py:52:45 - error: Cannot access attribute "status" for class "RealMPDClient"
     Attribute "status" is unknown (reportAttributeAccessIssue)
-  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/web.py:110:44 - error: Cannot access attribute "previous" for class "RealMPDClient"
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/web.py:87:28 - error: "None" is not iterable
+    "__iter__" method not defined (reportGeneralTypeIssues)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/web.py:114:40 - error: "None" is not iterable
+    "__iter__" method not defined (reportGeneralTypeIssues)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/web.py:119:44 - error: Cannot access attribute "previous" for class "RealMPDClient"
     Attribute "previous" is unknown (reportAttributeAccessIssue)
-  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/web.py:120:53 - error: Cannot access attribute "status" for class "RealMPDClient"
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/web.py:129:53 - error: Cannot access attribute "status" for class "RealMPDClient"
     Attribute "status" is unknown (reportAttributeAccessIssue)
-  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/web.py:135:44 - error: Cannot access attribute "next" for class "RealMPDClient"
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/web.py:144:44 - error: Cannot access attribute "next" for class "RealMPDClient"
     Attribute "next" is unknown (reportAttributeAccessIssue)
-  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/web.py:145:44 - error: Cannot access attribute "stop" for class "RealMPDClient"
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/web.py:154:44 - error: Cannot access attribute "stop" for class "RealMPDClient"
     Attribute "stop" is unknown (reportAttributeAccessIssue)
-  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/web.py:155:44 - error: Cannot access attribute "update" for class "RealMPDClient"
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/web.py:164:44 - error: Cannot access attribute "update" for class "RealMPDClient"
     Attribute "update" is unknown (reportAttributeAccessIssue)
-  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/web.py:166:57 - error: Cannot access attribute "status" for class "RealMPDClient"
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/web.py:175:57 - error: Cannot access attribute "status" for class "RealMPDClient"
     Attribute "status" is unknown (reportAttributeAccessIssue)
-  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/web.py:170:40 - error: Cannot access attribute "setvol" for class "RealMPDClient"
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/web.py:179:40 - error: Cannot access attribute "setvol" for class "RealMPDClient"
     Attribute "setvol" is unknown (reportAttributeAccessIssue)
-  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/web.py:183:47 - error: Cannot access attribute "playlistinfo" for class "RealMPDClient"
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/web.py:192:47 - error: Cannot access attribute "playlistinfo" for class "RealMPDClient"
     Attribute "playlistinfo" is unknown (reportAttributeAccessIssue)
-  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/web.py:196:52 - error: Cannot access attribute "play" for class "RealMPDClient"
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/web.py:199:34 - error: "None" is not iterable
+    "__iter__" method not defined (reportGeneralTypeIssues)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/web.py:205:52 - error: Cannot access attribute "play" for class "RealMPDClient"
     Attribute "play" is unknown (reportAttributeAccessIssue)
-  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/web.py:239:50 - error: Cannot access attribute "search" for class "RealMPDClient"
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/web.py:220:22 - error: "None" is not iterable
+    "__iter__" method not defined (reportGeneralTypeIssues)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/web.py:238:22 - error: "None" is not iterable
+    "__iter__" method not defined (reportGeneralTypeIssues)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/web.py:248:50 - error: Cannot access attribute "search" for class "RealMPDClient"
     Attribute "search" is unknown (reportAttributeAccessIssue)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/web.py:257:38 - error: "None" is not iterable
+    "__iter__" method not defined (reportGeneralTypeIssues)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/web.py:287:26 - error: "None" is not iterable
+    "__iter__" method not defined (reportGeneralTypeIssues)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/interfaces/web.py:297:32 - error: "None" is not iterable
+    "__iter__" method not defined (reportGeneralTypeIssues)
 /home/matias/git/matias-ceau/LinerNodes/src/linernodes/knowledge_graph/graph_db.py
-  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/knowledge_graph/graph_db.py:221:20 - error: Type "list[BaseEntity | None]" is not assignable to return type "List[Album]" (reportReturnType)
-  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/knowledge_graph/graph_db.py:238:20 - error: Type "list[BaseEntity | None]" is not assignable to return type "List[BaseEntity]" (reportReturnType)
-  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/knowledge_graph/graph_db.py:310:20 - error: Type "list[BaseEntity | None]" is not assignable to return type "List[BaseEntity]" (reportReturnType)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/knowledge_graph/graph_db.py:227:20 - error: Type "list[BaseEntity | None]" is not assignable to return type "List[Album]" (reportReturnType)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/knowledge_graph/graph_db.py:244:20 - error: Type "list[BaseEntity | None]" is not assignable to return type "List[BaseEntity]" (reportReturnType)
+  /home/matias/git/matias-ceau/LinerNodes/src/linernodes/knowledge_graph/graph_db.py:316:20 - error: Type "list[BaseEntity | None]" is not assignable to return type "List[BaseEntity]" (reportReturnType)
 /home/matias/git/matias-ceau/LinerNodes/src/linernodes/knowledge_graph/models.py
   /home/matias/git/matias-ceau/LinerNodes/src/linernodes/knowledge_graph/models.py:51:28 - error: Type "None" is not assignable to declared type "datetime"
     "None" is not assignable to "datetime" (reportAssignmentType)
@@ -281,4 +296,4 @@
 /home/matias/git/matias-ceau/LinerNodes/tests/test_performance.py
   /home/matias/git/matias-ceau/LinerNodes/tests/test_performance.py:29:35 - error: Cannot access attribute "_cached_graph_data" for class "MusicGraphExplorer"
     Attribute "_cached_graph_data" is unknown (reportAttributeAccessIssue)
-122 errors, 1 warning, 0 informations 
+129 errors, 1 warning, 0 informations 

@@ -1,20 +1,3 @@
-scripts/demo_tour.py:112:9: E722 Do not use bare `except`
-    |
-111 |                 self.console.print(table)
-112 |         except:
-    |         ^^^^^^ E722
-113 |             self.console.print("🎭 The universe statistics remain mysterious for now...")
-    |
-
-scripts/demo_tour.py:138:9: E722 Do not use bare `except`
-    |
-136 |             else:
-137 |                 self.console.print("🌟 The search reveals mysteries yet to be imported...")
-138 |         except:
-    |         ^^^^^^ E722
-139 |             self.console.print("🎭 The cosmic search requires more time to materialize...")
-    |
-
 scripts/demo_tour.py:159:17: F841 Local variable `graph_process` is assigned to but never used
     |
 157 |                 # Start the graph interface
@@ -26,53 +9,14 @@ scripts/demo_tour.py:159:17: F841 Local variable `graph_process` is assigned to 
     |
     = help: Remove assignment to unused variable `graph_process`
 
-scripts/demo_tour.py:175:21: E722 Do not use bare `except`
-    |
-173 |                         startup_success = True
-174 |                         break
-175 |                     except:
-    |                     ^^^^^^ E722
-176 |                         continue
-    |
-
-src/linernodes/backend/database/models.py:425:17: E722 Do not use bare `except`
-    |
-423 |                     count = conn.execute(f"SELECT COUNT(*) FROM {table}").fetchone()[0]
-424 |                     tables_info.append((table, count))
-425 |                 except:
-    |                 ^^^^^^ E722
-426 |                     tables_info.append((table, 0))
-    |
-
-src/linernodes/backend/player/mpd_controller.py:66:1: E402 Module level import not at top of file
-   |
-64 |         return _home_dir("XDG_CACHE_HOME", ".cache")
-65 |
-66 | from linernodes.config.config_manager import ConfigManager
-   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ E402
-67 |
-68 | # Lightweight logging (no hard dependency on setup)
-   |
-
-src/linernodes/cli/commands.py:783:5: F811 Redefinition of unused `status` from line 648
-    |
-781 | @sources.command()
-782 | @click.pass_context
-783 | def status(ctx: click.Context) -> None:
-    |     ^^^^^^ F811
-784 |     """Show status of all configured sources."""
-785 |     from rich.console import Console
-    |
-    = help: Remove definition: `status`
-
-src/linernodes/cli/commands.py:1072:5: F811 Redefinition of unused `search` from line 146
+src/linernodes/cli/commands.py:1018:5: F811 Redefinition of unused `search` from line 146
      |
-1070 | @click.option("--limit", default=20, help="Maximum number of results")
-1071 | @click.pass_context
-1072 | def search(ctx: click.Context, query: str, type: str = None, limit: int = 20) -> None:
+1016 | @click.option("--limit", default=20, help="Maximum number of results")
+1017 | @click.pass_context
+1018 | def search(ctx: click.Context, query: str, type: str = None, limit: int = 20) -> None:
      |     ^^^^^^ F811
-1073 |     """Search for tracks, albums, or artists."""
-1074 |     from rich.console import Console
+1019 |     """Search for tracks, albums, or artists."""
+1020 |     from rich.console import Console
      |
      = help: Remove definition: `search`
 
@@ -250,24 +194,5 @@ src/linernodes/sources/source_manager.py:199:21: F841 Local variable `db_track` 
     |
     = help: Remove assignment to unused variable `db_track`
 
-tests/test_graph.py:27:9: E722 Do not use bare `except`
-   |
-25 |                 print("🌐 Access at: http://localhost:8503")
-26 |                 return True
-27 |         except:
-   |         ^^^^^^ E722
-28 |             time.sleep(1)
-29 |             continue
-   |
-
-tests/test_graph.py:39:5: E722 Do not use bare `except`
-   |
-37 |             print("Error output:")
-38 |             print(stderr.decode())
-39 |     except:
-   |     ^^^^^^ E722
-40 |         pass
-   |
-
-Found 27 errors.
+Found 19 errors.
 No fixes available (3 hidden fixes can be enabled with the `--unsafe-fixes` option).

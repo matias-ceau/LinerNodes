@@ -173,7 +173,7 @@ class TestCLICommands:
         result = self.runner.invoke(cli, ['add', 'test.mp3'])
         assert result.exit_code == 0
         assert "Added test.mp3 to the playlist" in result.output
-        mock_controller.add_to_playlist.assert_called_once_with('test.mp3')
+        mock_controller.add_to_playlist.assert_called_once_with('test.mp3') # type: ignore
 
 
 class TestMPDCommands:

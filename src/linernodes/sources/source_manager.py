@@ -196,7 +196,7 @@ class SourceManager:
                         continue
                     
                     # Import track
-                    db_track = self.db_manager.import_track_from_source(
+                    self.db_manager.import_track_from_source(
                         track_data=track.to_dict(),
                         source_data=track.to_source_dict()
                     )

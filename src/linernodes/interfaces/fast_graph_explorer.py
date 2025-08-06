@@ -13,8 +13,7 @@ import time
 
 # Handle imports
 try:
-    from ..backend.database.models import DatabaseManager, Track, Album, Artist
-    from ..backend.database.database import LinerDatabase
+    from ..backend.database.models import DatabaseManager
 except ImportError:
     import os
     sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
@@ -181,42 +180,54 @@ class FastMusicGraphExplorer:
         else:
             pos = nx.spring_layout(G, k=1, iterations=50)  # Best quality for small graphs
             
-        # Create traces efficiently
-        edge_trace = go.Scatter(
-            x=[], y=[], mode='lines', line=dict(width=0.5, color='#888'),
-            hoverinfo='none', showlegend=False
-        )
-        
-        # Batch process edges for performance
+        # Create traces efficiently, avoid tuple/item '+=' to satisfy type checkers
+        edge_x = []
+        edge_y = []
         for edge in edges:
             if edge['source'] in pos and edge['target'] in pos:
                 x0, y0 = pos[edge['source']]
                 x1, y1 = pos[edge['target']]
-                edge_trace['x'] += (x0, x1, None)
-                edge_trace['y'] += (y0, y1, None)
+                edge_x.extend([x0, x1, None])
+                edge_y.extend([y0, y1, None])
+        edge_trace = go.Scatter(
+            x=edge_x, y=edge_y, mode='lines',
+            line=dict(width=0.5, color='#888'),
+            hoverinfo='none', showlegend=False
+        )
         
         # Create node traces by type for better performance
-        node_traces = {}
+        node_buffers = {}
         for node in nodes:
             node_type = node['type']
-            if node_type not in node_traces:
-                node_traces[node_type] = go.Scatter(
-                    x=[], y=[], mode='markers+text',
-                    marker=dict(size=[], color=node['color'], opacity=0.8),
-                    text=[], textposition="middle center",
+            if node_type not in node_buffers:
+                node_buffers[node_type] = {
+                    "x": [],
+                    "y": [],
+                    "sizes": [],
+                    "texts": [],
+                    "color": node['color'],
+                }
+            if node['id'] in pos:
+                x, y = pos[node['id']]
+                node_buffers[node_type]["x"].append(x)
+                node_buffers[node_type]["y"].append(y)
+                node_buffers[node_type]["sizes"].append(node["size"])
+                node_buffers[node_type]["texts"].append(node["name"])
+        
+        # Build figure efficiently
+        traces = [edge_trace]
+        for node_type, buf in node_buffers.items():
+            traces.append(
+                go.Scatter(
+                    x=buf["x"], y=buf["y"],
+                    mode='markers+text',
+                    marker=dict(size=buf["sizes"], color=buf["color"], opacity=0.8),
+                    text=buf["texts"], textposition="middle center",
                     name=node_type.title(),
                     hovertemplate=f'<b>%{{text}}</b><br>Type: {node_type}<extra></extra>'
                 )
-            
-            if node['id'] in pos:
-                x, y = pos[node['id']]
-                node_traces[node_type]['x'] += (x,)
-                node_traces[node_type]['y'] += (y,)
-                node_traces[node_type]['marker']['size'] += (node['size'],)
-                node_traces[node_type]['text'] += (node['name'],)
-        
-        # Build figure efficiently
-        fig = go.Figure(data=[edge_trace] + list(node_traces.values()))
+            )
+        fig = go.Figure(data=traces)
         
         fig.update_layout(
             title=f"Music Universe - {node_count:,} nodes (Local Data Only)",

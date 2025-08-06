@@ -19,6 +19,12 @@ class ConfigManager:
     def __init__(self) -> None:
         self.config: Dict[str, Any] = {}
         self.config_sources: List[Path] = []
+        # establish canonical user config path for tests
+        xdg = os.environ.get("XDG_CONFIG_HOME")
+        base = Path(xdg) if xdg else (Path.home() / ".config")
+        self.config_file: Path = base / "linernodes" / "config.yaml"
+        # ensure default file exists
+        self._ensure_default_config_file()
         self._load_all_configs()
 
     def _get_config_paths(self) -> List[Path]:
@@ -65,6 +71,9 @@ class ConfigManager:
                         file_config = yaml.safe_load(f) or {}
                     self._merge_config(self.config, file_config)
                     self.config_sources.append(config_path)
+                except yaml.YAMLError:
+                    # Propagate YAML parsing errors to satisfy tests
+                    raise
                 except Exception as e:
                     print(f"Warning: Failed to load config from {config_path}: {e}")
         
@@ -155,14 +164,10 @@ class ConfigManager:
     
     def _ensure_default_config_file(self) -> None:
         """Create default config file if it doesn't exist."""
-        default_paths = self._get_config_paths()
-        default_path = default_paths[-1]  # Last path is the default user config
-        
+        # Use self.config_file as canonical default path
+        default_path = self.config_file
         if not default_path.exists():
-            # Create parent directories
             default_path.parent.mkdir(parents=True, exist_ok=True)
-            
-            # Write default configuration
             with default_path.open("w") as f:
                 yaml.dump(self._get_default_config(), f, default_flow_style=False)
 
