@@ -58,17 +58,70 @@ except Exception:  # pragma: no cover
     def run_tui(*_args, **_kwargs):  # type: ignore[no-redef]
         raise RuntimeError("TUI interface not available in this environment")
 
-# Initialize logging early for CLI
+# Initialize logging early for CLI, but avoid side-effects if only printing completion
+_cli_logger = None
 try:
+    # If completion was requested, our eager callback will exit before this module-level code runs.
     from linernodes.logging.setup import setup_logging
     _cli_logger = setup_logging("linernodes.cli")
     _cli_logger.debug("CLI logging initialized", extra={"operation": "cli_boot"})
 except Exception:
-    # Logging must not break CLI startup; fail-safe
     _cli_logger = None
 
 from linernodes.backend.player.mpd_controller import MpdController
 from linernodes.config.config_manager import ConfigManager
+
+# Helper to handle eager --completion option before any subcommand parsing
+def _handle_completion_option(ctx: click.Context, value: Optional[str]):
+    if not value:
+        return value
+    # Prefer Click's public completion API when available, without importing private attrs.
+    prog = "linernodes"
+    shell = value
+    try:
+        # Click 8.1+ public API
+        from click.shell_completion import get_completion_script  # type: ignore
+        script = get_completion_script(prog, shell=shell)
+        click.echo(script)
+        raise click.exceptions.Exit(0)
+    except Exception:
+        # Fallback to environment-protocol generator that asks Click at runtime.
+        # This keeps compatibility without relying on private attributes that vary across Click versions.
+        if shell == "bash":
+            script = f"""# bash completion for {prog}
+_{prog}_completion() {{
+    COMPREPLY=($( env _{prog}_COMPLETE=bash_complete COMP_WORDS="${{COMP_WORDS[*]}}" COMP_CWORD=$COMP_CWORD {prog} ))
+    return 0
+}}
+complete -F _{prog}_completion {prog}
+"""
+        elif shell == "zsh":
+            script = f"""#compdef {prog}
+_{prog}_completion() {{
+  local -a completions
+  completions=("${{(@f)$( env _{prog}_COMPLETE=zsh_complete _{prog}_COMPLETE_CASE_INSENSITIVE=1 COMP_WORDS="${{words[*]}}" COMP_CWORD=$((CURRENT-1)) {prog} )}}")
+  _describe 'values' completions
+}}
+compdef _{prog}_completion {prog}
+"""
+        elif shell == "fish":
+            script = f"""# fish completion for {prog}
+function __fish_{prog}_using_command
+    set -l cmd (commandline -opc)
+    if test (count $cmd) -gt 0
+        if test $cmd[1] = '{prog}'
+            return 0
+        end
+    end
+    return 1
+end
+
+complete -c {prog} -f -a "(env _{prog}_COMPLETE=fish_complete {prog})" -n '__fish_{prog}_using_command'
+"""
+        else:
+            raise click.ClickException(f"Unsupported shell: {shell}")
+        click.echo(script)
+        raise click.exceptions.Exit(0)
 
 # Top-level playback command aliases expected by tests
 # Note: these must be declared AFTER cli() is defined.
@@ -86,27 +139,11 @@ from linernodes.config.config_manager import ConfigManager
          "Usage: linernodes --completion bash",
     is_eager=True,
     expose_value=True,
+    callback=lambda ctx, param, value: _handle_completion_option(ctx, value),
 )
 @click.pass_context
 def cli(ctx: click.Context, completion_shell: Optional[str]) -> None:
     """LinerNodes CLI - MPD music player interface."""
-    # Handle completion script emission early and exit
-    if completion_shell:
-        # Use Click's builtin completion script generator
-        prog_name = "linernodes"
-        try:
-            script = click.shell_completion._get_completion_script(prog_name, shell=completion_shell)  # type: ignore[attr-defined]
-        except Exception:
-            # Fallback: use public API if available (Click >=8.1)
-            try:
-                from click.shell_completion import get_completion_script  # type: ignore
-                script = get_completion_script(prog_name, shell=completion_shell)
-            except Exception as e:
-                raise click.ClickException(f"Failed to generate completion script: {e}")
-        click.echo(script)
-        # Exit after printing completion
-        raise SystemExit(0)
-
     # Store the options in the context for use in subcommands
     ctx.ensure_object(dict)
 
@@ -1230,3 +1267,16 @@ def optimize(ctx: click.Context, vacuum: bool) -> None:
 
 
 # Duplicate database.search command removed (handled earlier in file)
+
+# Provide a dedicated `completion` command as a fallback UX:
+@cli.command("completion")
+@click.argument("shell", type=_COMPLETION_SHELL, required=True)
+def completion_cmd(shell: str) -> None:
+    """Print shell completion script for SHELL (bash|zsh|fish) and exit.
+
+    Example:
+      linernodes completion bash
+    """
+    # Reuse the same generator used by the eager --completion flag,
+    # which emits static scripts and exits without triggering side-effects.
+    _handle_completion_option(click.get_current_context(), shell)
