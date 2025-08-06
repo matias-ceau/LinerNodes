@@ -13,6 +13,13 @@ sys.path.insert(0, str(Path(__file__).parent / "src"))
 
 from linernodes.interfaces.graph_explorer import MusicGraphExplorer
 
+import pytest
+
+@pytest.fixture
+def node_counts():
+    # Minimal fixture to parameterize performance runs
+    return [100, 500, 1000]
+
 def test_performance(node_counts):
     """Test graph performance at different scales."""
     print("🔬 LinerNodes Graph Performance Testing")
@@ -117,7 +124,7 @@ def main():
     results = test_performance(node_counts)
     performance_summary(results)
     
-    print(f"\n🌐 Graph interface running at: http://localhost:8507")
+    print("\n🌐 Graph interface running at: http://localhost:8507")
     print("🔧 Use the 'Maximum Nodes' slider to test different scales interactively")
 
 if __name__ == "__main__":

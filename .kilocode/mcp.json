@@ -1,0 +1,43 @@
+{
+  "mcpServers": {
+    "filesystem": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "/home/matias/git/matias-ceau/"
+      ]
+    },
+    "brave-search": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-brave-search"
+      ],
+      "env": {
+        "BRAVE_API_KEY": "BSAK6oqHjNoT9VnYzT-aVuZI-L0oQqL"
+      }
+    },
+    "memory": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-memory"
+      ]
+    },
+    "qdrant": {
+      "command": "uvx",
+      "args": [
+        "mcp-server-qdrant"
+      ],
+      "env": {
+        "QDRANT_URL": "https://d9a8d397-8e5b-4c1d-809d-350b9301cc58.eu-central-1-0.aws.cloud.qdrant.io",
+        "QDRANT_API_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2Nlc3MiOiJtIn0.rKBzB-TOYruA9-Nq_6cmao6pTJJJvqmg843hVpnH86o",
+        "COLLECTION_NAME": "default",
+        "EMBEDDING_MODEL": ""
+      },
+      "disabled": true,
+      "alwaysAllow": []
+    }
+  }
+}

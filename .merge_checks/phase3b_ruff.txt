@@ -1,0 +1,252 @@
+scripts/demo_tour.py:112:9: E722 Do not use bare `except`
+    |
+111 |                 self.console.print(table)
+112 |         except:
+    |         ^^^^^^ E722
+113 |             self.console.print("🎭 The universe statistics remain mysterious for now...")
+    |
+
+scripts/demo_tour.py:138:9: E722 Do not use bare `except`
+    |
+136 |             else:
+137 |                 self.console.print("🌟 The search reveals mysteries yet to be imported...")
+138 |         except:
+    |         ^^^^^^ E722
+139 |             self.console.print("🎭 The cosmic search requires more time to materialize...")
+    |
+
+scripts/demo_tour.py:159:17: F841 Local variable `graph_process` is assigned to but never used
+    |
+157 |                 # Start the graph interface
+158 |                 self.console.print("🌌 Starting the graph interface...")
+159 |                 graph_process = subprocess.Popen([
+    |                 ^^^^^^^^^^^^^ F841
+160 |                     "uv", "run", "linernodes", "interface", "graph", 
+161 |                     "--port", str(self.graph_port)
+    |
+    = help: Remove assignment to unused variable `graph_process`
+
+scripts/demo_tour.py:175:21: E722 Do not use bare `except`
+    |
+173 |                         startup_success = True
+174 |                         break
+175 |                     except:
+    |                     ^^^^^^ E722
+176 |                         continue
+    |
+
+src/linernodes/backend/database/models.py:425:17: E722 Do not use bare `except`
+    |
+423 |                     count = conn.execute(f"SELECT COUNT(*) FROM {table}").fetchone()[0]
+424 |                     tables_info.append((table, count))
+425 |                 except:
+    |                 ^^^^^^ E722
+426 |                     tables_info.append((table, 0))
+    |
+
+src/linernodes/cli/commands.py:1018:5: F811 Redefinition of unused `search` from line 146
+     |
+1016 | @click.option("--limit", default=20, help="Maximum number of results")
+1017 | @click.pass_context
+1018 | def search(ctx: click.Context, query: str, type: str = None, limit: int = 20) -> None:
+     |     ^^^^^^ F811
+1019 |     """Search for tracks, albums, or artists."""
+1020 |     from rich.console import Console
+     |
+     = help: Remove definition: `search`
+
+src/linernodes/interfaces/fast_graph_explorer.py:16:60: F401 `..backend.database.models.Track` imported but unused; consider using `importlib.util.find_spec` to test for availability
+   |
+14 | # Handle imports
+15 | try:
+16 |     from ..backend.database.models import DatabaseManager, Track, Album, Artist
+   |                                                            ^^^^^ F401
+17 |     from ..backend.database.database import LinerDatabase
+18 | except ImportError:
+   |
+   = help: Remove unused import
+
+src/linernodes/interfaces/fast_graph_explorer.py:16:67: F401 `..backend.database.models.Album` imported but unused; consider using `importlib.util.find_spec` to test for availability
+   |
+14 | # Handle imports
+15 | try:
+16 |     from ..backend.database.models import DatabaseManager, Track, Album, Artist
+   |                                                                   ^^^^^ F401
+17 |     from ..backend.database.database import LinerDatabase
+18 | except ImportError:
+   |
+   = help: Remove unused import
+
+src/linernodes/interfaces/fast_graph_explorer.py:16:74: F401 `..backend.database.models.Artist` imported but unused; consider using `importlib.util.find_spec` to test for availability
+   |
+14 | # Handle imports
+15 | try:
+16 |     from ..backend.database.models import DatabaseManager, Track, Album, Artist
+   |                                                                          ^^^^^^ F401
+17 |     from ..backend.database.database import LinerDatabase
+18 | except ImportError:
+   |
+   = help: Remove unused import
+
+src/linernodes/interfaces/fast_graph_explorer.py:17:45: F401 `..backend.database.database.LinerDatabase` imported but unused; consider using `importlib.util.find_spec` to test for availability
+   |
+15 | try:
+16 |     from ..backend.database.models import DatabaseManager, Track, Album, Artist
+17 |     from ..backend.database.database import LinerDatabase
+   |                                             ^^^^^^^^^^^^^ F401
+18 | except ImportError:
+19 |     import os
+   |
+   = help: Remove unused import: `..backend.database.database.LinerDatabase`
+
+src/linernodes/interfaces/graph_explorer.py:18:60: F401 `..backend.database.models.Track` imported but unused; consider using `importlib.util.find_spec` to test for availability
+   |
+16 | # Handle imports for both direct execution and package import
+17 | try:
+18 |     from ..backend.database.models import DatabaseManager, Track, Album, Artist
+   |                                                            ^^^^^ F401
+19 |     from ..backend.database.database import LinerDatabase
+20 | except ImportError:
+   |
+   = help: Remove unused import
+
+src/linernodes/interfaces/graph_explorer.py:18:67: F401 `..backend.database.models.Album` imported but unused; consider using `importlib.util.find_spec` to test for availability
+   |
+16 | # Handle imports for both direct execution and package import
+17 | try:
+18 |     from ..backend.database.models import DatabaseManager, Track, Album, Artist
+   |                                                                   ^^^^^ F401
+19 |     from ..backend.database.database import LinerDatabase
+20 | except ImportError:
+   |
+   = help: Remove unused import
+
+src/linernodes/interfaces/graph_explorer.py:18:74: F401 `..backend.database.models.Artist` imported but unused; consider using `importlib.util.find_spec` to test for availability
+   |
+16 | # Handle imports for both direct execution and package import
+17 | try:
+18 |     from ..backend.database.models import DatabaseManager, Track, Album, Artist
+   |                                                                          ^^^^^^ F401
+19 |     from ..backend.database.database import LinerDatabase
+20 | except ImportError:
+   |
+   = help: Remove unused import
+
+src/linernodes/interfaces/graph_explorer.py:19:45: F401 `..backend.database.database.LinerDatabase` imported but unused; consider using `importlib.util.find_spec` to test for availability
+   |
+17 | try:
+18 |     from ..backend.database.models import DatabaseManager, Track, Album, Artist
+19 |     from ..backend.database.database import LinerDatabase
+   |                                             ^^^^^^^^^^^^^ F401
+20 | except ImportError:
+21 |     # Handle direct execution by adding parent directory to path
+   |
+   = help: Remove unused import: `..backend.database.database.LinerDatabase`
+
+src/linernodes/interfaces/graph_explorer.py:378:13: F841 Local variable `fast_mode` is assigned to but never used
+    |
+377 |             # Performance options
+378 |             fast_mode = st.checkbox("Fast Mode", value=True, help="Optimized rendering for large graphs")
+    |             ^^^^^^^^^ F841
+379 |             show_labels = st.checkbox("Show Labels", value=False, help="Node labels (slower for large graphs)")
+    |
+    = help: Remove assignment to unused variable `fast_mode`
+
+src/linernodes/knowledge_graph/musicbrainz_integration.py:119:13: E722 Do not use bare `except`
+    |
+117 |                 else:  # Full date
+118 |                     release_date = datetime.strptime(date_str, '%Y-%m-%d')
+119 |             except:
+    |             ^^^^^^ E722
+120 |                 pass
+    |
+
+src/linernodes/knowledge_graph/musicbrainz_integration.py:180:17: E722 Do not use bare `except`
+    |
+178 |                 try:
+179 |                     begin_date = datetime.strptime(life_span['begin'], '%Y-%m-%d')
+180 |                 except:
+    |                 ^^^^^^ E722
+181 |                     try:
+182 |                         begin_date = datetime.strptime(life_span['begin'], '%Y')
+    |
+
+src/linernodes/knowledge_graph/musicbrainz_integration.py:183:21: E722 Do not use bare `except`
+    |
+181 |                     try:
+182 |                         begin_date = datetime.strptime(life_span['begin'], '%Y')
+183 |                     except:
+    |                     ^^^^^^ E722
+184 |                         pass
+    |
+
+src/linernodes/knowledge_graph/musicbrainz_integration.py:189:17: E722 Do not use bare `except`
+    |
+187 |                 try:
+188 |                     end_date = datetime.strptime(life_span['end'], '%Y-%m-%d')
+189 |                 except:
+    |                 ^^^^^^ E722
+190 |                     try:
+191 |                         end_date = datetime.strptime(life_span['end'], '%Y')
+    |
+
+src/linernodes/knowledge_graph/musicbrainz_integration.py:192:21: E722 Do not use bare `except`
+    |
+190 |                     try:
+191 |                         end_date = datetime.strptime(life_span['end'], '%Y')
+192 |                     except:
+    |                     ^^^^^^ E722
+193 |                         pass
+    |
+
+src/linernodes/knowledge_graph/musicbrainz_integration.py:360:9: E722 Do not use bare `except`
+    |
+358 |             if result:
+359 |                 return self.kg_db._row_to_entity(result)
+360 |         except:
+    |         ^^^^^^ E722
+361 |             pass
+362 |         return None
+    |
+
+src/linernodes/sources/__init__.py:137:15: F401 `.local_files` imported but unused; consider removing, adding to `__all__`, or using a redundant alias
+    |
+136 | # Import source implementations to register them
+137 | from . import local_files
+    |               ^^^^^^^^^^^ F401
+138 |
+139 | __all__ = ['MusicSource', 'SourceTrack', 'SourceStatus', 'source_registry', 'SourceManager']
+    |
+    = help: Add unused import `local_files` to __all__
+
+src/linernodes/sources/source_manager.py:199:21: F841 Local variable `db_track` is assigned to but never used
+    |
+198 |                     # Import track
+199 |                     db_track = self.db_manager.import_track_from_source(
+    |                     ^^^^^^^^ F841
+200 |                         track_data=track.to_dict(),
+201 |                         source_data=track.to_source_dict()
+    |
+    = help: Remove assignment to unused variable `db_track`
+
+tests/test_graph.py:27:9: E722 Do not use bare `except`
+   |
+25 |                 print("🌐 Access at: http://localhost:8503")
+26 |                 return True
+27 |         except:
+   |         ^^^^^^ E722
+28 |             time.sleep(1)
+29 |             continue
+   |
+
+tests/test_graph.py:39:5: E722 Do not use bare `except`
+   |
+37 |             print("Error output:")
+38 |             print(stderr.decode())
+39 |     except:
+   |     ^^^^^^ E722
+40 |         pass
+   |
+
+Found 25 errors.
+No fixes available (3 hidden fixes can be enabled with the `--unsafe-fixes` option).

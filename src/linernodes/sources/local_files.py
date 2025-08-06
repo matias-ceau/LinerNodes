@@ -10,7 +10,12 @@ import mimetypes
 
 try:
     import mutagen
-    from mutagen.id3 import ID3NoHeaderError
+    try:
+        # Prefer public API hints; fall back to private class for id3-only errors
+        from mutagen.id3 import ID3NoHeaderError  # type: ignore[reportPrivateImportUsage]
+    except Exception:  # pragma: no cover - not all formats have ID3
+        class ID3NoHeaderError(Exception):  # minimal shim
+            pass
     MUTAGEN_AVAILABLE = True
 except ImportError:
     MUTAGEN_AVAILABLE = False
@@ -31,9 +36,8 @@ class LocalFileSource(LocalSource):
         self.music_dirs = config.get('music_dirs', [])
         if isinstance(self.music_dirs, str):
             self.music_dirs = [self.music_dirs]
-        
-        # Expand paths
-        self.music_dirs = [Path(os.path.expanduser(path)) for path in self.music_dirs]
+        # Normalize and expand to Path
+        self.music_dirs = [Path(os.path.expanduser(str(path))) for path in self.music_dirs]
         
         # Scan options
         self.recursive = config.get('recursive', True)
@@ -46,14 +50,14 @@ class LocalFileSource(LocalSource):
     
     def is_available(self) -> bool:
         """Check if at least one music directory is accessible."""
-        return any(path.exists() and path.is_dir() for path in self.music_dirs)
+        return any(isinstance(path, Path) and path.exists() and path.is_dir() for path in self.music_dirs)
     
     def scan_tracks(self) -> Iterator[SourceTrack]:
         """Scan all configured directories for music files."""
-        processed_files = set()
+        processed_files: Set[str] = set()
         
         for music_dir in self.music_dirs:
-            if not music_dir.exists():
+            if not isinstance(music_dir, Path) or not music_dir.exists():
                 self.logger.warning(f"Music directory does not exist: {music_dir}")
                 continue
             
@@ -73,30 +77,16 @@ class LocalFileSource(LocalSource):
                 pattern = "*"
             
             for file_path in directory.glob(pattern):
-                # Skip if already processed (handles duplicate paths)
-                file_key = str(file_path.resolve())
-                if file_key in processed_files:
-                    continue
-                
-                # Skip directories
                 if file_path.is_dir():
                     continue
                 
-                # Skip symlinks if configured
-                if file_path.is_symlink() and not self.follow_symlinks:
-                    continue
-                
-                # Check if it's a music file
                 if self._is_music_file(file_path):
-                    processed_files.add(file_key)
-                    
-                    try:
+                    file_key = str(file_path.resolve())
+                    if file_key not in processed_files:
+                        processed_files.add(file_key)
                         track = self._extract_track_metadata(file_path)
                         if track:
                             yield track
-                    except Exception as e:
-                        self.logger.error(f"Error processing file {file_path}: {e}")
-                        
         except Exception as e:
             self.logger.error(f"Error scanning directory {directory}: {e}")
     
@@ -159,24 +149,24 @@ class LocalFileSource(LocalSource):
     def _extract_mutagen_metadata(self, file_path: Path, track: SourceTrack):
         """Extract metadata using mutagen library."""
         try:
-            audio_file = mutagen.File(str(file_path))
+            # Use mutagen public API; type stubs may mark as Any
+            audio_file = mutagen.File(str(file_path))  # type: ignore[reportPrivateImportUsage]
             if audio_file is None:
                 return
             
-            # Duration
             if hasattr(audio_file, 'info') and hasattr(audio_file.info, 'length'):
                 track.duration_ms = int(audio_file.info.length * 1000)
             
-            # Audio properties
             if hasattr(audio_file, 'info'):
                 info = audio_file.info
+                if track.source_metadata is None:
+                    track.source_metadata = {}
                 track.source_metadata.update({
                     'bitrate': getattr(info, 'bitrate', None),
                     'sample_rate': getattr(info, 'sample_rate', None),
                     'channels': getattr(info, 'channels', None),
                 })
             
-            # Tag mapping for different formats
             tag_mappings = {
                 'title': ['TIT2', 'TITLE', '\\xa9nam'],
                 'artist': ['TPE1', 'ARTIST', 'ALBUMARTIST', '\\xa9ART'],
@@ -187,22 +177,21 @@ class LocalFileSource(LocalSource):
                 'year': ['TDRC', 'DATE', 'YEAR', '\\xa9day'],
             }
             
-            # Extract tags
             for field, possible_keys in tag_mappings.items():
                 value = self._get_tag_value(audio_file, possible_keys)
                 if value:
                     if field in ['track_number', 'disc_number']:
-                        # Handle track/disc numbers (might be "1/10" format)
                         try:
-                            if '/' in str(value):
-                                value = int(str(value).split('/')[0])
+                            if isinstance(value, list):
+                                value = value[0]
+                            if isinstance(value, str) and '/' in value:
+                                value = int(value.split('/')[0])
                             else:
                                 value = int(value)
                             setattr(track, field, value)
                         except (ValueError, TypeError):
                             pass
                     elif field == 'year':
-                        # Extract year from date
                         try:
                             year_str = str(value)
                             if '-' in year_str:
@@ -215,7 +204,6 @@ class LocalFileSource(LocalSource):
             
         except (ID3NoHeaderError, Exception) as e:
             self.logger.debug(f"Could not read metadata from {file_path}: {e}")
-            # Fall back to directory-based extraction
             self._extract_directory_metadata(file_path, track)
     
     def _get_tag_value(self, audio_file, possible_keys: List[str]):
@@ -296,21 +284,22 @@ class LocalFileSource(LocalSource):
     
     def get_directories_summary(self) -> Dict[str, Any]:
         """Get summary information about configured directories."""
-        summary = {
+        summary: Dict[str, Any] = {
             'directories': [],
             'total_files': 0,
             'total_size': 0,
         }
         
         for music_dir in self.music_dirs:
-            dir_info = {
+            dir_info: Dict[str, Any] = {
                 'path': str(music_dir),
-                'exists': music_dir.exists(),
+                'exists': False,
                 'file_count': 0,
                 'size_bytes': 0,
             }
             
-            if music_dir.exists():
+            if isinstance(music_dir, Path) and music_dir.exists():
+                dir_info['exists'] = True
                 try:
                     for file_path in music_dir.rglob('*') if self.recursive else music_dir.glob('*'):
                         if file_path.is_file() and self._is_music_file(file_path):

@@ -1,8 +1,17 @@
-import streamlit as st
+from typing import Optional, Dict, Any
 from pathlib import Path
 import time
 import sys
-from typing import Optional, Dict, Any
+
+try:
+    import streamlit as st  # optional dependency for tests
+except Exception:  # pragma: no cover
+    class _StubStreamlit:
+        def __getattr__(self, name):
+            def _noop(*args, **kwargs):
+                return None
+            return _noop
+    st = _StubStreamlit()  # type: ignore
 
 # Handle imports for both direct execution and package import
 try:
@@ -87,8 +96,8 @@ class WebInterface:
         with col3:
             if status.get("current_song"):
                 song = status["current_song"]
-                title = song.get('title', 'Unknown')
-                artist = song.get('artist', 'Unknown')
+                title = song.get('title', 'Unknown') # type: ignore
+                artist = song.get('artist', 'Unknown') # type: ignore
                 st.metric("Current Track", f"{title}")
                 st.caption(f"by {artist}")
             else:
@@ -167,7 +176,7 @@ class WebInterface:
             new_volume = st.slider("Volume", 0, 100, current_volume)
             
             if new_volume != current_volume:
-                self.controller.client.setvol(new_volume)
+                self.controller.client.setvol(new_volume) # type: ignore
                 st.success(f"Volume set to {new_volume}%")
         except Exception as e:
             st.error(f"Volume control error: {e}")
@@ -193,7 +202,7 @@ class WebInterface:
                         st.caption(f"Album: {album}")
                     with col2:
                         if st.button("▶️", key=f"play_{i}"):
-                            self.controller.client.play(i)
+                            self.controller.client.play(i) # type: ignore
                             st.success(f"Playing track {i+1}")
                             st.rerun()
             else:

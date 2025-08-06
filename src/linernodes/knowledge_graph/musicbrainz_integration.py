@@ -4,17 +4,27 @@ from datetime import datetime
 import time
 
 from .models import (
-    Album, Artist, Recording, Label, Person, Genre, Relationship,
+    Album, Artist, Relationship,
     EntityType, RelationshipType, EntityFactory
 )
 from .graph_db import KnowledgeGraphDB
+from typing import Protocol, runtime_checkable, Iterable, cast
+
+@runtime_checkable
+class _KGDBProto(Protocol):
+    def add_entity(self, entity: Any) -> None: ...
+    def add_relationship(self, rel: Any) -> None: ...
+    def search_entities(self, query: str, entity_type: "EntityType") -> Iterable[Any]: ...
+    # optional: some implementations expose a .conn for raw SQL lookups
+    conn: Any
 
 class MusicBrainzIntegration:
     """Integration with MusicBrainz to populate the knowledge graph."""
     
     def __init__(self, kg_db: KnowledgeGraphDB, user_agent: str = "LinerNodes/1.0"):
         """Initialize MusicBrainz integration."""
-        self.kg_db = kg_db
+        # Narrow to a protocol so pyright sees methods provided by the facade/backends
+        self.kg_db = cast(_KGDBProto, kg_db)
         
         # Set up MusicBrainz client
         mb.set_useragent("LinerNodes", "1.0", "https://github.com/your-repo/linernodes")
@@ -23,15 +33,15 @@ class MusicBrainzIntegration:
     def search_and_import_release(self, query: str, limit: int = 10) -> List[Album]:
         """Search for releases and import them into the knowledge graph."""
         try:
-            # Search for releases
             search_results = mb.search_releases(query=query, limit=limit)
             
-            imported_albums = []
-            for release_data in search_results.get('release-list', []):
-                album = self.import_release_by_mbid(release_data['id'])
-                if album:
-                    imported_albums.append(album)
-                time.sleep(1)  # Rate limiting
+            imported_albums: List[Album] = []
+            if 'release-list' in search_results:
+                for release_data in search_results['release-list']:
+                    album = self.import_release_by_mbid(release_data['id'])
+                    if album:
+                        imported_albums.append(album)
+                    time.sleep(1)
             
             return imported_albums
             
@@ -42,31 +52,21 @@ class MusicBrainzIntegration:
     def import_release_by_mbid(self, mbid: str) -> Optional[Album]:
         """Import a specific release by MusicBrainz ID."""
         try:
-            # Check if already imported
             existing = self._find_entity_by_mbid(mbid)
             if existing:
-                return existing
+                return existing # type: ignore
             
-            # Get detailed release information
             release_data = mb.get_release_by_id(
-                mbid, 
+                mbid,
                 includes=['artists', 'recordings', 'labels', 'genres', 'media']
             )['release']
             
-            # Create Album entity
             album = self._create_album_from_mb_data(release_data)
             self.kg_db.add_entity(album)
             
-            # Import related artists
             self._import_release_artists(release_data, album)
-            
-            # Import recordings/tracks
             self._import_release_recordings(release_data, album)
-            
-            # Import label information
             self._import_release_labels(release_data, album)
-            
-            # Import genres/tags
             self._import_release_genres(release_data, album)
             
             return album
@@ -78,22 +78,18 @@ class MusicBrainzIntegration:
     def import_artist_by_mbid(self, mbid: str) -> Optional[Artist]:
         """Import a specific artist by MusicBrainz ID."""
         try:
-            # Check if already imported
             existing = self._find_entity_by_mbid(mbid)
             if existing:
-                return existing
+                return existing # type: ignore
             
-            # Get detailed artist information
             artist_data = mb.get_artist_by_id(
                 mbid,
                 includes=['releases', 'genres', 'artist-rels']
             )['artist']
             
-            # Create Artist entity
             artist = self._create_artist_from_mb_data(artist_data)
             self.kg_db.add_entity(artist)
             
-            # Import artist relationships
             self._import_artist_relationships(artist_data, artist)
             
             return artist
@@ -116,7 +112,7 @@ class MusicBrainzIntegration:
                     release_date = datetime.strptime(date_str, '%Y-%m')
                 else:  # Full date
                     release_date = datetime.strptime(date_str, '%Y-%m-%d')
-            except:
+            except Exception:
                 pass
         
         # Get artist credit
@@ -177,19 +173,19 @@ class MusicBrainzIntegration:
             if life_span.get('begin'):
                 try:
                     begin_date = datetime.strptime(life_span['begin'], '%Y-%m-%d')
-                except:
+                except Exception:
                     try:
                         begin_date = datetime.strptime(life_span['begin'], '%Y')
-                    except:
+                    except Exception:
                         pass
             
             if life_span.get('end'):
                 try:
                     end_date = datetime.strptime(life_span['end'], '%Y-%m-%d')
-                except:
+                except Exception:
                     try:
                         end_date = datetime.strptime(life_span['end'], '%Y')
-                    except:
+                    except Exception:
                         pass
         
         artist = EntityFactory.create_artist(
@@ -229,7 +225,7 @@ class MusicBrainzIntegration:
                 
                 # Create relationship
                 relationship = Relationship(
-                    id=None,  # Auto-generated
+                    id=None,
                     source_id=album.id,
                     target_id=artist.id,
                     relationship_type=RelationshipType.PERFORMED_BY
@@ -347,17 +343,17 @@ class MusicBrainzIntegration:
         # Simplified implementation for now
         pass
     
-    def _find_entity_by_mbid(self, mbid: str):
+    def _find_entity_by_mbid(self, mbid: str) -> Optional[Any]:
         """Find an existing entity by MusicBrainz ID."""
         try:
-            result = self.kg_db.conn.execute(
+            result = self.kg_db.conn.execute(  # raw lookup if backend provides .conn
                 "SELECT * FROM entities WHERE mbid = ?",
                 (mbid,)
             ).fetchone()
             
             if result:
-                return self.kg_db._row_to_entity(result)
-        except:
+                return self.kg_db._row_to_entity(result) # type: ignore
+        except Exception:
             pass
         return None
 

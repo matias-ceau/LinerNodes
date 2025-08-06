@@ -7,8 +7,7 @@ import sqlite3
 import json
 import logging
 from pathlib import Path
-from typing import Optional, List, Dict, Any, Tuple
-from datetime import datetime, timezone
+from typing import Optional, List, Dict, Any, Callable
 from contextlib import contextmanager
 
 import os
@@ -33,10 +32,11 @@ class LinerDatabase:
             db_path = data_dir / "music.db"
         
         self.db_path = Path(db_path)
-        self._cache_invalidation_callbacks = []
+        # callbacks that invalidate higher-level caches when data mutates
+        self._cache_invalidation_callbacks: List[Callable[[], None]] = []
         self._ensure_database()
     
-    def register_cache_invalidation_callback(self, callback):
+    def register_cache_invalidation_callback(self, callback: Callable[[], None]) -> None:
         """Register a callback to be called when data changes."""
         self._cache_invalidation_callbacks.append(callback)
     
@@ -474,7 +474,7 @@ class LinerDatabase:
         """Add an artist to the database."""
         with self.connection() as conn:
             cursor = conn.execute(
-                """INSERT INTO artists (name, sort_name, type, disambiguation, 
+                """INSERT INTO artists (name, sort_name, type, disambiguation,
                    begin_date, end_date, country, bio_summary, mbid)
                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)""",
                 (
@@ -489,15 +489,15 @@ class LinerDatabase:
                     kwargs.get('mbid')
                 )
             )
-            self._invalidate_caches()  # Invalidate graph cache on data change
-            return cursor.lastrowid
-    
+            self._invalidate_caches()
+            return cursor.lastrowid or 0
+
     def add_album(self, title: str, **kwargs) -> int:
         """Add an album to the database."""
         with self.connection() as conn:
             cursor = conn.execute(
-                """INSERT INTO albums (title, artist_credit, release_date, 
-                   release_date_precision, type, status, barcode, total_tracks, 
+                """INSERT INTO albums (title, artist_credit, release_date,
+                   release_date_precision, type, status, barcode, total_tracks,
                    total_discs, cover_art_url, cover_art_local_path, mbid)
                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
                 (
@@ -515,9 +515,9 @@ class LinerDatabase:
                     kwargs.get('mbid')
                 )
             )
-            self._invalidate_caches()  # Invalidate graph cache on data change
-            return cursor.lastrowid
-    
+            self._invalidate_caches()
+            return cursor.lastrowid or 0
+
     def add_track(self, title: str, album_id: int, **kwargs) -> int:
         """Add a track to the database."""
         with self.connection() as conn:
@@ -544,16 +544,16 @@ class LinerDatabase:
                     kwargs.get('mbid')
                 )
             )
-            self._invalidate_caches()  # Invalidate graph cache on data change
-            return cursor.lastrowid
-    
+            self._invalidate_caches()
+            return cursor.lastrowid or 0
+
     def add_source(self, track_id: int, source_type: str, source_id: str, **kwargs) -> int:
         """Add a source reference for a track."""
         with self.connection() as conn:
             metadata_json = json.dumps(kwargs.get('source_metadata', {}))
             cursor = conn.execute(
-                """INSERT OR REPLACE INTO sources 
-                   (track_id, source_type, source_id, source_url, source_metadata, 
+                """INSERT OR REPLACE INTO sources
+                   (track_id, source_type, source_id, source_url, source_metadata,
                     quality, availability, last_verified)
                    VALUES (?, ?, ?, ?, ?, ?, ?, ?)""",
                 (
@@ -567,8 +567,8 @@ class LinerDatabase:
                     kwargs.get('last_verified')
                 )
             )
-            self._invalidate_caches()  # Invalidate graph cache on data change
-            return cursor.lastrowid
+            self._invalidate_caches()
+            return cursor.lastrowid or 0
     
     # Search and query methods
     

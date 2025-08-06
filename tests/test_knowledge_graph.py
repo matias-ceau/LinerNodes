@@ -5,7 +5,6 @@ from datetime import datetime
 from pathlib import Path
 
 from src.linernodes.knowledge_graph.models import (
-    Album, Artist, Recording, Genre, Person, Label,
     EntityType, RelationshipType, EntityFactory, Relationship
 )
 from src.linernodes.knowledge_graph.graph_db import KnowledgeGraphDB
